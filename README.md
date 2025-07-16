@@ -30,7 +30,7 @@ If you like this project, consider supporting me:
 
 ## 📸 Screenshots
 
-> _Add screenshots or a GIF here to showcase the UI and encryption indicators!_
+> _Screenshots or a GIF and code will we added ASAP!_
 
 ---
 

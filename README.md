@@ -1023,7 +1023,7 @@ git checkout -b security/feature-name
 
 ### **[🔐 Try the Live Demo Now](https://end2end-chat.web.app)**
 
-[![Start Secure Chat](https://img.shields.io/badge/🚀_Start_Secure_Chat-Live_Demo-success?style=for-the-badge&logo=rocket&logoColor=white)](https://end2end-chat.web.app)
+[![Start Secure Chat](https://img.shields.io/badge/🚀_Start_Secure_Chat-Live_Demo-success?style=for-the-badge&logo=rocket&logoColor=white)](https://chatend2end.vercel.app/)
 [![View Source Code](https://img.shields.io/badge/📖_View_Source-GitHub-black?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Arya182-ui/End2end-Chat)
 [![Security Documentation](https://img.shields.io/badge/🛡️_Security_Docs-Read_More-blue?style=for-the-badge&logo=shield&logoColor=white)](https://github.com/Arya182-ui/End2end-Chat#-security-features--compliance)
 

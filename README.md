@@ -7,7 +7,7 @@
 [![Security Grade](https://img.shields.io/badge/Security_Grade-Military_Level-red?style=for-the-badge&logo=shield&logoColor=white)](https://github.com/Arya182-ui/End2end-Chat)
 [![Encryption](https://img.shields.io/badge/Encryption-RSA_2048_+_AES_GCM-blue?style=for-the-badge&logo=lock&logoColor=white)](https://github.com/Arya182-ui/End2end-Chat)
 [![Privacy](https://img.shields.io/badge/Privacy-Zero_Knowledge-green?style=for-the-badge&logo=eye-slash&logoColor=white)](https://github.com/Arya182-ui/End2end-Chat)
-[![Live Demo](https://img.shields.io/badge/🚀_LIVE_DEMO-Try_Now-orange?style=for-the-badge&logo=rocket&logoColor=white)](https://end2end-chat.web.app)
+[![Live Demo](https://img.shields.io/badge/🚀_LIVE_DEMO-Try_Now-orange?style=for-the-badge&logo=rocket&logoColor=white)](https://chatend2end.vercel.app/)
 
 </div>
 

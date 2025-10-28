@@ -5,6 +5,33 @@ export interface KeyPair {
   privateKey: CryptoKey;
 }
 
+// Helper function to convert ArrayBuffer to base64 without stack overflow
+function arrayBufferToBase64(buffer: ArrayBuffer): string {
+  const bytes = new Uint8Array(buffer);
+  const chunkSize = 0x8000; // 32KB chunks
+  let binary = '';
+  
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    const chunk = bytes.subarray(i, Math.min(i + chunkSize, bytes.length));
+    binary += String.fromCharCode(...chunk);
+  }
+  
+  return btoa(binary);
+}
+
+// Helper function to convert base64 to Uint8Array without stack overflow
+function base64ToUint8Array(base64: string): Uint8Array {
+  const binary = atob(base64);
+  const buffer = new ArrayBuffer(binary.length);
+  const bytes = new Uint8Array(buffer);
+  
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  
+  return bytes;
+}
+
 // AES-GCM encryption for large messages
 export class HybridCryptoService {
   // Generate AES key for message encryption
@@ -22,18 +49,19 @@ export class HybridCryptoService {
   // Encrypt large message using hybrid encryption (AES + RSA)
   static async encryptLargeMessage(message: string, publicKey: CryptoKey): Promise<string> {
     try {
-      // For small messages, use direct RSA encryption
-      if (message.length < 100) {
-        return await CryptoService.encryptMessage(message, publicKey);
+      // Check message size before processing
+      const encoder = new TextEncoder();
+      const messageData = encoder.encode(message);
+      
+      if (messageData.length > 20 * 1024 * 1024) {
+        throw new Error('Message too large for encryption (max 20MB)');
       }
 
-      // For larger messages, use hybrid encryption
+      // Always use hybrid encryption for files and large messages
       const aesKey = await this.generateAESKey();
       const iv = crypto.getRandomValues(new Uint8Array(12));
       
       // Encrypt message with AES
-      const encoder = new TextEncoder();
-      const messageData = encoder.encode(message);
       const encryptedMessage = await crypto.subtle.encrypt(
         { name: "AES-GCM", iv },
         aesKey,
@@ -48,18 +76,21 @@ export class HybridCryptoService {
         exportedAESKey
       );
 
-      // Combine encrypted AES key, IV, and encrypted message
+      // Combine encrypted AES key, IV, and encrypted message using safe base64 conversion
       const combined = {
-        encryptedKey: btoa(String.fromCharCode(...new Uint8Array(encryptedAESKey))),
-        iv: btoa(String.fromCharCode(...iv)),
-        encryptedMessage: btoa(String.fromCharCode(...new Uint8Array(encryptedMessage))),
+        encryptedKey: arrayBufferToBase64(encryptedAESKey),
+        iv: arrayBufferToBase64(iv.buffer),
+        encryptedMessage: arrayBufferToBase64(encryptedMessage),
         hybrid: true
       };
 
       return btoa(JSON.stringify(combined));
     } catch (error) {
-      console.error('Hybrid encryption error:', error);
-      throw error;
+      // Re-throw with more specific error message
+      if (error instanceof Error) {
+        throw new Error(`Encryption failed: ${error.message}`);
+      }
+      throw new Error('Encryption failed: Unknown error');
     }
   }
 
@@ -71,23 +102,21 @@ export class HybridCryptoService {
       try {
         parsedData = JSON.parse(atob(encryptedData));
       } catch {
-        // If parsing fails, assume it's direct RSA encryption
+        // If parsing fails, assume it's direct RSA encryption (legacy)
         return await CryptoService.decryptMessage(encryptedData, privateKey);
       }
 
       if (!parsedData.hybrid) {
-        // Not hybrid encryption, use direct RSA
+        // Not hybrid encryption, use direct RSA (legacy)
         return await CryptoService.decryptMessage(encryptedData, privateKey);
       }
 
-      // Decrypt AES key with RSA
-      const encryptedKeyBytes = new Uint8Array(
-        atob(parsedData.encryptedKey).split('').map(c => c.charCodeAt(0))
-      );
+      // Decrypt AES key with RSA using safe conversion
+      const encryptedKeyBytes = base64ToUint8Array(parsedData.encryptedKey);
       const decryptedAESKey = await crypto.subtle.decrypt(
         { name: "RSA-OAEP" },
         privateKey,
-        encryptedKeyBytes
+        encryptedKeyBytes.buffer as ArrayBuffer
       );
 
       // Import AES key
@@ -99,24 +128,21 @@ export class HybridCryptoService {
         ["decrypt"]
       );
 
-      // Decrypt message with AES
-      const iv = new Uint8Array(
-        atob(parsedData.iv).split('').map(c => c.charCodeAt(0))
-      );
-      const encryptedMessageBytes = new Uint8Array(
-        atob(parsedData.encryptedMessage).split('').map(c => c.charCodeAt(0))
-      );
+      // Decrypt message with AES using safe conversion
+      const iv = base64ToUint8Array(parsedData.iv);
+      const encryptedMessageBytes = base64ToUint8Array(parsedData.encryptedMessage);
 
       const decryptedMessage = await crypto.subtle.decrypt(
-        { name: "AES-GCM", iv },
+        { name: "AES-GCM", iv: iv.buffer as ArrayBuffer },
         aesKey,
-        encryptedMessageBytes
+        encryptedMessageBytes.buffer as ArrayBuffer
       );
 
       const decoder = new TextDecoder();
       return decoder.decode(decryptedMessage);
     } catch (error) {
-      console.error('Hybrid decryption error:', error);
+      // Silently fail - this is expected when trying to decrypt messages
+      // that were encrypted with a different key pair (e.g., after page refresh)
       throw error;
     }
   }
@@ -145,20 +171,16 @@ export class CryptoService {
   // Export public key to base64 string
   static async exportPublicKey(publicKey: CryptoKey): Promise<string> {
     const exported = await crypto.subtle.exportKey('spki', publicKey);
-    return btoa(String.fromCharCode(...new Uint8Array(exported)));
+    return arrayBufferToBase64(exported);
   }
 
   // Import public key from base64 string
   static async importPublicKey(publicKeyString: string): Promise<CryptoKey> {
-    const binaryString = atob(publicKeyString);
-    const bytes = new Uint8Array(binaryString.length);
-    for (let i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
+    const bytes = base64ToUint8Array(publicKeyString);
 
     return await crypto.subtle.importKey(
       'spki',
-      bytes,
+      bytes.buffer as ArrayBuffer,
       {
         name: "RSA-OAEP",
         hash: "SHA-256"
@@ -181,23 +203,19 @@ export class CryptoService {
       data
     );
 
-    return btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+    return arrayBufferToBase64(encrypted);
   }
 
   // Decrypt message with private key
   static async decryptMessage(encryptedMessage: string, privateKey: CryptoKey): Promise<string> {
-    const binaryString = atob(encryptedMessage);
-    const bytes = new Uint8Array(binaryString.length);
-    for (let i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
+    const bytes = base64ToUint8Array(encryptedMessage);
 
     const decrypted = await crypto.subtle.decrypt(
       {
         name: "RSA-OAEP"
       },
       privateKey,
-      bytes
+      bytes.buffer as ArrayBuffer
     );
 
     const decoder = new TextDecoder();

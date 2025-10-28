@@ -9,36 +9,76 @@
 [![Privacy](https://img.shields.io/badge/Privacy-Zero_Knowledge-green?style=for-the-badge&logo=eye-slash&logoColor=white)](https://github.com/Arya182-ui/End2end-Chat)
 [![Live Demo](https://img.shields.io/badge/🚀_LIVE_DEMO-Try_Now-orange?style=for-the-badge&logo=rocket&logoColor=white)](https://chatend2end.vercel.app/)
 
+### 📚 Quick Links
+[![🔐 Live Demo](https://img.shields.io/badge/Try_Now-Live_Demo-success?style=flat-square)](https://chatend2end.vercel.app/)
+[![📋 Abstract](https://img.shields.io/badge/Complete_Overview-Abstract-blue?style=flat-square)](https://chatend2end.vercel.app/abstract)
+[![🛡️ Security](https://img.shields.io/badge/Learn_More-Security-red?style=flat-square)](https://chatend2end.vercel.app/security)
+[![✨ Features](https://img.shields.io/badge/Explore-Features-purple?style=flat-square)](https://chatend2end.vercel.app/features)
+[![👥 About](https://img.shields.io/badge/Developer_Story-About_Us-orange?style=flat-square)](https://chatend2end.vercel.app/about)
+[![📜 Privacy](https://img.shields.io/badge/Your_Data-Privacy_Policy-green?style=flat-square)](https://chatend2end.vercel.app/privacy)
+[![⚖️ Terms](https://img.shields.io/badge/Usage-Terms_of_Service-gray?style=flat-square)](https://chatend2end.vercel.app/terms)
+
 </div>
 
 ---
 
 ## 🌟 **Project Overview**
 
-A **military-grade encrypted** real-time chat application built with modern web technologies, featuring **RSA-OAEP 2048-bit encryption**, **anonymous messaging**, and **zero-knowledge architecture**. This project demonstrates advanced cybersecurity principles with a focus on privacy, anonymity, and secure communication protocols.
+A **privacy-first** real-time chat application with **three encryption modes** - **Group Chat** (unlimited members with shared AES-256 key), **Private Chat** (1-to-1 with RSA-2048), and **Password-Protected Rooms** (secure 2-person sessions). Built with modern web technologies, implementing **zero-knowledge architecture** for maximum privacy and anonymity.
 
-**🎯 Core Philosophy:** *"Your messages, your keys, your privacy - completely under your control."*
+**🎯 Core Philosophy:** *"No signup, no tracking, just secure conversations. Your messages, your keys, your privacy."*
+
+### 🚀 **Key Features**
+- 🔐 **Three Chat Modes** - Group (unlimited), Private (max 2), Password (secure 2-person)
+- �️ **True End-to-End Encryption** - RSA-2048 + AES-256 GCM
+- ⚡ **Real-Time Messaging** - WebSocket-based instant delivery
+- 📁 **Encrypted File Sharing** - Images, videos, audio, documents up to 5MB
+- � **Screenshot Protection** - Blocks Print Screen & clipboard access
+- 👥 **Typing Indicators** - See when others are typing (encrypted)
+- 🔔 **Download Notifications** - Know when files are downloaded
+- 💬 **File Captions** - Add text descriptions to shared files
+- 👤 **Anonymous** - No signup, email, or phone number required
+- 🌐 **Zero Persistence** - Messages exist only during active sessions
+- 📱 **Fully Responsive** - Perfect on desktop, tablet, and mobile
+- 🎨 **Modern UI** - Clean design with glassmorphism effects
+- 🔗 **Encrypted Session Links** - Secure invite system with time-limited tokens
 
 ### 🚀 **Why This Project Matters**
 
 <details>
 <summary><b>🔒 Privacy in the Digital Age</b></summary>
 
-In an era where digital privacy is constantly under threat, this application demonstrates:
-- **True End-to-End Encryption**: Messages encrypted on sender's device, decrypted only by intended recipient
-- **Zero-Knowledge Architecture**: Even the server cannot read your messages
+Most messaging apps collect extensive personal data, store conversations on servers, and require phone numbers or emails. This project demonstrates:
+- **True End-to-End Encryption**: Messages encrypted on sender's device, decrypted only by recipient
+- **Zero-Knowledge Architecture**: Server cannot read your messages even if it wanted to
 - **Anonymous Communication**: No personal data required or stored
 - **Ephemeral Messaging**: Messages exist only during active sessions
+- **Open Source Transparency**: Every line of code is publicly auditable
 
 </details>
 
 <details>
 <summary><b>🛡️ Advanced Security Implementation</b></summary>
 
-- **Hybrid Cryptography**: Combines RSA-OAEP with AES-GCM for optimal security and performance
+- **Hybrid Cryptography**: RSA-OAEP + AES-GCM for optimal security and performance
 - **Client-Side Key Generation**: Private keys never leave your device
-- **Forward Secrecy**: Each session uses unique encryption keys
+- **Perfect Forward Secrecy**: Each session uses unique encryption keys
 - **Automatic Session Cleanup**: No persistent message history
+- **Mode-Based Security**: Choose encryption strength based on your needs
+- **Encrypted Session Links**: Time-limited tokens for secure invitations
+- **Screenshot Protection**: Prevents unauthorized capture of sensitive content
+
+</details>
+
+<details>
+<summary><b>🎓 Educational Value</b></summary>
+
+This project serves as a learning resource for:
+- **Cryptography**: Real-world implementation of RSA and AES encryption
+- **WebSocket Technology**: Understanding real-time bidirectional communication
+- **React Best Practices**: Modern component architecture and state management
+- **Security Patterns**: Zero-knowledge design and privacy-first development
+- **Full-Stack Development**: Complete frontend and backend integration
 
 </details>
 
@@ -59,45 +99,73 @@ In an era where digital privacy is constantly under threat, this application dem
 
 | **Feature** | **Implementation** | **Security Benefit** |
 |-------------|-------------------|---------------------|
-| � **End-to-End Encryption** | RSA-OAEP 2048-bit + AES-GCM | Military-grade message protection |
+| 🌐 **Three Chat Modes** | Group (AES-256 shared) / Private (RSA-2048) / Password (RSA + passphrase) | Flexible security for different use cases |
+| 🔐 **End-to-End Encryption** | RSA-OAEP 2048-bit + AES-GCM 256-bit | Industry-standard message protection |
 | 🗝️ **Key Management** | Client-side generation, memory-only storage | Private keys never transmitted |
 | 🔄 **Hybrid Encryption** | RSA for key exchange, AES for message content | Optimal security + performance |
-| 🛡️ **Forward Secrecy** | Session-based ephemeral keys | Past messages remain secure |
-| 🚫 **Zero-Knowledge** | Server cannot decrypt any content | Complete privacy guarantee |
+| 🛡️ **Perfect Forward Secrecy** | Session-based ephemeral keys | Past messages remain secure |
+| 🚫 **Zero-Knowledge Server** | Server cannot decrypt any content | Complete privacy guarantee |
+| 👥 **Session Controls** | Group: Unlimited, Private: Max 2, Password: Max 2 | Mode-based restrictions |
+| 🔗 **Encrypted Invites** | Time-limited AES-encrypted session tokens | Secure link sharing |
 
 </details>
 
 <details>
-<summary><b>⚡ Real-Time & Anonymous Features</b></summary>
+<summary><b>⚡ Real-Time & Communication Features</b></summary>
 
-- ⚡ **Real-Time Messaging** via Firebase Realtime Database with encrypted payloads
-- 🕵️ **Anonymous Usage** – No login, signup, or personal data collection
-- 🌐 **Serverless Architecture** – No backend server means no central point of failure
-- � **Cross-Platform Support** – Works seamlessly across all devices and browsers
-- 🧹 **Automatic Cleanup** – Sessions and data automatically purged when users leave
-- 🛡️ **Visual Security Indicators** – Real-time encryption status and security confirmations
+- ⚡ **WebSocket Messaging** - Socket.IO for instant real-time delivery (20MB file support)
+- 🌐 **Group Mode** - Unlimited members with shared AES-256 session key encryption
+- 🔒 **Private Mode** - Secure 1-to-1 chat with RSA-2048 (max 2 members)
+- 🔑 **Password Mode** - Protected rooms with passphrase authentication (max 2 members)
+- 📁 **Multi-Format Files** - Images, videos, audio, documents (5MB max) encrypted in all modes
+- � **File Captions** - Add descriptive text to any uploaded file
+- �🔔 **Download Tracking** - Real-time notifications when files are downloaded
+- 👥 **Typing Indicators** - See when others are typing (with privacy protection)
+- 🕵️ **Anonymous Usage** - No login, signup, or personal data collection
+- 🌐 **In-Memory Sessions** - Zero database, messages only during active session
+- � **Auto-Reconnection** - Seamless reconnection on network interruptions
+- 🛡️ **Screenshot Protection** - Print Screen blocked, clipboard auto-cleared
+- 📱 **Responsive Design** - Perfect experience on all devices
+- 🔗 **Encrypted Session Links** - Share secure time-limited invite tokens
+- 🎨 **Modern UI/UX** - Glassmorphism, smooth animations, gradient backgrounds
 
 </details>
 
 <details>
-<summary><b>👥 Advanced Group Communication</b></summary>
+<summary><b>👥 Session & Communication Management</b></summary>
 
-- � **Multi-User Encryption** – Each message encrypted individually for every participant
-- 🔄 **Dynamic Key Exchange** – Automatic public key distribution and management
-- 🖼️ **Secure File Sharing** – Images and files encrypted with same security standards
-- � **Group Management** – Real-time participant tracking and session control
-- 🔐 **Individual Decryption** – Each user maintains their own private key for message access
+- 💬 **Three Chat Modes** - Group (unlimited), Private (max 2), Password (secure 2-person)
+- 🌐 **Flexible Sessions** - Create or join with unique session IDs
+- 🔄 **Auto-Reconnection** - Handles network interruptions gracefully
+- 👥 **Multi-User Support** - Group: broadcast to all, Private/Password: 1-to-1 only
+- 🟢 **Online Status** - Real-time connection status indicators
+- 🖼️ **Secure File Sharing** - All file types encrypted before transmission
+- 🎨 **Modern Responsive UI** - TailwindCSS with glassmorphism and gradients
+- 🔐 **Individual Decryption** - Each user maintains their own private key
+- 🚫 **Strict Mode Enforcement** - Private/Password modes enforce 2-member maximum
+- 📱 **Mobile Optimized** - Responsive breakpoints for all screen sizes
+- 🔗 **Session Link Sharing** - Encrypted tokens with expiration (24 hours)
+- 🎯 **Mode Selection UI** - Clear visual indicators for each mode type
 
 </details>
 
 <details>
 <summary><b>🧑‍💻 Developer & Deployment Features</b></summary>
 
-- �️ **Easy Setup** – Minimal configuration required for deployment
-- 📚 **Well-Documented** – Comprehensive code documentation and security explanations
-- 🔧 **Extensible Architecture** – Modular design for easy feature additions
-- � **Firebase Integration** – Leverages Google's infrastructure for reliability
-- 📈 **Scalable Design** – Handles multiple concurrent sessions efficiently
+- 🛠️ **Easy Setup** - Minimal configuration, ready in minutes
+- 📚 **Well-Documented** - Comprehensive inline comments and README
+- 🔧 **Extensible Architecture** - Modular components for easy customization
+- 🚀 **WebSocket Server** - Node.js + Express + Socket.IO backend
+- ⚡ **Vite Build System** - Lightning-fast development and hot reload
+- 📈 **Scalable Design** - Handles multiple concurrent sessions efficiently
+- 🌐 **Deploy Anywhere** - Vercel, Netlify, Heroku, Railway compatible
+- 🎨 **TailwindCSS** - Utility-first styling with custom animations
+- 📱 **Fully Responsive** - Mobile-first design with smart breakpoints
+- 🔍 **Production Ready** - Console.log cleanup with proper logging utility
+- 🎯 **TypeScript** - Type-safe development with improved DX
+- 🔗 **SEO Optimized** - Proper meta tags, sitemap, and canonical URLs
+- 📄 **Multiple Pages** - Home, Features, Security, About, Abstract, Privacy, Terms
+- 🎭 **Layout System** - Consistent header/footer with conditional rendering
 
 </details>
 
@@ -109,12 +177,14 @@ In an era where digital privacy is constantly under threat, this application dem
 
 | **Category** | **Technology** | **Purpose** | **Security Role** |
 |--------------|----------------|-------------|------------------|
-| 🎨 **Frontend** | React 18 + TypeScript | Modern UI/UX | Type safety and secure coding |
-| 🔥 **Backend** | Firebase Realtime DB | Real-time sync | Encrypted data transmission only |
-| 🔐 **Cryptography** | Web Crypto API | Native encryption | Browser-level security implementation |
-| 🎨 **Styling** | Tailwind CSS | Responsive design | Clean, professional interface |
-| 🛠️ **Build Tool** | Vite | Fast development | Optimized production builds |
-| 📦 **Deployment** | Firebase Hosting | Global CDN | HTTPS-only secure delivery |
+| 🎨 **Frontend** | React 18 + TypeScript | Modern UI/UX with type safety | Prevents runtime errors and enhances security |
+| 🔌 **Backend** | Node.js + Socket.IO | Real-time WebSocket (20MB) | Encrypted message routing only |
+| 🔐 **Cryptography** | Web Crypto API | Native browser encryption | Hardware-accelerated security |
+| 🎨 **Styling** | Tailwind CSS | Responsive utility-first design | Clean, professional interface |
+| 🛠️ **Build Tool** | Vite | Fast development & optimization | Minimal bundle size |
+| 📦 **Deployment** | Vercel/Netlify | Global CDN hosting | HTTPS-only delivery |
+| 🔗 **Routing** | React Router v6 | Multi-page navigation | SEO-friendly URLs |
+| 🎭 **Meta Tags** | React Helmet Async | Dynamic SEO optimization | Better search visibility |
 
 </div>
 
@@ -123,26 +193,44 @@ In an era where digital privacy is constantly under threat, this application dem
 <details>
 <summary><b>🔒 Security-First Architecture Design</b></summary>
 
-```mermaid
-graph TD
-    A[User Device] -->|Encrypted Data Only| B[Firebase Realtime DB]
-    A -->|RSA Key Generation| C[Web Crypto API]
-    C -->|Private Key| D[Browser Memory Only]
-    C -->|Public Key| B
-    B -->|Encrypted Messages| E[Other Users]
-    E -->|Private Key Decryption| F[Plain Text Messages]
-    
-    style A fill:#e1f5fe
-    style B fill:#fff3e0
-    style C fill:#f3e5f5
-    style D fill:#e8f5e8
+```
+┌─────────────────┐         WebSocket          ┌─────────────────┐
+│  React Client   │◄──────────────────────────►│  Node.js Server │
+│  (3 Encryption  │     Socket.IO (20MB)       │   (Port 3001)   │
+│      Modes)     │                            │  Session Mgmt   │
+└─────────────────┘                            └─────────────────┘
+        │                                               │
+   localStorage                                   In-Memory Map
+   (userId, keys)                    (Sessions + chatMode + Messages)
+   
+   Mode Selection:
+   ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+   │ GROUP MODE   │  │ PRIVATE MODE │  │PASSWORD MODE │
+   │ Shared AES   │  │  RSA + AES   │  │RSA + Phrase  │
+   │ Unlimited    │  │  Max 2 users │  │  Max 2 users │
+   └──────────────┘  └──────────────┘  └──────────────┘
+
+   Frontend Pages:
+   ┌─────────────────────────────────────────────────┐
+   │ Header (Mobile Menu + Desktop Nav)              │
+   ├─────────────────────────────────────────────────┤
+   │ Home | Features | Security | Abstract           │
+   │ About | Privacy | Terms                         │
+   ├─────────────────────────────────────────────────┤
+   │ Layout System (Conditional Footer)              │
+   └─────────────────────────────────────────────────┘
 ```
 
 **🛡️ Security Principles:**
-- **Zero-Knowledge Server**: Firebase only stores encrypted data blobs
-- **Client-Side Encryption**: All cryptographic operations happen in the browser
+- **Three Encryption Modes**: Group (shared) / Private (1-to-1) / Password (protected)
+- **Zero-Knowledge Server**: Server only routes encrypted data, cannot decrypt
+- **Client-Side Encryption**: All cryptographic operations in browser
 - **Memory-Only Keys**: Private keys never touch storage or network
 - **Ephemeral Sessions**: Complete data cleanup on session end
+- **No Database**: Messages exist only in server memory during active session
+- **Mode-Based Limits**: Private/Password sessions restricted to 2 members
+- **Encrypted Invites**: Time-limited AES-encrypted session tokens (24h expiry)
+- **Responsive Layout**: Proper flex layout prevents white space issues
 
 </details>
 
@@ -178,32 +266,63 @@ graph TD
 <details>
 <summary><b>🔴 Live Demo Instructions</b></summary>
 
-1. **🌐 Visit Demo**: [https://end2end-chat.web.app](https://end2end-chat.web.app)
-2. **🆕 Create Session**: Generate a new encrypted chat session
-3. **📋 Share Code**: Copy the session code to share with others
-4. **🔐 Start Chatting**: Experience military-grade encrypted messaging
-5. **🛡️ Verify Security**: Watch real-time encryption indicators
+1. **🌐 Visit Demo**: [https://chatend2end.vercel.app](https://chatend2end.vercel.app)
+2. **📝 Enter Name**: Provide a display name (no signup required)
+3. **🎯 Choose Mode**: 
+   - **Group** 👥 - Unlimited members, shared encryption
+   - **Private** 🔒 - 1-to-1 chat (max 2 people)
+   - **Password** � - Protected room (max 2 people)
+4. **🆕 Create/Join**: 
+   - Create a new session and get shareable link
+   - Or join existing session with code
+5. **🔐 Start Chatting**: Experience encrypted messaging
+6. **📁 Share Files**: Drag & drop encrypted files up to 5MB
+7. **🛡️ Verify Security**: Check encryption indicators
 
 **🔍 Security Verification:**
-- Open browser developer tools to see encrypted message payloads
+- Open browser DevTools → Network tab to see encrypted payloads
 - Verify that no plain text messages are transmitted
 - Confirm private keys remain in browser memory only
+- Check Session Storage for encrypted session data
+
+**📱 Mobile Testing:**
+- Hamburger menu for navigation on mobile
+- Responsive layout works on all screen sizes
+- Touch-optimized UI elements
 
 </details>
 
 ### 📱 **Interface Preview**
 
-> 🚧 **Screenshots and GIF demonstrations will be added soon!**
+> 🎨 **Modern UI Features:**
 > 
-> *The interface features a clean, modern design with real-time encryption status indicators, anonymous user identification, and intuitive message encryption/decryption workflows.*
+> The interface features a clean, modern design with:
+> - **Glassmorphism Effects**: Backdrop blur and transparent overlays
+> - **Gradient Backgrounds**: Smooth blue → purple → pink transitions
+> - **Real-Time Indicators**: Encryption status, typing indicators, online status
+> - **Mode Selection**: Visual cards for Group, Private, and Password modes
+> - **File Sharing UI**: Drag-and-drop with preview and captions
+> - **Responsive Layout**: Perfect on desktop, tablet, and mobile
+> - **Mobile Navigation**: Hamburger menu with smooth animations
+> - **Toast Notifications**: Non-intrusive alerts for downloads and events
+
+**📄 Available Pages:**
+- 🏠 **Home**: Session creation with mode selection
+- ✨ **Features**: Complete feature showcase with hover effects
+- 🛡️ **Security**: Detailed security and encryption documentation
+- 📋 **Abstract**: Technical and non-technical project overview
+- 👥 **About**: Developer story and technology stack
+- 📜 **Privacy**: Privacy policy and data handling
+- ⚖️ **Terms**: Terms of service and usage guidelines
 
 **Preview Features:**
 - 🎨 **Clean Material Design** inspired interface
 - 🔒 **Visual Encryption Indicators** showing message security status
 - 👥 **Anonymous User Avatars** with session-based identities
-- 📱 **Responsive Layout** optimized for all screen sizes
+- 📱 **Responsive Breakpoints** optimized for all screen sizes (sm, md, lg, xl)
 - ⚡ **Real-time Typing Indicators** with encrypted status
-- 🛡️ **Security Dashboard** showing session encryption details
+- 🛡️ **Mode Badges** showing current encryption mode (Group/Private/Password)
+- 🎯 **Smart Spacing** no white space issues on any screen size
 
 ---
 
@@ -220,59 +339,75 @@ graph TD
 ### � **Prerequisites**
 
 <details>
-<summary><b>📋 Required Tools & Accounts</b></summary>
+<summary><b>📋 Required Tools</b></summary>
 
-**�🛠️ Development Environment:**
+**🛠️ Development Environment:**
 - **Node.js**: Version 18 or higher ([Download](https://nodejs.org))
 - **npm**: Comes with Node.js (or use yarn/pnpm)
 - **Git**: For cloning the repository ([Download](https://git-scm.com))
 - **Modern Browser**: Chrome, Firefox, Safari, or Edge with Web Crypto API support
 
-**☁️ External Services:**
-- **Firebase Account**: Free tier is sufficient ([Sign up](https://firebase.google.com))
+**💻 Development Tools:**
 - **Code Editor**: VS Code, WebStorm, or your preferred IDE
+- **Terminal**: PowerShell, Command Prompt, or Bash
 
 </details>
 
 ### ⚡ **Installation Methods**
 
 <details>
-<summary><b>🎯 Method 1: Quick Setup (Recommended)</b></summary>
+<summary><b>🎯 Quick Setup (Recommended)</b></summary>
 
 ```bash
 # 1️⃣ Clone the repository
 git clone https://github.com/Arya182-ui/End2end-Chat.git
 cd End2end-Chat
 
-# 2️⃣ Install dependencies
+# 2️⃣ Install frontend dependencies
 npm install
 
-# 3️⃣ Configure Firebase (see Firebase Setup section below)
-# Copy your Firebase config to src/firebase/config.ts
+# 3️⃣ Install server dependencies
+cd server
+npm install
+cd ..
 
-# 4️⃣ Start development server
+# 4️⃣ Start the WebSocket server (Terminal 1)
+cd server
+node server.js
+
+# 5️⃣ Start the frontend (Terminal 2 - new terminal)
 npm run dev
 ```
 
-**🎉 Your encrypted chat app will be running at:** `http://localhost:5173`
+**🎉 Your encrypted chat app will be running at:** 
+- Frontend: `http://localhost:5173` (Vite dev server)
+- Backend: `http://localhost:3001` (WebSocket server)
+
+**🔍 First-Time Setup Notes:**
+- The server must be running before starting the frontend
+- Both terminals must remain open during development
+- Hot reload enabled for frontend changes
+- Server requires manual restart for changes
 
 </details>
 
 <details>
-<summary><b>🔬 Method 2: Development Setup with Testing</b></summary>
+<summary><b>🔬 Development Setup with Testing</b></summary>
 
 ```bash
 # Clone and setup
 git clone https://github.com/Arya182-ui/End2end-Chat.git
 cd End2end-Chat
 
-# Install all dependencies including dev tools
+# Install all dependencies
 npm install
+cd server && npm install && cd ..
 
-# Run security tests (optional)
-npm run test
+# Start server in background (Terminal 1)
+cd server
+node server.js
 
-# Start with hot reloading
+# Start frontend with hot reloading (Terminal 2)
 npm run dev
 
 # Build for production testing
@@ -282,66 +417,36 @@ npm run preview
 
 </details>
 
-### 🔥 **Firebase Configuration**
+### � **Running the Application**
 
-<details>
-<summary><b>🔧 Step-by-Step Firebase Setup</b></summary>
+**Two terminals required for full functionality:**
 
-**1️⃣ Create Firebase Project:**
-1. Navigate to [Firebase Console](https://console.firebase.google.com/)
-2. Click "Create a project" or "Add project"
-3. Enter project name (e.g., "my-e2e-chat")
-4. Disable Google Analytics (optional for this project)
-5. Click "Create project"
-
-**2️⃣ Enable Realtime Database:**
-1. In your Firebase project, go to "Realtime Database"
-2. Click "Create Database"
-3. Choose your preferred location
-4. Start in **locked mode** (we'll configure rules next)
-
-**3️⃣ Configure Database Security Rules:**
-```json
-{
-  "rules": {
-    "chats": {
-      "$sessionId": {
-        ".read": true,
-        ".write": true,
-        "messages": {
-          ".validate": "newData.hasChildren(['from', 'encrypted', 'timestamp'])"
-        },
-        "publicKeys": {
-          ".validate": "newData.isString()"
-        }
-      }
-    }
-  }
-}
+**Terminal 1 - WebSocket Server (Port 3001):**
+```bash
+cd server
+node server.js
 ```
+✅ Server running on `http://localhost:3001`
+✅ Handles WebSocket connections
+✅ Manages sessions in memory
+✅ Supports file uploads up to 20MB
 
-**4️⃣ Get Web App Configuration:**
-1. Go to Project Settings (gear icon) → General tab
-2. Scroll to "Your apps" section
-3. Click "Add app" → Web app (</>) icon
-4. Register app with a nickname
-5. Copy the configuration object
-
-**5️⃣ Update Configuration File:**
-```typescript
-// src/firebase/config.ts
-export const firebaseConfig = {
-  apiKey: "your-api-key",
-  authDomain: "your-project.firebaseapp.com",
-  databaseURL: "https://your-project-default-rtdb.firebaseio.com/",
-  projectId: "your-project-id",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "your-app-id"
-};
+**Terminal 2 - React Frontend (Port 5173):**
+```bash
+npm run dev
 ```
+✅ Frontend running on `http://localhost:5173`
+✅ Hot module replacement enabled
+✅ Connects to WebSocket server
+✅ Auto-opens in default browser
 
-</details>
+**🔧 Development Tips:**
+- Keep both terminals visible to monitor logs
+- Server logs show connection/disconnection events
+- Frontend shows Vite build status
+- Use `Ctrl + C` to stop either server
+- Changes to server.js require manual restart
+- Frontend changes auto-reload instantly
 
 ---
 
@@ -358,45 +463,38 @@ export const firebaseConfig = {
 ### 📊 **Database Structure & Security Model**
 
 <details>
-<summary><b>🗄️ Firebase Realtime Database Schema</b></summary>
+<summary><b>🗄️ WebSocket Session Storage (In-Memory)</b></summary>
 
 ```typescript
-// Database Structure (All data encrypted except metadata)
+// Server In-Memory Structure (No database persistence)
 {
-  "chats": {
-    "{sessionId}": {
-      "publicKeys": {
-        "{userId}": "base64-encoded-rsa-public-key"
-      },
-      "messages": {
-        "{messageId}": {
-          "from": "userIdA",
-          "to": "userIdB" | "group",
-          "encrypted": "base64-aes-encrypted-content",
-          "encryptedKeys": {
-            "userIdA": "base64-rsa-encrypted-aes-key",
-            "userIdB": "base64-rsa-encrypted-aes-key"
-          },
-          "timestamp": 1640995200000,
-          "type": "text" | "image" | "file"
-        }
-      },
-      "participants": {
-        "{userId}": {
-          "lastSeen": 1640995200000,
-          "status": "online" | "offline"
-        }
-      }
-    }
-  }
+  sessions: Map<sessionId, {
+    members: Map<userId, {
+      socketId: string,
+      publicKey: string,
+      userName: string
+    }>,
+    messages: Array<{
+      id: string,
+      from: userId,
+      encrypted: string,      // Base64 AES-encrypted content
+      encryptedKeys: Map<userId, string>, // RSA-encrypted AES keys
+      timestamp: number,
+      type: "text" | "image" | "video" | "audio" | "file",
+      fileName?: string,
+      fileSize?: number,
+      caption?: string
+    }>
+  }>
 }
 ```
 
 **🔒 Security Properties:**
-- **Zero Knowledge**: Server never sees plain text content
+- **Zero Persistence**: All data in server memory, cleared on disconnect
 - **Forward Secrecy**: Each message uses unique AES key
 - **Perfect Forward Secrecy**: RSA keys are session-ephemeral
-- **Metadata Minimization**: Only essential routing data stored
+- **Minimal Metadata**: Only routing info (userId, socketId)
+- **Auto-Cleanup**: Sessions deleted when all users leave
 
 </details>
 
@@ -461,38 +559,50 @@ const encryptedAESKey = await crypto.subtle.encrypt(
 <details>
 <summary><b>🔄 Message Flow & Security Protocol</b></summary>
 
-**📨 Secure Message Flow:**
+**📨 Secure Message Flow (3 Modes):**
 
-```mermaid
-sequenceDiagram
-    participant A as Alice (Sender)
-    participant F as Firebase
-    participant B as Bob (Recipient)
-    
-    Note over A,B: Session Establishment
-    A->>F: Store Public Key A
-    B->>F: Store Public Key B
-    F->>A: Retrieve Public Key B
-    F->>B: Retrieve Public Key A
-    
-    Note over A,B: Message Transmission
-    A->>A: Generate AES Key
-    A->>A: Encrypt Message with AES
-    A->>A: Encrypt AES Key with Bob's RSA Public Key
-    A->>F: Store {Encrypted Message, Encrypted AES Key}
-    F->>B: Notify New Message
-    B->>F: Retrieve Encrypted Data
-    B->>B: Decrypt AES Key with Private RSA Key
-    B->>B: Decrypt Message with AES Key
-    B->>B: Display Plain Text Message
+```
+┌──────────────────────────────────────────────────────────────┐
+│                WebSocket Message Flow (3 Modes)               │
+├──────────────────────────────────────────────────────────────┤
+│                                                               │
+│  GROUP MODE (Shared Key):                                    │
+│  1. Creator generates session AES key in browser             │
+│  2. Session key encrypted with each member's RSA public key  │
+│  3. Members decrypt session key with their RSA private key   │
+│  4. All messages encrypted/decrypted with shared AES key     │
+│                                                               │
+│  PRIVATE MODE (Per-Message):                                 │
+│  1. Alice generates RSA key pair in browser                  │
+│  2. Alice sends public key to WebSocket server               │
+│  3. Server stores Alice's public key with socketId           │
+│  4. Bob retrieves Alice's public key from server             │
+│  5. Bob generates AES key for message                        │
+│  6. Bob encrypts message with AES                            │
+│  7. Bob encrypts AES key with Alice's RSA public key         │
+│  8. Server routes encrypted payload via Socket.IO            │
+│  9. Alice decrypts AES key with RSA private key              │
+│  10. Alice decrypts message with AES key                     │
+│                                                               │
+│  PASSWORD MODE (Protected):                                  │
+│  1. Creator sets room password (min 5 chars)                 │
+│  2. Password hashed and stored with session                  │
+│  3. Joiner must provide correct password to access           │
+│  4. Uses same RSA encryption as Private mode                 │
+│  5. Strict 2-member limit enforced                           │
+│                                                               │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 **🛡️ Security Guarantees:**
 1. **End-to-End Encryption**: Only sender and recipient can read messages
 2. **Perfect Forward Secrecy**: Compromised keys don't affect past messages
-3. **Anonymous Authentication**: No personal identifiers required
+3. **Anonymous Communication**: No personal identifiers required
 4. **Ephemeral Sessions**: Complete cleanup when session ends
-5. **Zero-Knowledge Server**: Firebase cannot decrypt any content
+5. **Zero-Knowledge Server**: WebSocket server cannot decrypt content
+6. **Download Tracking**: Encrypted file download notifications
+7. **Mode Isolation**: Each mode enforces its own security rules
+8. **Session Link Security**: Encrypted tokens with 24-hour expiration
 
 </details>
 
@@ -515,7 +625,7 @@ sequenceDiagram
 
 | **Security Layer** | **Implementation** | **Protection Against** |
 |-------------------|-------------------|----------------------|
-| 🔐 **Transport Security** | HTTPS/TLS 1.3 + Firebase SSL | Man-in-the-middle attacks |
+| 🔐 **Transport Security** | HTTPS/TLS 1.3 + WSS (WebSocket Secure) | Man-in-the-middle attacks |
 | 🗝️ **Key Management** | Client-side RSA-2048 generation | Key compromise via server breach |
 | 🔒 **Message Encryption** | AES-GCM-256 per message | Content interception |
 | 🛡️ **Authentication** | Public key cryptography | Identity spoofing |
@@ -536,7 +646,7 @@ sequenceDiagram
 **🕵️ Anonymous by Design:**
 - ❌ **No Account Creation**: Zero personal information required
 - ❌ **No Email/Phone**: No contact information collected
-- ❌ **No IP Logging**: Firebase handles connection anonymously
+- ❌ **No IP Logging**: WebSocket server doesn't log connection IPs
 - ❌ **No Tracking**: No analytics or behavioral monitoring
 - ❌ **No Persistent IDs**: Session-based temporary identifiers only
 
@@ -544,7 +654,7 @@ sequenceDiagram
 - **Ephemeral Sessions**: All data deleted when session ends
 - **Memory-Only Keys**: Private keys never written to storage
 - **Minimal Metadata**: Only essential routing information stored
-- **Automatic Cleanup**: Firebase rules enforce data expiration
+- **Automatic Cleanup**: In-memory sessions auto-delete on disconnect
 
 </details>
 
@@ -576,72 +686,63 @@ sequenceDiagram
 
 <div align="center">
 
-[![Firebase Hosting](https://img.shields.io/badge/Firebase-Hosting_Ready-orange?style=for-the-badge&logo=firebase&logoColor=white)](https://github.com/Arya182-ui/End2end-Chat)
 [![Vercel](https://img.shields.io/badge/Vercel-Deployment_Ready-black?style=for-the-badge&logo=vercel&logoColor=white)](https://github.com/Arya182-ui/End2end-Chat)
 [![Netlify](https://img.shields.io/badge/Netlify-Compatible-teal?style=for-the-badge&logo=netlify&logoColor=white)](https://github.com/Arya182-ui/End2end-Chat)
+[![Heroku](https://img.shields.io/badge/Heroku-Backend_Ready-purple?style=for-the-badge&logo=heroku&logoColor=white)](https://github.com/Arya182-ui/End2end-Chat)
 
 </div>
 
 ### 🌐 **Production Deployment Options**
 
 <details>
-<summary><b>🔥 Firebase Hosting (Recommended)</b></summary>
+<parameter name="summary"><b>� Frontend Deployment (Vercel/Netlify)</b></summary>
 
-```bash
-# 1️⃣ Install Firebase CLI
-npm install -g firebase-tools
-
-# 2️⃣ Login to Firebase
-firebase login
-
-# 3️⃣ Initialize Firebase in your project
-firebase init hosting
-
-# 4️⃣ Build the project
-npm run build
-
-# 5️⃣ Deploy to Firebase Hosting
-firebase deploy
+**Step 1: Update WebSocket URL**
+Edit `src/services/websocket.ts`:
+```typescript
+const SOCKET_URL = 'https://your-server.herokuapp.com'; // Your server URL
 ```
 
-**🌟 Firebase Hosting Benefits:**
-- **Global CDN**: Fast loading worldwide
-- **HTTPS by Default**: Automatic SSL certificates
-- **Integration**: Seamless with Firebase Realtime Database
-- **Custom Domain**: Easy domain configuration
-- **Rollback**: Simple deployment version management
+**Step 2: Build Project**
+```bash
+npm run build
+```
+
+**Step 3: Deploy**
+- **Vercel**: `vercel --prod`
+- **Netlify**: Drag `dist/` folder to Netlify dashboard
+- **GitHub Pages**: Use GitHub Actions workflow
 
 </details>
 
 <details>
-<summary><b>⚡ Alternative Deployment Platforms</b></summary>
+<summary><b>🔌 Backend Deployment (Heroku/Railway/Render)</b></summary>
 
-**🚀 Vercel Deployment:**
-```bash
-# Install Vercel CLI
-npm install -g vercel
-
-# Build and deploy
-npm run build
-vercel --prod
+**Step 1: Create Procfile**
+```
+web: node server.js
 ```
 
-**🌐 Netlify Deployment:**
-```bash
-# Build the project
-npm run build
-
-# Drag and drop dist/ folder to Netlify dashboard
-# Or use Netlify CLI
-npm install -g netlify-cli
-netlify deploy --prod --dir=dist
+**Step 2: Update CORS** in `server/server.js`:
+```javascript
+cors: {
+  origin: "https://your-frontend.vercel.app",
+  methods: ["GET", "POST"]
+}
 ```
 
-**☁️ Other Compatible Platforms:**
-- AWS S3 + CloudFront
-- GitHub Pages (with GitHub Actions)
-- Azure Static Web Apps
-- DigitalOcean App Platform
+**Step 3: Deploy**
+```bash
+# Heroku
+heroku create your-app-name
+git push heroku main
+
+# Railway
+railway up
+
+# Render
+# Connect GitHub repo in dashboard
+```
 
 </details>
 
@@ -650,35 +751,28 @@ netlify deploy --prod --dir=dist
 <details>
 <summary><b>🛡️ Enhanced Security Settings</b></summary>
 
-**🔥 Firebase Security Rules (Production):**
-```json
-{
-  "rules": {
-    "chats": {
-      "$sessionId": {
-        ".read": "auth == null && $sessionId.length == 36",
-        ".write": "auth == null && $sessionId.length == 36",
-        ".validate": "newData.hasChildren(['publicKeys', 'messages'])",
-        "publicKeys": {
-          "$userId": {
-            ".validate": "newData.isString() && newData.val().length > 100"
-          }
-        },
-        "messages": {
-          "$messageId": {
-            ".validate": "newData.hasChildren(['from', 'encrypted', 'timestamp', 'encryptedKeys'])",
-            "encrypted": {
-              ".validate": "newData.isString()"
-            },
-            "timestamp": {
-              ".validate": "newData.isNumber() && newData.val() <= now"
-            }
-          }
-        }
-      }
-    }
-  }
-}
+**� WebSocket Server Security (Production):**
+```javascript
+// server/server.js - Production Configuration
+const io = new Server(server, {
+  cors: {
+    origin: process.env.ALLOWED_ORIGINS || "https://your-frontend.vercel.app",
+    methods: ["GET", "POST"],
+    credentials: true
+  },
+  maxHttpBufferSize: 20 * 1024 * 1024, // 20MB
+  pingTimeout: 60000,
+  pingInterval: 25000,
+  transports: ['websocket', 'polling']
+});
+
+// Rate limiting middleware
+const rateLimit = require('express-rate-limit');
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
+app.use(limiter);
 ```
 
 **🌐 Content Security Policy (CSP):**
@@ -687,7 +781,7 @@ netlify deploy --prod --dir=dist
       content="default-src 'self'; 
                script-src 'self' 'unsafe-inline'; 
                style-src 'self' 'unsafe-inline'; 
-               connect-src 'self' *.firebaseio.com *.googleapis.com">
+               connect-src 'self' wss://your-server.herokuapp.com https://your-server.herokuapp.com">
 ```
 
 </details>
@@ -708,32 +802,40 @@ netlify deploy --prod --dir=dist
 <details>
 <summary><b>🚀 Quick Start Guide</b></summary>
 
-**1️⃣ Create Secure Session:**
+**1️⃣ Choose Your Mode:**
+- **Group Chat**: For team discussions, multiple participants, broadcast messaging
+- **Private Chat**: For sensitive 1-to-1 conversations (max 2 members)
+
+**2️⃣ Create Secure Session:**
+- Select your preferred mode (Group or Private)
 - Click "Create New Session" to generate encrypted chat room
 - Your browser creates a unique RSA-2048 key pair
 - Share the session code with intended participants only
 
-**2️⃣ Join Session Securely:**
+**3️⃣ Join Session Securely:**
 - Enter the session code provided by the creator
 - Your browser generates its own encryption keys
 - Public keys are automatically exchanged securely
+- **Private Mode**: Only 1 joiner allowed (creator + joiner = 2 max)
 
-**3️⃣ Verify Encryption:**
-- Look for the 🔒 encryption indicator next to messages
+**4️⃣ Verify Encryption:**
+- Look for the mode badge (🌐 Group or 🔒 Private)
 - Verify that "Encrypted" status shows for all communications
 - Check that private keys remain "Local Only"
 
-**4️⃣ Send Encrypted Messages:**
+**5️⃣ Send Encrypted Messages:**
 - Type your message in the input field
-- Messages are automatically encrypted before transmission
+- **Group Mode**: Message encrypted once with shared session key, broadcast to all
+- **Private Mode**: Message encrypted separately for each recipient
 - Recipients decrypt messages with their private keys
 
-**5️⃣ Share Files Securely:**
+**6️⃣ Share Files Securely:**
 - Drag and drop images or files into the chat
-- Files are encrypted with the same security standards
+- Files are encrypted with the same mode-specific security standards
+- **Both modes**: Support images, videos, audio, documents up to 5MB
 - File metadata is minimized for privacy
 
-**6️⃣ Leave Session Safely:**
+**7️⃣ Leave Session Safely:**
 - Close browser tab or click "Leave Session"
 - All keys and data are automatically cleaned up
 - Session becomes inaccessible to prevent future access
@@ -883,7 +985,7 @@ git checkout -b security/feature-name
 
 **🔬 Research Areas:**
 - **Homomorphic Encryption**: Computing on encrypted data
-- **Decentralized Architecture**: Eliminate Firebase dependency
+- **Decentralized Architecture**: P2P WebRTC connections
 - **Blockchain Integration**: Immutable public key distribution
 - **Secure Voice/Video**: End-to-end encrypted multimedia communication
 
@@ -933,8 +1035,9 @@ git checkout -b security/feature-name
 
 **📊 Data & Privacy:**
 - No personal data collected by the application
-- Firebase terms of service apply to data transmission
+- WebSocket server doesn't persist any user data
 - Users responsible for compliance with local privacy laws
+- In-memory sessions auto-delete on disconnect
 
 </details>
 
@@ -957,7 +1060,8 @@ git checkout -b security/feature-name
 | **Technology** | **Purpose** | **Why We Love It** |
 |----------------|-------------|-------------------|
 | [⚛️ React](https://react.dev/) | Frontend Framework | Modern, component-based UI development |
-| [🔥 Firebase](https://firebase.google.com/) | Backend Infrastructure | Real-time database with global CDN |
+| [� Socket.IO](https://socket.io/) | WebSocket Library | Real-time bidirectional communication |
+| [🟢 Node.js](https://nodejs.org/) | Backend Runtime | Fast, scalable server infrastructure |
 | [🔐 Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) | Cryptography | Browser-native, secure encryption |
 | [🎨 Tailwind CSS](https://tailwindcss.com/) | UI Styling | Rapid, responsive design system |
 | [⚡ Vite](https://vitejs.dev/) | Build Tool | Lightning-fast development and builds |
@@ -1004,7 +1108,7 @@ git checkout -b security/feature-name
 **🌟 Development Community:**
 - Stack Overflow contributors solving complex cryptographic questions
 - GitHub community providing feedback and security reviews
-- React and Firebase teams for excellent developer documentation
+- React, Node.js, and Socket.IO teams for excellent developer documentation
 - Web standards organizations advancing browser security APIs
 
 **☕ Coffee Supporters:**

@@ -1,4 +1,4 @@
-# � End-to-End Encrypted Chat Application
+# End-to-End Encrypted Chat Application
 
 <div align="center">
 

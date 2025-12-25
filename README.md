@@ -24,20 +24,22 @@
 
 ## 🌟 **Project Overview**
 
-A **privacy-first** real-time chat application with **three encryption modes** - **Group Chat** (unlimited members with shared AES-256 key), **Private Chat** (1-to-1 with RSA-2048), and **Password-Protected Rooms** (secure 2-person sessions). Built with modern web technologies, implementing **zero-knowledge architecture** for maximum privacy and anonymity.
+**End2End Chat** is a privacy-first, real-time chat application designed for maximum privacy and anonymity. It features three encryption modes—**Group Chat** (unlimited members, shared AES-256 key), **Private Chat** (1-to-1, RSA-2048), and **Password-Protected Rooms** (secure 2-person sessions). Built with modern web technologies and a true zero-knowledge architecture, your conversations are always secure and never stored.
 
-**🎯 Core Philosophy:** *"No signup, no tracking, just secure conversations. Your messages, your keys, your privacy."*
+**🎯 Core Philosophy:**
+> No signup, no tracking, just secure conversations. Your messages, your keys, your privacy.
 
 ### 🚀 **Key Features**
-- 🔐 **Three Chat Modes** - Group (unlimited), Private (max 2), Password (secure 2-person)
-- �️ **True End-to-End Encryption** - RSA-2048 + AES-256 GCM
-- ⚡ **Real-Time Messaging** - WebSocket-based instant delivery
-- 📁 **Encrypted File Sharing** - Images, videos, audio, documents up to 5MB
-- � **Screenshot Protection** - Blocks Print Screen & clipboard access
-- 👥 **Typing Indicators** - See when others are typing (encrypted)
-- 🔔 **Download Notifications** - Know when files are downloaded
-- 💬 **File Captions** - Add text descriptions to shared files
-- 👤 **Anonymous** - No signup, email, or phone number required
+- 🔐 **Three Chat Modes:** Group (unlimited), Private (max 2), Password (secure 2-person)
+- 🛡️ **True End-to-End Encryption:** RSA-2048 + AES-256 GCM (hybrid)
+- ⚡ **Real-Time Messaging:** WebSocket-based instant delivery
+- 📁 **Encrypted File Sharing:** Images, videos, audio, documents up to 5MB
+- 🖼️ **Screenshot Protection:** Blocks Print Screen & clipboard access
+- 👥 **Typing Indicators:** See when others are typing (encrypted)
+- 🔔 **Download Notifications:** Know when files are downloaded
+- 💬 **File Captions:** Add text descriptions to shared files
+- 👤 **Anonymous:** No signup, email, or phone number required
+- 🕵️ **Zero Persistence:** Messages exist only during active sessions—no database, no tracking
 - 🌐 **Zero Persistence** - Messages exist only during active sessions
 - 📱 **Fully Responsive** - Perfect on desktop, tablet, and mobile
 - 🎨 **Modern UI** - Clean design with glassmorphism effects

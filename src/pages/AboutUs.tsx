@@ -145,7 +145,7 @@ const AboutUs = () => {
                                 {/* Replaced AR text with image */}
                                 <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-white/20">
                                     <img
-                                        src="https://www.ayushgangwar.tech/assets/logo-D-q9n3Ue.png"
+                                        src="https://www.ayushgangwar.tech/assets/logo-Cq2aPbrI.png"
                                         alt="Arya Logo"
                                         className="w-full h-full object-cover"
                                     />

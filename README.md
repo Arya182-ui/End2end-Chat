@@ -7,6 +7,7 @@
 [![Security Grade](https://img.shields.io/badge/Security_Grade-Military_Level-red?style=for-the-badge&logo=shield&logoColor=white)](https://github.com/Arya182-ui/End2end-Chat)
 [![Encryption](https://img.shields.io/badge/Encryption-RSA_2048_+_AES_GCM-blue?style=for-the-badge&logo=lock&logoColor=white)](https://github.com/Arya182-ui/End2end-Chat)
 [![Privacy](https://img.shields.io/badge/Privacy-Zero_Knowledge-green?style=for-the-badge&logo=eye-slash&logoColor=white)](https://github.com/Arya182-ui/End2end-Chat)
+[![Google Technologies](https://img.shields.io/badge/Powered_by-Google_Technologies-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://github.com/Arya182-ui/End2end-Chat)
 [![Live Demo](https://img.shields.io/badge/🚀_LIVE_DEMO-Try_Now-orange?style=for-the-badge&logo=rocket&logoColor=white)](https://chatend2end.vercel.app/)
 
 ### 📚 Quick Links
@@ -26,6 +27,9 @@
 
 **End2End Chat** is a privacy-first, real-time chat application designed for maximum privacy and anonymity. It features three encryption modes—**Group Chat** (unlimited members, shared AES-256 key), **Private Chat** (1-to-1, RSA-2048), and **Password-Protected Rooms** (secure 2-person sessions). Built with modern web technologies and a true zero-knowledge architecture, your conversations are always secure and never stored.
 
+**🌟 Now Powered by Google Technologies:**
+> This application integrates **Firebase**, **Google Cloud Translation API**, and **Google Gemini AI** to provide real-time translation, intelligent content moderation, and AI-powered smart replies—all while maintaining end-to-end encryption!
+
 **🎯 Core Philosophy:**
 > No signup, no tracking, just secure conversations. Your messages, your keys, your privacy.
 
@@ -33,6 +37,10 @@
 - 🔐 **Three Chat Modes:** Group (unlimited), Private (max 2), Password (secure 2-person)
 - 🛡️ **True End-to-End Encryption:** RSA-2048 + AES-256 GCM (hybrid)
 - ⚡ **Real-Time Messaging:** WebSocket-based instant delivery
+- 🌐 **Multi-Language Translation:** Powered by Google Cloud Translation API (12+ languages)
+- ✨ **AI Smart Replies:** Context-aware suggestions powered by Google Gemini AI
+- 🛡️ **Content Moderation:** Automatic toxicity detection with Gemini AI
+- 🔥 **Firebase Integration:** Real-time session metadata and presence tracking
 - 📁 **Encrypted File Sharing:** Images, videos, audio, documents up to 5MB
 - 🖼️ **Screenshot Protection:** Blocks Print Screen & clipboard access
 - 👥 **Typing Indicators:** See when others are typing (encrypted)
@@ -40,10 +48,9 @@
 - 💬 **File Captions:** Add text descriptions to shared files
 - 👤 **Anonymous:** No signup, email, or phone number required
 - 🕵️ **Zero Persistence:** Messages exist only during active sessions—no database, no tracking
-- 🌐 **Zero Persistence** - Messages exist only during active sessions
-- 📱 **Fully Responsive** - Perfect on desktop, tablet, and mobile
-- 🎨 **Modern UI** - Clean design with glassmorphism effects
-- 🔗 **Encrypted Session Links** - Secure invite system with time-limited tokens
+- 📱 **Fully Responsive:** Perfect on desktop, tablet, and mobile
+- 🎨 **Modern UI:** Clean design with glassmorphism effects and Google Fonts
+- 🔗 **Encrypted Session Links:** Secure invite system with time-limited tokens
 
 ### 🚀 **Why This Project Matters**
 
@@ -81,6 +88,136 @@ This project serves as a learning resource for:
 - **React Best Practices**: Modern component architecture and state management
 - **Security Patterns**: Zero-knowledge design and privacy-first development
 - **Full-Stack Development**: Complete frontend and backend integration
+
+</details>
+
+## 🌐 **Google Technologies Integration**
+
+<div align="center">
+
+[![Firebase](https://img.shields.io/badge/Firebase-Realtime_Database-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
+[![Translation](https://img.shields.io/badge/Google_Cloud-Translation_API-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)](https://cloud.google.com/translate)
+[![Gemini AI](https://img.shields.io/badge/Google-Gemini_AI-8E75B2?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
+
+</div>
+
+### 🔥 **Firebase Realtime Database**
+
+<details>
+<summary><b>Session Metadata & Presence Tracking</b></summary>
+
+**What it does:**
+- Stores non-sensitive session metadata (NOT encrypted messages)
+- Real-time user presence and online status
+- Anonymous authentication for better user management
+- Auto-cleanup of inactive sessions
+
+**Why it's secure:**
+- Encrypted messages are NEVER stored in Firebase
+- Only routing information and presence data stored
+- Complements E2E encryption (doesn't compromise it)
+
+**Implementation:**
+```typescript
+// Client: src/config/firebase.config.ts
+// Service: src/services/firebase.service.ts
+// Server: server/services/firebaseAdmin.js
+```
+
+</details>
+
+### 🌐 **Google Cloud Translation API**
+
+<details>
+<summary><b>Multi-Language Real-Time Translation</b></summary>
+
+**What it does:**
+- Translates messages to user's preferred language
+- Supports 12+ languages: English, Hindi, Spanish, French, German, Japanese, Chinese, Arabic, Portuguese, Russian, Korean, Italian
+- Auto-language detection
+- Smart caching to reduce API calls
+
+**How it maintains security:**
+- Translation happens AFTER message decryption (client-side)
+- Original encrypted message remains untouched
+- Translation is optional and user-controlled
+
+**Supported Languages:**
+```
+🇬🇧 English   🇮🇳 Hindi      🇪🇸 Spanish   🇫🇷 French
+🇩🇪 German    🇯🇵 Japanese   🇨🇳 Chinese   🇸🇦 Arabic
+🇵🇹 Portuguese 🇷🇺 Russian   🇰🇷 Korean    🇮🇹 Italian
+```
+
+**Implementation:**
+```typescript
+// Client: src/services/translation.ts
+// Hook: src/hooks/useTranslation.ts
+// Component: src/components/TranslationPanel.tsx
+// Server: server/services/translation.js
+// API: /api/translate, /api/detect-language
+```
+
+</details>
+
+### ✨ **Google Gemini AI**
+
+<details>
+<summary><b>Intelligent Content Moderation & Smart Assistance</b></summary>
+
+**Features:**
+
+1. **Content Moderation**
+   - Automatically scans for toxic/inappropriate content
+   - Provides toxicity scores and categories
+   - Shows warning badges (doesn't censor)
+   - User can disable in settings
+
+2. **Smart Reply Suggestions**
+   - AI-generated contextual responses
+   - Adapts to conversation flow
+   - Quick-select suggestions
+   - Saves typing time
+
+3. **Sentiment Analysis**
+   - Detects message sentiment (positive/neutral/negative)
+   - Provides sentiment scores
+   - Helps understand conversation tone
+
+**Privacy Protection:**
+- Moderation happens on decrypted text (optional feature)
+- No conversation data stored by AI
+- Rate-limited API calls
+- User can disable AI features entirely
+
+**Implementation:**
+```typescript
+// Client: src/services/gemini.ts
+// Component: src/components/AIAssistant.tsx
+// Server: server/services/moderation.js
+// API: /api/moderate, /api/sentiment, /api/smart-replies
+```
+
+</details>
+
+### 🎨 **UI/UX Enhancements**
+
+<details>
+<summary><b>Google Technologies Branding & User Experience</b></summary>
+
+- **Google Fonts**: Inter & Poppins for modern typography
+- **Tech Badge**: "Powered by Google Technologies" badge
+- **Translation Panel**: Intuitive language selector with toggle
+- **AI Assistant Panel**: Smart replies with confidence scores
+- **Loading States**: Smooth animations for AI/translation operations
+- **Mobile Responsive**: All new features work perfectly on mobile
+
+**Visual Components:**
+```typescript
+// src/components/TechBadge.tsx - Google branding
+// src/components/TranslationPanel.tsx - Language selector
+// src/components/AIAssistant.tsx - Smart replies & moderation
+```
 
 </details>
 
@@ -416,6 +553,122 @@ npm run dev
 npm run build
 npm run preview
 ```
+
+</details>
+
+<details>
+<summary><b>🌐 Setup with Google Technologies (Optional but Recommended)</b></summary>
+
+The application works in **Demo Mode** without any API keys, but for full functionality, set up Google Technologies:
+
+#### 🔥 **Step 1: Firebase Setup**
+
+1. Go to [Firebase Console](https://console.firebase.google.com)
+2. Create a new project or select existing
+3. Enable **Realtime Database**:
+   - Go to Realtime Database → Create Database
+   - Choose location and start in test mode
+4. Enable **Anonymous Authentication**:
+   - Go to Authentication → Sign-in method
+   - Enable Anonymous
+5. Get your config:
+   - Project Settings → General → Your apps
+   - Copy the Firebase config object
+6. For server (Admin SDK):
+   - Project Settings → Service Accounts
+   - Generate new private key (downloads JSON file)
+
+#### 🌐 **Step 2: Google Cloud Translation API**
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com)
+2. Enable **Cloud Translation API**
+3. Go to **APIs & Services** → **Credentials**
+4. Create **API Key** (restrict to Translation API for security)
+5. Copy the API key
+
+#### ✨ **Step 3: Google Gemini AI**
+
+1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Create a new API key
+3. Copy the key
+
+#### ⚙️ **Step 4: Configure Environment Variables**
+
+**Frontend** (create `.env` in project root):
+```env
+VITE_FIREBASE_API_KEY=your_firebase_api_key_here
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_DATABASE_URL=https://your_project-default-rtdb.firebaseio.com
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
+VITE_FIREBASE_APP_ID=1:123456789:web:abcdef123456
+VITE_GEMINI_API_KEY=your_gemini_api_key_here
+VITE_DEMO_MODE=false
+```
+
+**Backend** (create `server/.env`):
+```env
+PORT=3001
+CLIENT_URL=http://localhost:5173
+
+# Firebase Admin SDK (from downloaded JSON)
+FIREBASE_PROJECT_ID=your_project_id
+FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@your_project.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour private key here\n-----END PRIVATE KEY-----\n"
+
+# Google Cloud Translation
+GOOGLE_CLOUD_TRANSLATE_KEY=your_translation_api_key_here
+
+# Gemini AI
+GEMINI_API_KEY=your_gemini_api_key_here
+
+DEMO_MODE=false
+```
+
+#### 🚀 **Step 5: Run with Full Features**
+
+```bash
+# Terminal 1 - Server with Google Technologies
+cd server
+npm start
+
+# Terminal 2 - Frontend with Google Technologies
+npm run dev
+```
+
+**✨ Now you have:**
+- 🔥 Real-time session metadata in Firebase
+- 🌐 Live message translation (12+ languages)
+- ✨ AI-powered smart replies
+- 🛡️ Automated content moderation
+- 📊 Sentiment analysis
+
+</details>
+
+<details>
+<summary><b>🎭 Demo Mode (No API Keys Required)</b></summary>
+
+Run the app without any Google API keys:
+
+```bash
+# Terminal 1 - Server in Demo Mode
+cd server
+DEMO_MODE=true node server.js
+
+# Terminal 2 - Frontend in Demo Mode
+VITE_DEMO_MODE=true npm run dev
+```
+
+**Demo Mode Features:**
+- ✅ Full end-to-end encryption working
+- ✅ All UI components visible
+- ✅ Mock translations (shows demo messages)
+- ✅ Mock AI suggestions (predefined responses)
+- ✅ No real API calls (perfect for testing)
+- ✅ No API costs or rate limits
+
+**Note**: Demo mode is great for development and testing, but for production or hackathon demos, use real API keys for full functionality.
 
 </details>
 

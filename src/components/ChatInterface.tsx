@@ -1,9 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Send, Shield, ShieldCheck, Users, X, Key, Image, AlertTriangle } from 'lucide-react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { Send, Shield, ShieldCheck, Users, X, Key, Image, AlertTriangle, Languages, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 import { WebSocketService, Message, PublicKey } from '../services/websocket';
 import { CryptoService, KeyPair, HybridCryptoService } from '../crypto/encryption';
 import { GroupCryptoService } from '../crypto/groupEncryption';
 import { MessageBubble } from './MessageBubble';
+import { TranslationPanel } from './TranslationPanel';
+import { AIAssistant } from './AIAssistant';
+
 
 interface ChatInterfaceProps {
   sessionId: string;
@@ -42,6 +45,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
   // Typing indicator state
   const [typingUsers, setTypingUsers] = useState<Set<string>>(new Set());
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Google Technologies Integration
+  const [showSidebar, setShowSidebar] = useState(false);
+  const [messageHistory, setMessageHistory] = useState<string[]>([]);
 
   // Screenshot protection
   useEffect(() => {
@@ -260,9 +267,22 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
     generateAndDistributeSessionKey();
   }, [isCreator, chatMode, peers, keyPair, userId]);
 
+  
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+  
+  // Memoize message history for AI context
+  const recentMessageHistory = useMemo(() => {
+    return messages
+      .slice(-10)
+      .map(msg => msg.originalContent || '')
+      .filter(content => content.length > 0);
+  }, [messages]);
+  
+  useEffect(() => {
+    setMessageHistory(recentMessageHistory);
+  }, [recentMessageHistory]);
 
   const initializeChat = async () => {
     try {
@@ -642,7 +662,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex flex-col">
+    <div className="h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex flex-col relative">
     <div className="sticky top-0 z-10 bg-gray-800/90 backdrop-blur-xl border-b border-gray-700 p-3 sm:p-4">
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
@@ -657,6 +677,16 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
           </div>
         </div>
         <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+          {/* Google Technologies Toggle */}
+          <button
+            onClick={() => setShowSidebar(!showSidebar)}
+            className="p-1.5 sm:p-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg transition-colors shadow-md flex items-center gap-1.5"
+            title="Google AI Features"
+          >
+            <Sparkles className="w-4 h-4 text-white" />
+            <span className="hidden sm:inline text-white text-xs font-medium">AI</span>
+          </button>
+          
           <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
             {/* Chat Mode Indicator */}
             {chatMode === 'group' ? (
@@ -701,6 +731,32 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
         </div>
       </div>
     </div>
+
+      {/* Google Technologies Sidebar */}
+      {showSidebar && (
+        <div className="absolute top-16 right-0 w-80 sm:w-96 h-[calc(100vh-4rem)] bg-gray-800/95 backdrop-blur-xl border-l border-gray-700 z-20 overflow-y-auto p-4 space-y-4 shadow-2xl">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-bold text-white flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-purple-400" />
+              Google AI Features
+            </h2>
+            <button
+              onClick={() => setShowSidebar(false)}
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+
+
+          {/* AI Assistant */}
+          <AIAssistant
+            messageHistory={messageHistory}
+            onSelectReply={(reply) => setNewMessage(reply)}
+            lastMessage={messages.length > 0 ? messages[messages.length - 1].originalContent : undefined}
+          />
+        </div>
+      )}
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-3 sm:space-y-4">

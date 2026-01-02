@@ -2,6 +2,9 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
+import { translateText, detectLanguage, getSupportedLanguages } from './services/translation.js';
+import { moderateContent, analyzeSentiment, generateSmartReplies } from './services/moderation.js';
+import { saveSessionMetadata, updateUserPresence, removeUserPresence } from './services/firebaseAdmin.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -13,17 +16,17 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const logger = {
   log: (...args) => {
     if (!IS_PRODUCTION || DEBUG) {
-      logger.log(...args);
+      console.log(...args);
     }
   },
   debug: (...args) => {
     if (DEBUG) {
-      logger.log('[DEBUG]', ...args);
+      console.log('[DEBUG]', ...args);
     }
   },
   warn: (...args) => {
     if (!IS_PRODUCTION || DEBUG) {
-      logger.warn(...args);
+      console.warn(...args);
     }
   },
   error: (...args) => {
@@ -32,7 +35,7 @@ const logger = {
   },
   info: (...args) => {
     // Always log important info
-    logger.log(...args);
+    console.log(...args);
   }
 };
 
@@ -647,7 +650,111 @@ app.get('/health', (req, res) => {
   });
 });
 
+// ============================================
+// Google Technologies API Endpoints
+// ============================================
+
+// Translation API endpoint
+app.post('/api/translate', async (req, res) => {
+  try {
+    const { text, targetLanguage, sourceLanguage } = req.body;
+    
+    if (!text || !targetLanguage) {
+      return res.status(400).json({ error: 'Missing required parameters' });
+    }
+    
+    const translatedText = await translateText(text, targetLanguage, sourceLanguage);
+    res.json({ translatedText });
+  } catch (error) {
+    logger.error('Translation error:', error);
+    res.status(500).json({ error: 'Translation failed' });
+  }
+});
+
+// Language detection endpoint
+app.post('/api/detect-language', async (req, res) => {
+  try {
+    const { text } = req.body;
+    
+    if (!text) {
+      return res.status(400).json({ error: 'Missing text parameter' });
+    }
+    
+    const language = await detectLanguage(text);
+    res.json({ language });
+  } catch (error) {
+    logger.error('Language detection error:', error);
+    res.status(500).json({ error: 'Language detection failed' });
+  }
+});
+
+// Get supported languages
+app.get('/api/languages', async (req, res) => {
+  try {
+    const languages = await getSupportedLanguages();
+    res.json({ languages });
+  } catch (error) {
+    logger.error('Error fetching languages:', error);
+    res.status(500).json({ error: 'Failed to fetch languages' });
+  }
+});
+
+// Content moderation endpoint
+app.post('/api/moderate', async (req, res) => {
+  try {
+    const { text } = req.body;
+    
+    if (!text) {
+      return res.status(400).json({ error: 'Missing text parameter' });
+    }
+    
+    const result = await moderateContent(text);
+    res.json(result);
+  } catch (error) {
+    logger.error('Moderation error:', error);
+    res.status(500).json({ error: 'Moderation failed' });
+  }
+});
+
+// Sentiment analysis endpoint
+app.post('/api/sentiment', async (req, res) => {
+  try {
+    const { text } = req.body;
+    
+    if (!text) {
+      return res.status(400).json({ error: 'Missing text parameter' });
+    }
+    
+    const result = await analyzeSentiment(text);
+    res.json(result);
+  } catch (error) {
+    logger.error('Sentiment analysis error:', error);
+    res.status(500).json({ error: 'Sentiment analysis failed' });
+  }
+});
+
+// Smart replies endpoint
+app.post('/api/smart-replies', async (req, res) => {
+  try {
+    const { messageHistory, count } = req.body;
+    
+    if (!messageHistory || !Array.isArray(messageHistory)) {
+      return res.status(400).json({ error: 'Missing or invalid messageHistory parameter' });
+    }
+    
+    const replies = await generateSmartReplies(messageHistory, count || 3);
+    res.json({ replies });
+  } catch (error) {
+    logger.error('Smart replies error:', error);
+    res.status(500).json({ error: 'Smart replies generation failed' });
+  }
+});
+
 httpServer.listen(PORT, () => {
   logger.log(`🚀 WebSocket server running on port ${PORT}`);
   logger.log(`📡 Accepting connections from: ${process.env.CLIENT_URL || 'http://localhost:5173'}`);
+  logger.log(`🌐 Google Technologies integration enabled`);
+  logger.log(`   - Translation API endpoints available`);
+  logger.log(`   - Gemini AI moderation endpoints available`);
+  logger.log(`   - Firebase Admin SDK initialized`);
 });

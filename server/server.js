@@ -39,20 +39,48 @@ const logger = {
   }
 };
 
-// Configure CORS
-app.use(cors());
+// Allowed origins
+const allowedOrigins = [
+  'https://end2end-chat.vercel.app',
+  process.env.CLIENT_URL
+].filter(Boolean);
+
+// Configure CORS with dynamic origin checking
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.some(allowed => origin.startsWith(allowed))) {
+      callback(null, true);
+    } else {
+      // In production, still allow but log it
+      logger.warn('CORS request from unauthorized origin:', origin);
+      callback(null, true); // Allow anyway for now
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Add body parser for JSON
 app.use(express.json());
 
+// Request logging middleware
+app.use((req, res, next) => {
+  logger.debug(`${req.method} ${req.path} from ${req.ip}`);
+  next();
+});
+
 // Socket.IO server with CORS configuration
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true
   },
-
+  transports: ['websocket', 'polling'],
   maxHttpBufferSize: 20 * 1024 * 1024, // 20MB
   pingTimeout: 60000, // 60 seconds
   pingInterval: 25000 // 25 seconds
@@ -536,11 +564,13 @@ io.on('connection', (socket) => {
     const session = getSession(actualSessionId);
     
     if (session) {
+      const member = session.members.get(userId);
+      const displayName = member?.displayName;
       session.members.delete(userId);
       session.publicKeys.delete(userId);
-      
       socket.to(actualSessionId).emit('user-left', {
         userId,
+        displayName,
         timestamp: Date.now()
       });
       
@@ -594,18 +624,33 @@ app.get('/health', (req, res) => {
   });
 });
 
+// Handle OPTIONS requests explicitly for all API routes
+app.options('*', cors());
+
+// Root health check
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'ok',
+    service: 'End2End Chat Server',
+    uptime: process.uptime(),
+    activeSessions: sessions.size,
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Reserve session endpoint (called when creator creates session link)
 app.post('/api/reserve-session', express.json(), (req, res) => {
-  const { sessionId, authKey, chatMode } = req.body;
-  
-  if (!sessionId || !authKey) {
-    return res.status(400).json({ error: 'Missing sessionId or authKey' });
-  }
-  
-  // Check if session already exists
-  if (sessions.has(sessionId)) {
-    return res.status(409).json({ error: 'Session already exists' });
-  }
+  try {
+    const { sessionId, authKey, chatMode } = req.body;
+    
+    if (!sessionId || !authKey) {
+      return res.status(400).json({ error: 'Missing sessionId or authKey' });
+    }
+    
+    // Check if session already exists
+    if (sessions.has(sessionId)) {
+      return res.status(409).json({ error: 'Session already exists' });
+    }
   
   // Create reserved session with chat mode (default to 'group' if not specified)
   sessions.set(sessionId, {
@@ -627,6 +672,10 @@ app.post('/api/reserve-session', express.json(), (req, res) => {
     chatMode: chatMode || 'group',
     message: 'Session reserved successfully' 
   });
+  } catch (error) {
+    logger.error('Error reserving session:', error);
+    res.status(500).json({ error: 'Failed to reserve session', message: error.message });
+  }
 });
 
 // Get session info (for debugging)
@@ -750,11 +799,42 @@ app.post('/api/smart-replies', async (req, res) => {
   }
 });
 
-httpServer.listen(PORT, () => {
+httpServer.listen(PORT, '0.0.0.0', () => {
   logger.log(`🚀 WebSocket server running on port ${PORT}`);
-  logger.log(`📡 Accepting connections from: ${process.env.CLIENT_URL || 'http://localhost:5173'}`);
+  logger.log(`📡 Accepting connections from: ${allowedOrigins.join(', ')}`);
   logger.log(`🌐 Google Technologies integration enabled`);
   logger.log(`   - Translation API endpoints available`);
   logger.log(`   - Gemini AI moderation endpoints available`);
   logger.log(`   - Firebase Admin SDK initialized`);
+}).on('error', (err) => {
+  logger.error('Failed to start server:', err);
+  process.exit(1);
 });
+
+// Graceful shutdown handling
+process.on('SIGTERM', () => {
+  logger.log('SIGTERM received, closing server gracefully...');
+  httpServer.close(() => {
+    logger.log('Server closed');
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  logger.log('SIGINT received, closing server gracefully...');
+  httpServer.close(() => {
+    logger.log('Server closed');
+    process.exit(0);
+  });
+});
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (err) => {
+  logger.error('Uncaught exception:', err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  logger.error('Unhandled rejection at:', promise, 'reason:', reason);
+});
+

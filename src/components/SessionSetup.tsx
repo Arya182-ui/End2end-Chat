@@ -95,12 +95,22 @@ export const SessionSetup: React.FC<SessionSetupProps> = ({ onCreateSession, onJ
       });
       
       if (!response.ok) {
+        // Show a user-friendly message if server is down (e.g., 502 Bad Gateway)
+        if (response.status === 502) {
+          alert('🚨 Server is currently down (maintenance or offline). Please try again later.');
+        } else {
+          alert('Failed to reserve session. Please try again.');
+        }
         throw new Error('Failed to reserve session');
       }
       
       logger.debug(`✅ Session ${sessionId} reserved on server (mode: ${mode})`);
     } catch (error) {
       logger.error('Failed to reserve session:', error);
+      // If error is a network error (server unreachable)
+      if (error instanceof TypeError && error.message && error.message.includes('fetch')) {
+        alert('🚨 Server is currently down (maintenance or offline). Please try again later.');
+      }
       throw error;
     }
   };

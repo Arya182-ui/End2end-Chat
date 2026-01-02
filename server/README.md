@@ -13,6 +13,9 @@ WebSocket backend for real-time encrypted chat using Socket.IO.
 - ✅ CORS support for cross-origin requests
 - ✅ File download notifications
 - ✅ User join/leave notifications
+- ✅ Google Cloud Translation API integration
+- ✅ Gemini AI moderation and smart replies
+- ✅ Firebase Admin SDK for session metadata
 
 ## Installation
 
@@ -33,21 +36,91 @@ npm run dev
 npm start
 ```
 
-The server will run on port **3001** by default.
+The server will run on port **3001** by default (or the PORT specified in environment variables).
 
 ## Environment Variables
 
 Create a `.env` file in the server directory:
 
 ```env
+# Server Configuration
 PORT=3001
-CLIENT_URL=http://localhost:5173
+NODE_ENV=production
+DEBUG=false
+
+# Client Configuration (comma-separated for multiple origins)
+CLIENT_URL=https://end2end-chat.vercel.app
+
+# Google Cloud API Keys
+GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json
+GOOGLE_CLOUD_PROJECT=your-project-id
+GEMINI_API_KEY=your-gemini-api-key
+
+# Firebase Admin SDK
+FIREBASE_PROJECT_ID=your-firebase-project
+FIREBASE_CLIENT_EMAIL=your-service-account@project.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
 ```
+
+## Deployment to Railway
+
+### Quick Deploy
+
+1. **Push your code to GitHub**
+
+2. **Connect to Railway**
+   - Go to [Railway.app](https://railway.app)
+   - Click "New Project" → "Deploy from GitHub repo"
+   - Select your repository and the `server` directory
+
+3. **Set Environment Variables**
+   Add the following in Railway's Variables section:
+   ```
+   NODE_ENV=production
+   CLIENT_URL=https://your-frontend-domain.vercel.app
+   GOOGLE_CLOUD_PROJECT=your-project-id
+   GEMINI_API_KEY=your-api-key
+   FIREBASE_PROJECT_ID=your-project-id
+   FIREBASE_CLIENT_EMAIL=your-email
+   FIREBASE_PRIVATE_KEY=your-key
+   ```
+
+4. **Deploy**
+   - Railway will automatically detect the Node.js project
+   - It will use the `railway.json` configuration
+   - The server will bind to `0.0.0.0:$PORT`
+
+### Railway Configuration
+
+The project includes a `railway.json` file that configures:
+- Build system (Nixpacks)
+- Start command (`node server.js`)
+- Restart policy (ON_FAILURE with 10 max retries)
+
+### Troubleshooting Railway Deployment
+
+#### 502 Bad Gateway / Connection Refused
+- **Cause**: Server not binding to `0.0.0.0` or wrong PORT
+- **Solution**: The server now correctly binds to `0.0.0.0:$PORT` (fixed in latest update)
+
+#### CORS Errors
+- **Cause**: Frontend origin not allowed
+- **Solution**: Add your frontend URL to `CLIENT_URL` environment variable
+
+#### Server Crashes on Startup
+- Check Railway logs: `railway logs`
+- Verify all environment variables are set correctly
+- Ensure Firebase credentials are properly formatted (use quotes for PRIVATE_KEY)
+
+### Health Checks
+
+The server exposes several health check endpoints:
+
+- `GET /` - Root health check with service info
+- `GET /health` - Detailed health status
+- `GET /ping` - Simple ping response
 
 ## API Endpoints
-
-### Health Check
-```
 GET /health
 ```
 Returns server status, uptime, and number of active sessions.

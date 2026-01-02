@@ -39,8 +39,9 @@ export const useTranslation = () => {
 
     // Check cache
     const cacheKey = `${text}-${translationState.targetLanguage}`;
-    if (translationCache.has(cacheKey)) {
-      return translationCache.get(cacheKey)!;
+    const cached = translationCache.get(cacheKey);
+    if (cached) {
+      return cached;
     }
 
     setTranslationState(prev => ({ ...prev, isTranslating: true }));
@@ -64,7 +65,7 @@ export const useTranslation = () => {
     } finally {
       setTranslationState(prev => ({ ...prev, isTranslating: false }));
     }
-  }, [translationState.enabled, translationState.targetLanguage, translationCache]);
+  }, [translationState.enabled, translationState.targetLanguage]);
 
   return {
     translationState,

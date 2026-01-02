@@ -70,10 +70,14 @@ Respond in JSON format:
     const response = await result.response;
     const responseText = response.text();
     
-    // Parse JSON response
-    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
+    // Parse JSON response with error handling
+    try {
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        return JSON.parse(jsonMatch[0]);
+      }
+    } catch (parseError) {
+      console.error('Failed to parse moderation response:', parseError);
     }
     
     // Fallback
@@ -128,9 +132,14 @@ Respond in JSON format:
     const response = await result.response;
     const responseText = response.text();
     
-    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
+    // Parse JSON response with error handling
+    try {
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        return JSON.parse(jsonMatch[0]);
+      }
+    } catch (parseError) {
+      console.error('Failed to parse sentiment response:', parseError);
     }
     
     return { sentiment: 'neutral', score: 0, emoji: '😐' };
@@ -177,9 +186,14 @@ Respond in JSON format:
     const response = await result.response;
     const responseText = response.text();
     
-    const jsonMatch = responseText.match(/\[[\s\S]*\]/);
-    if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
+    // Parse JSON response with error handling
+    try {
+      const jsonMatch = responseText.match(/\[[\s\S]*\]/);
+      if (jsonMatch) {
+        return JSON.parse(jsonMatch[0]);
+      }
+    } catch (parseError) {
+      console.error('Failed to parse smart replies response:', parseError);
     }
     
     return [];

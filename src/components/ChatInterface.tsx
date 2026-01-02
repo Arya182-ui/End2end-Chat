@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Send, Shield, ShieldCheck, Users, X, Key, Image, AlertTriangle, Languages, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 import { WebSocketService, Message, PublicKey } from '../services/websocket';
 import { CryptoService, KeyPair, HybridCryptoService } from '../crypto/encryption';
@@ -268,16 +268,22 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
     generateAndDistributeSessionKey();
   }, [isCreator, chatMode, peers, keyPair, userId]);
 
+  
   useEffect(() => {
     scrollToBottom();
-    
-    // Update message history for AI context (last 10 messages)
-    const recentMessages = messages
+  }, [messages]);
+  
+  // Memoize message history for AI context
+  const recentMessageHistory = useMemo(() => {
+    return messages
       .slice(-10)
       .map(msg => msg.originalContent || '')
       .filter(content => content.length > 0);
-    setMessageHistory(recentMessages);
   }, [messages]);
+  
+  useEffect(() => {
+    setMessageHistory(recentMessageHistory);
+  }, [recentMessageHistory]);
 
   const initializeChat = async () => {
     try {

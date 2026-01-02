@@ -1,4 +1,4 @@
-import { Translate } from '@google-cloud/translate/build/src/v2/index.js';
+import { v2 } from '@google-cloud/translate';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -8,6 +8,7 @@ const isDemoMode = process.env.DEMO_MODE === 'true' || !process.env.GOOGLE_CLOUD
 let translateClient = null;
 
 if (!isDemoMode && process.env.GOOGLE_CLOUD_TRANSLATE_KEY) {
+  const Translate = v2.Translate;
   translateClient = new Translate({
     key: process.env.GOOGLE_CLOUD_TRANSLATE_KEY
   });

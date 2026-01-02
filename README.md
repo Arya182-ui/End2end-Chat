@@ -27,8 +27,9 @@
 
 **End2End Chat** is a privacy-first, real-time chat application designed for maximum privacy and anonymity. It features three encryption modes—**Group Chat** (unlimited members, shared AES-256 key), **Private Chat** (1-to-1, RSA-2048), and **Password-Protected Rooms** (secure 2-person sessions). Built with modern web technologies and a true zero-knowledge architecture, your conversations are always secure and never stored.
 
-**🌟 Now Powered by Google Technologies:**
-> This application integrates **Firebase**, **Google Cloud Translation API**, and **Google Gemini AI** to provide real-time translation, intelligent content moderation, and AI-powered smart replies—all while maintaining end-to-end encryption!
+
+**🌟 Google Technologies Integration (Planned & Partial):**
+> This application integrates **Firebase** and **Google Gemini AI**. **Google Cloud Translation API** is planned for future releases. Currently, translation features use demo/mock data and do not call the real Google Cloud Translation API.
 
 **🎯 Core Philosophy:**
 > No signup, no tracking, just secure conversations. Your messages, your keys, your privacy.
@@ -37,7 +38,7 @@
 - 🔐 **Three Chat Modes:** Group (unlimited), Private (max 2), Password (secure 2-person)
 - 🛡️ **True End-to-End Encryption:** RSA-2048 + AES-256 GCM (hybrid)
 - ⚡ **Real-Time Messaging:** WebSocket-based instant delivery
-- 🌐 **Multi-Language Translation:** Powered by Google Cloud Translation API (12+ languages)
+- 🌐 **Multi-Language Translation:** (Demo only) Translation UI is present, but Google Cloud Translation API integration is planned for a future release. Currently, translations use mock/demo data.
 - ✨ **AI Smart Replies:** Context-aware suggestions powered by Google Gemini AI
 - 🛡️ **Content Moderation:** Automatic toxicity detection with Gemini AI
 - 🔥 **Firebase Integration:** Real-time session metadata and presence tracking
@@ -91,15 +92,17 @@ This project serves as a learning resource for:
 
 </details>
 
+
 ## 🌐 **Google Technologies Integration**
 
 <div align="center">
 
 [![Firebase](https://img.shields.io/badge/Firebase-Realtime_Database-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
-[![Translation](https://img.shields.io/badge/Google_Cloud-Translation_API-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)](https://cloud.google.com/translate)
+[![Translation](https://img.shields.io/badge/Google_Cloud-Translation_API_(Planned)-gray?style=for-the-badge&logo=google-cloud&logoColor=white)](https://cloud.google.com/translate)
 [![Gemini AI](https://img.shields.io/badge/Google-Gemini_AI-8E75B2?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
 
 </div>
+
 
 ### 🔥 **Firebase Realtime Database**
 
@@ -118,6 +121,12 @@ This project serves as a learning resource for:
 - Complements E2E encryption (doesn't compromise it)
 
 **Implementation:**
+
+---
+
+### 🌐 **Translation (Planned)**
+
+The translation feature UI is available, but Google Cloud Translation API is not yet enabled in this deployment. All translations are currently mock/demo responses. Real translation will be available in a future update.
 ```typescript
 // Client: src/config/firebase.config.ts
 // Service: src/services/firebase.service.ts

@@ -16,17 +16,17 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const logger = {
   log: (...args) => {
     if (!IS_PRODUCTION || DEBUG) {
-      logger.log(...args);
+      console.log(...args);
     }
   },
   debug: (...args) => {
     if (DEBUG) {
-      logger.log('[DEBUG]', ...args);
+      console.log('[DEBUG]', ...args);
     }
   },
   warn: (...args) => {
     if (!IS_PRODUCTION || DEBUG) {
-      logger.warn(...args);
+      console.warn(...args);
     }
   },
   error: (...args) => {
@@ -35,7 +35,7 @@ const logger = {
   },
   info: (...args) => {
     // Always log important info
-    logger.log(...args);
+    console.log(...args);
   }
 };
 

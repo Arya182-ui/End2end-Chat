@@ -52,7 +52,7 @@ export const moderateContent = async (text: string): Promise<ModerationResult> =
   }
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-pro' }, { apiVersion: 'v1' });
     
     const prompt = `Analyze this message for toxicity, hate speech, or inappropriate content. 
 Rate toxicity from 0-1 (0=safe, 1=toxic).
@@ -116,7 +116,7 @@ export const analyzeSentiment = async (text: string): Promise<SentimentResult> =
   }
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-pro' }, { apiVersion: 'v1' });
     
     const prompt = `Analyze the sentiment of this message.
 Message: "${text}"
@@ -169,7 +169,7 @@ export const generateSmartReplies = async (messageHistory: string[], count: numb
   }
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-pro' }, { apiVersion: 'v1' });
     
     const conversationContext = messageHistory.slice(-5).join('\n');
     const prompt = `Given this conversation, suggest ${count} appropriate short replies (max 10 words each):

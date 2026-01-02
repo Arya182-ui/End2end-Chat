@@ -117,9 +117,14 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800/50 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-gray-500">
-              © 2025 <span className="text-gray-400 font-medium">SecureChat</span>. Open source & privacy-focused.
-            </p>
+            <div>
+              <p className="text-sm text-gray-500">
+                © 2025 <span className="text-gray-400 font-medium">SecureChat</span>. Open source & privacy-focused.
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                Built by SecureChat Team using Google Technologies
+              </p>
+            </div>
             <div className="flex items-center gap-2">
               <span className="px-3 py-1 bg-gradient-to-r from-green-500/10 to-green-600/10 text-green-400 text-xs font-medium rounded-full border border-green-500/20">
                 ✓ Open Source

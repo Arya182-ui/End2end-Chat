@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { SessionSetup } from './components/SessionSetup';
 import { ChatInterface } from './components/ChatInterface';
 import { CookieConsent } from './components/CookieConsent';
-import { TechBadge } from './components/TechBadge';
 import { decryptToken } from './utils/tokenEncryption';
 import { logger } from './utils/logger';
 import { Layout } from './components/Layout';
@@ -163,7 +162,6 @@ function App() {
         />
       )}
       <CookieConsent />
-      <TechBadge />
     </Layout>
   );
 }

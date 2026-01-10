@@ -100,8 +100,8 @@
   }
 }
 
-/* Screenshot protection */
-img, video, audio {
+/* Advanced Screenshot Protection */
+img, video, audio, canvas {
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
   -ms-user-select: none !important;
@@ -110,25 +110,110 @@ img, video, audio {
   -khtml-user-drag: none !important;
   -moz-user-drag: none !important;
   -o-user-drag: none !important;
+  -webkit-touch-callout: none !important;
   pointer-events: auto;
+  image-rendering: optimizeSpeed !important;
+  image-rendering: -moz-crisp-edges !important;
+  image-rendering: -webkit-optimize-contrast !important;
+  image-rendering: optimize-contrast !important;
+  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden !important;
 }
 
-/* Prevent text selection on media */
+/* Enhanced media protection in messages */
 .message-bubble img,
 .message-bubble video,
-.message-bubble audio {
+.message-bubble audio,
+.message-bubble canvas {
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
+  position: relative !important;
+  overflow: hidden !important;
 }
 
-/* Add subtle protection overlay */
-img::after, video::after {
+/* Anti-screenshot overlay with dynamic protection */
+.message-bubble img::before,
+.message-bubble video::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 49%,
+    rgba(255, 255, 255, 0.005) 49%,
+    rgba(255, 255, 255, 0.005) 51%,
+    transparent 51%
+  );
   pointer-events: none;
-  background: transparent;
+  z-index: 1;
+  animation: protectionPattern 3s linear infinite;
+}
+
+@keyframes protectionPattern {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 40px; }
+}
+
+/* Disable print styles */
+@media print {
+  .message-bubble,
+  .message-content,
+  img, video, audio {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  
+  body::after {
+    content: "🚫 PRINTING DISABLED FOR PRIVACY PROTECTION";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+  }
+}
+
+/* Disable screenshots on iOS */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  body {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+}
+
+/* Protection against screenshot tools */
+.screenshot-protected {
+  -webkit-app-region: no-drag !important;
+  -webkit-user-modify: read-only !important;
+  -moz-user-modify: read-only !important;
+}
+
+/* Enhanced blur protection for sensitive content */
+.chat-messages.protected {
+  transition: filter 0.3s ease !important;
+}
+
+.chat-messages.protected.blurred {
+  filter: blur(10px) contrast(50%) brightness(30%) !important;
+}
+
+/* Disable text selection in sensitive areas */
+.message-content {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.message-bubble.protected .message-content {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
 }

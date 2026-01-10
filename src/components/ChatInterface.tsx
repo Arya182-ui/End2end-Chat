@@ -50,110 +50,365 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
   const [showSidebar, setShowSidebar] = useState(false);
   const [messageHistory, setMessageHistory] = useState<string[]>([]);
 
-  // Screenshot protection
+  // Advanced Screenshot Protection System
   useEffect(() => {
+    let isBlurred = false;
+    let protectionActive = true;
+    let suspiciousActivity = 0;
+    const maxSuspiciousEvents = 3;
+    
+    // Comprehensive keyboard blocking
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Block Print Screen, Ctrl+P, Cmd+Shift+3/4/5 (Mac screenshots)
-      if (
+      const blockedKeys = [
+        // Common screenshot keys
+        'PrintScreen', 'F12', 
+        // Windows: Win+Shift+S, Win+G, Alt+PrtScn
+        ...(e.key === 's' && e.metaKey && e.shiftKey ? ['s'] : []),
+        ...(e.key === 'g' && e.metaKey ? ['g'] : []),
+        ...(e.key === 'PrintScreen' && e.altKey ? ['PrintScreen'] : []),
+        // Mac: Cmd+Shift+3/4/5/6, Cmd+Ctrl+Shift+3/4
+        ...(e.metaKey && e.shiftKey && ['3', '4', '5', '6'].includes(e.key) ? [e.key] : []),
+        ...(e.metaKey && e.ctrlKey && e.shiftKey && ['3', '4'].includes(e.key) ? [e.key] : []),
+        // Developer tools
+        ...(e.key === 'F12' ? ['F12'] : []),
+        ...(e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase()) ? [e.key] : []),
+        ...(e.ctrlKey && e.key === 'u' ? ['u'] : []),
+        // Print
+        ...(e.ctrlKey && e.key === 'p' ? ['p'] : []),
+        ...(e.metaKey && e.key === 'p' ? ['p'] : [])
+      ];
+
+      const shouldBlock = 
         e.key === 'PrintScreen' ||
         (e.ctrlKey && e.key === 'p') ||
-        (e.metaKey && e.shiftKey && ['3', '4', '5'].includes(e.key))
-      ) {
+        (e.metaKey && e.key === 'p') ||
+        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
+        (e.ctrlKey && e.key === 'u') ||
+        (e.metaKey && e.shiftKey && ['3', '4', '5', '6'].includes(e.key)) ||
+        (e.metaKey && e.ctrlKey && e.shiftKey && ['3', '4'].includes(e.key)) ||
+        (e.key === 's' && e.metaKey && e.shiftKey) ||
+        (e.key === 'g' && e.metaKey) ||
+        (e.key === 'PrintScreen' && e.altKey) ||
+        e.key === 'F12';
+
+      if (shouldBlock) {
         e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
         
-        // Clear clipboard immediately
-        setTimeout(() => {
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText('🚫 Screenshots disabled for privacy').catch(() => {});
+        suspiciousActivity++;
+        
+        // Clear clipboard aggressively
+        const clearClipboard = async () => {
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              await navigator.clipboard.writeText('🚫 Screenshots blocked for privacy');
+              setTimeout(async () => {
+                await navigator.clipboard.writeText('');
+              }, 50);
+            }
+          } catch (error) {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = '';
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
           }
-        }, 10);
+        };
         
-        alert('🚫 Screenshots are disabled for privacy protection');
+        clearClipboard();
+        
+        // Show warning
+        if (suspiciousActivity <= maxSuspiciousEvents) {
+          alert(`🚫 Screenshot attempt #${suspiciousActivity} blocked for privacy protection!`);
+        }
+        
+        // Temporary blur effect as punishment
+        document.body.style.filter = 'blur(5px)';
+        setTimeout(() => {
+          document.body.style.filter = '';
+        }, 2000);
+        
         return false;
       }
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
-      // Detect Print Screen release
       if (e.key === 'PrintScreen') {
-        // Clear clipboard after Print Screen
-        setTimeout(() => {
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText('').catch(() => {});
-          }
+        // Multiple clipboard clears
+        setTimeout(async () => {
+          try {
+            await navigator.clipboard.writeText('');
+          } catch (e) {}
+        }, 10);
+        setTimeout(async () => {
+          try {
+            await navigator.clipboard.writeText('');
+          } catch (e) {}
         }, 100);
-        
-        alert('🚫 Screenshot attempt detected and blocked!');
+        setTimeout(async () => {
+          try {
+            await navigator.clipboard.writeText('');
+          } catch (e) {}
+        }, 500);
       }
     };
 
+    // Enhanced context menu blocking
     const handleContextMenu = (e: MouseEvent) => {
       e.preventDefault();
+      e.stopPropagation();
+      suspiciousActivity++;
+      if (suspiciousActivity <= maxSuspiciousEvents) {
+        alert('🚫 Right-click disabled for security');
+      }
       return false;
     };
 
-    // Detect focus loss (might indicate screenshot tool usage)
+    // Advanced focus/blur detection for screenshot tools
     const handleBlur = () => {
-      // Silent in production - no console warnings
+      isBlurred = true;
+      suspiciousActivity++;
+      
+      // Hide content when window loses focus (might be screenshot tool)
+      const chatMessages = document.querySelectorAll('.message-bubble, .message-content');
+      chatMessages.forEach(msg => {
+        (msg as HTMLElement).style.opacity = '0.1';
+        (msg as HTMLElement).style.filter = 'blur(10px)';
+      });
+      
+      setTimeout(() => {
+        if (document.hasFocus()) {
+          chatMessages.forEach(msg => {
+            (msg as HTMLElement).style.opacity = '';
+            (msg as HTMLElement).style.filter = '';
+          });
+          isBlurred = false;
+        }
+      }, 100);
     };
 
-    // Monitor clipboard changes
+    const handleFocus = () => {
+      if (isBlurred) {
+        const chatMessages = document.querySelectorAll('.message-bubble, .message-content');
+        chatMessages.forEach(msg => {
+          (msg as HTMLElement).style.opacity = '';
+          (msg as HTMLElement).style.filter = '';
+        });
+        isBlurred = false;
+      }
+    };
+
+    // Enhanced copy protection
     const handleCopy = (e: ClipboardEvent) => {
       const target = e.target as HTMLElement;
-      if (target.tagName === 'IMG' || target.tagName === 'VIDEO') {
+      const isMedia = ['IMG', 'VIDEO', 'AUDIO', 'CANVAS'].includes(target.tagName);
+      const hasMediaParent = target.closest('img, video, audio, canvas');
+      
+      if (isMedia || hasMediaParent) {
         e.preventDefault();
-        alert('🚫 Copying media is disabled');
+        e.stopPropagation();
+        suspiciousActivity++;
+        alert('🚫 Copying media content is disabled');
+        return false;
+      }
+      
+      // Limit text copying
+      const selection = window.getSelection()?.toString();
+      if (selection && selection.length > 500) {
+        e.preventDefault();
+        alert('🚫 Large text selections disabled for privacy');
         return false;
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('keyup', handleKeyUp);
-    document.addEventListener('contextmenu', handleContextMenu);
-    document.addEventListener('copy', handleCopy);
-    window.addEventListener('blur', handleBlur);
-
-    // Disable drag and drop of images
+    // Enhanced drag prevention
     const handleDragStart = (e: DragEvent) => {
-      if ((e.target as HTMLElement).tagName === 'IMG') {
+      const target = e.target as HTMLElement;
+      if (['IMG', 'VIDEO', 'AUDIO'].includes(target.tagName)) {
         e.preventDefault();
+        e.stopPropagation();
+        suspiciousActivity++;
+        return false;
       }
     };
-    document.addEventListener('dragstart', handleDragStart);
 
-    // Add watermark overlay to prevent screenshots
+    // Disable selection for sensitive areas
+    const handleSelectStart = (e: Event) => {
+      const target = e.target as HTMLElement;
+      if (target.closest('.message-bubble img, .message-bubble video')) {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    // Monitor for screenshot tools via window title changes
+    let originalTitle = document.title;
+    const titleObserver = new MutationObserver(() => {
+      if (document.title !== originalTitle && 
+          (document.title.includes('screenshot') || 
+           document.title.includes('capture') ||
+           document.title.includes('snipping'))) {
+        document.title = originalTitle;
+        suspiciousActivity++;
+        alert('🚫 Screenshot tool detected and blocked!');
+      }
+    });
+    titleObserver.observe(document.head, { childList: true, subtree: true });
+
+    // Add event listeners
+    document.addEventListener('keydown', handleKeyDown, true);
+    document.addEventListener('keyup', handleKeyUp, true);
+    document.addEventListener('contextmenu', handleContextMenu, true);
+    document.addEventListener('copy', handleCopy, true);
+    document.addEventListener('cut', handleCopy, true);
+    document.addEventListener('dragstart', handleDragStart, true);
+    document.addEventListener('selectstart', handleSelectStart, true);
+    window.addEventListener('blur', handleBlur);
+    window.addEventListener('focus', handleFocus);
+
+    // Enhanced visual protection with dynamic watermark
     const style = document.createElement('style');
     style.innerHTML = `
+      /* Advanced screenshot protection */
+      .chat-container {
+        position: relative;
+      }
+      
       .chat-container::before {
-        content: '';
+        content: 'SECURE CHAT - SCREENSHOTS BLOCKED';
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         pointer-events: none;
-        z-index: 9999;
-        background-image: repeating-linear-gradient(
-          45deg,
-          transparent,
-          transparent 100px,
-          rgba(255, 255, 255, 0.02) 100px,
-          rgba(255, 255, 255, 0.02) 200px
-        );
+        z-index: 9998;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.03);
+        font-family: monospace;
+        line-height: 80px;
+        text-align: center;
+        background-image: 
+          repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 120px,
+            rgba(255, 255, 255, 0.01) 120px,
+            rgba(255, 255, 255, 0.01) 240px
+          ),
+          repeating-linear-gradient(
+            -45deg,
+            transparent,
+            transparent 120px,
+            rgba(255, 255, 255, 0.008) 120px,
+            rgba(255, 255, 255, 0.008) 240px
+          );
+        animation: watermarkMove 20s linear infinite;
+      }
+      
+      @keyframes watermarkMove {
+        0% { transform: translate(0, 0); }
+        25% { transform: translate(20px, 10px); }
+        50% { transform: translate(-10px, 20px); }
+        75% { transform: translate(15px, -15px); }
+        100% { transform: translate(0, 0); }
+      }
+      
+      /* Blur effect during suspicious activity */
+      .screenshot-protection-active {
+        filter: blur(5px) !important;
+        transition: filter 0.3s ease !important;
+      }
+      
+      /* Enhanced media protection */
+      img, video, audio, canvas {
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+        user-select: none !important;
+        -webkit-user-drag: none !important;
+        -khtml-user-drag: none !important;
+        -moz-user-drag: none !important;
+        -o-user-drag: none !important;
+        -webkit-touch-callout: none !important;
+        pointer-events: auto;
+      }
+      
+      /* Anti-screenshot overlay for media */
+      .message-bubble img,
+      .message-bubble video {
+        position: relative;
+      }
+      
+      .message-bubble img::after,
+      .message-bubble video::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: transparent;
+        pointer-events: none;
+        z-index: 1;
       }
     `;
     document.head.appendChild(style);
 
+    // Periodic clipboard clearing
+    const clipboardClearInterval = setInterval(async () => {
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText('');
+        }
+      } catch (e) {
+        // Silent fail
+      }
+    }, 30000); // Clear every 30 seconds
+    
+    // Monitor for developer tools
+    const devToolsChecker = setInterval(() => {
+      const startTime = performance.now();
+      debugger;
+      const endTime = performance.now();
+      if (endTime - startTime > 100) {
+        suspiciousActivity += 2;
+        alert('🚫 Developer tools detected! Please close them for security.');
+        // Blur content temporarily
+        document.body.style.filter = 'blur(10px)';
+        setTimeout(() => {
+          document.body.style.filter = '';
+        }, 3000);
+      }
+    }, 5000);
+    
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('keyup', handleKeyUp);
-      document.removeEventListener('contextmenu', handleContextMenu);
-      document.removeEventListener('copy', handleCopy);
-      document.removeEventListener('dragstart', handleDragStart);
+      // Remove all event listeners
+      document.removeEventListener('keydown', handleKeyDown, true);
+      document.removeEventListener('keyup', handleKeyUp, true);
+      document.removeEventListener('contextmenu', handleContextMenu, true);
+      document.removeEventListener('copy', handleCopy, true);
+      document.removeEventListener('cut', handleCopy, true);
+      document.removeEventListener('dragstart', handleDragStart, true);
+      document.removeEventListener('selectstart', handleSelectStart, true);
       window.removeEventListener('blur', handleBlur);
+      window.removeEventListener('focus', handleFocus);
+      
+      // Clean up observers and intervals
+      titleObserver.disconnect();
+      clearInterval(clipboardClearInterval);
+      clearInterval(devToolsChecker);
+      
+      // Remove style
       if (style.parentNode) {
         style.parentNode.removeChild(style);
       }
+      
+      // Reset any applied filters
+      document.body.style.filter = '';
     };
   }, []);
 

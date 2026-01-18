@@ -1117,25 +1117,25 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
 
      {/* Sticky Input Bar */}
     {peers.length > 0 && (
-      <div className="sticky bottom-0 z-10 bg-gray-800/95 backdrop-blur-xl border-t border-gray-700 p-2 sm:p-4">
+      <div className="sticky bottom-0 z-10 glass-panel bg-gray-900/80 border-t border-gray-700/50 p-3 sm:p-5 backdrop-blur-xl">
           {/* File Preview */}
           {selectedFile && (
-            <div className="mb-2 sm:mb-3 p-2 sm:p-3 bg-gray-700/50 rounded-lg border border-gray-600">
-              <div className="flex items-start gap-2 sm:gap-3">
+            <div className="mb-3 p-3 bg-gray-800/80 rounded-xl border border-gray-700 animate-slide-up">
+              <div className="flex items-start gap-4">
                 {filePreview ? (
                   <img 
                     src={filePreview} 
                     alt="Preview" 
-                    className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg border border-gray-600 flex-shrink-0"
+                    className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg border border-gray-600 flex-shrink-0 shadow-lg"
                   />
                 ) : (
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-600 rounded-lg flex items-center justify-center text-2xl sm:text-3xl flex-shrink-0">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-700 rounded-lg flex items-center justify-center text-3xl flex-shrink-0 border border-gray-600">
                     {getFileIcon(selectedFile.type)}
                   </div>
                 )}
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs sm:text-sm text-white font-medium truncate">{selectedFile.name}</p>
-                  <p className="text-xs text-gray-400">
+                  <p className="text-sm text-white font-medium truncate">{selectedFile.name}</p>
+                  <p className="text-xs text-gray-400 mb-2">
                     {(selectedFile.size / 1024).toFixed(1)} KB
                   </p>
                   {/* Caption input for files */}
@@ -1144,20 +1144,20 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
                     value={captionText}
                     onChange={(e) => setCaptionText(e.target.value)}
                     placeholder="Add a caption..."
-                    className="mt-1.5 sm:mt-2 w-full bg-gray-600 text-white text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-1.5 rounded border border-gray-500 focus:border-blue-500 focus:outline-none"
+                    className="w-full bg-gray-900/50 text-white text-sm px-3 py-2 rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all"
                   />
                 </div>
                 <button
                   onClick={removeFile}
-                  className="bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center text-sm flex-shrink-0"
+                  className="bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white rounded-lg p-2 transition-all flex-shrink-0 border border-red-500/20"
                 >
-                  ×
+                   <X className="w-4 h-4" />
                 </button>
               </div>
             </div>
           )}
           
-          <div className="flex items-end gap-1.5 sm:gap-2">
+          <div className="flex items-end gap-2 sm:gap-3">
             <input
               ref={fileInputRef}
               type="file"
@@ -1167,12 +1167,12 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
             />
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="bg-gray-700 hover:bg-gray-600 text-gray-300 p-2 sm:p-3 rounded-lg sm:rounded-xl transition-colors flex-shrink-0"
+              className="bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-blue-400 p-3 rounded-xl transition-all border border-gray-700 hover:border-blue-500/30 flex-shrink-0 mb-[1px]"
               title="Attach file"
             >
-              <Image className="w-4 h-4 sm:w-5 sm:h-5" />
+              <Image className="w-5 h-5" />
             </button>
-            <div className="flex-1 bg-gray-700 rounded-lg sm:rounded-xl border border-gray-600 focus-within:border-blue-500 transition-colors">
+            <div className="flex-1 bg-gray-800/50 rounded-xl border border-gray-700 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500/20 transition-all shadow-inner">
               <textarea
                 value={newMessage}
                 onChange={(e) => {
@@ -1180,23 +1180,23 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
                   handleTyping();
                 }}
                 onKeyDown={handleKeyPress}
-                placeholder={selectedFile ? "Add a message..." : "Type a message..."}
-                className="w-full bg-transparent text-white placeholder-gray-400 px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base resize-none focus:outline-none"
+                placeholder={selectedFile ? "Add a message..." : "Type a secure message..."}
+                className="w-full bg-transparent text-white placeholder-gray-500 px-4 py-3 text-sm sm:text-base resize-none focus:outline-none"
                 rows={1}
-                style={{ minHeight: '40px', maxHeight: '120px' }}
+                style={{ minHeight: '48px', maxHeight: '150px' }}
                 disabled={isEncrypting}
               />
             </div>
             <button
               onClick={sendMessage}
               disabled={(!newMessage.trim() && !selectedFile) || isEncrypting}
-              className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-600 text-white p-2 sm:p-3 rounded-lg sm:rounded-xl transition-all duration-200 transform hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed flex-shrink-0"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 disabled:from-gray-700 disabled:to-gray-800 text-white p-3 rounded-xl transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:scale-100 disabled:cursor-not-allowed flex-shrink-0 shadow-lg shadow-blue-500/20 disabled:shadow-none mb-[1px]"
               title="Send message"
             >
               {isEncrypting ? (
-                <div className="w-4 h-4 sm:w-5 sm:h-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                <div className="w-5 h-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
               ) : (
-                <Send className="w-4 h-4 sm:w-5 sm:h-5" />
+                <Send className="w-5 h-5" />
               )}
             </button>
           </div>

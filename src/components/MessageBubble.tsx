@@ -325,37 +325,48 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
   };
 
   return (
-    <div className={`flex ${isOwn ? 'justify-end' : 'justify-start'} animate-fade-in`}>
-      <div className={`max-w-[85%] sm:max-w-lg ${
-        decryptionError 
-          ? 'bg-gray-800 border border-yellow-600' 
+    <div className={`flex ${isOwn ? 'justify-end' : 'justify-start'} animate-fade-in mb-2 group`}>
+      <div className={`
+        relative max-w-[85%] sm:max-w-md transition-all duration-200
+        ${decryptionError 
+          ? 'bg-gray-800/90 border border-yellow-600/50' 
           : isOwn 
-            ? 'bg-gradient-to-r from-blue-600 to-purple-600' 
-            : 'bg-gray-700'
-      } rounded-2xl px-3 py-2 sm:px-4 sm:py-3 shadow-lg`}>
+            ? 'bg-gradient-to-br from-blue-600 to-purple-700 text-white rounded-2xl rounded-tr-sm shadow-blue-900/20' 
+            : 'glass-panel bg-gray-800/60 text-gray-100 rounded-2xl rounded-tl-sm border-gray-700/50'
+        } 
+        px-4 py-3 shadow-md hover:shadow-lg
+      `}>
         <div className="flex items-start gap-2">
           <div className="flex-1 min-w-0">
             {/* Show sender name for incoming messages */}
             {!isOwn && senderName && (
-              <div className="text-xs text-gray-300 font-semibold mb-1 truncate">{senderName}</div>
+              <div className="text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 mb-1 truncate">
+                {senderName}
+              </div>
             )}
-            <div className={`text-sm ${
+            
+            <div className={`text-[15px] leading-relaxed ${
               decryptionError 
-                ? 'text-yellow-300 italic' 
+                ? 'text-yellow-200 italic font-medium' 
                 : isOwn 
-                  ? 'text-white' 
+                  ? 'text-white/95' 
                   : 'text-gray-100'
             } break-words`}>
               {renderMessageContent()}
             </div>
-            <div className="flex items-center justify-between mt-1.5 sm:mt-2 gap-2">
-              <div className="flex items-center gap-1 flex-shrink-0">
-                {getEncryptionIcon()}
-                <span className={`text-xs ${isOwn ? 'text-blue-100' : 'text-gray-400'} hidden sm:inline`}>
-                  {decryptionError ? 'Cannot decrypt' : 'Encrypted'}
-                </span>
-              </div>
-              <span className={`text-xs ${isOwn ? 'text-blue-100' : 'text-gray-400'} flex-shrink-0`}>
+            
+            <div className="flex items-center justify-end mt-1.5 gap-2 opacity-70 group-hover:opacity-100 transition-opacity">
+               {decryptionError && (
+                 <div className="flex items-center gap-1 text-yellow-500/80">
+                   <AlertCircle className="w-3 h-3" />
+                 </div>
+               )}
+               {!decryptionError && (
+                 <div title="End-to-end encrypted">
+                    <ShieldCheck className={`w-3 h-3 ${isOwn ? 'text-blue-200' : 'text-emerald-400'}`} />
+                 </div>
+               )}
+              <span className={`text-[10px] font-medium ${isOwn ? 'text-blue-100' : 'text-gray-400'}`}>
                 {formatTime(message.timestamp)}
               </span>
             </div>

@@ -3,6 +3,12 @@ import { Helmet } from 'react-helmet-async';
 import { Layout } from '../components/Layout';
 import { DonationButton } from '../components/DonationButton';
 
+// import team images
+import prathamimg from '../../public/image/pratham_kumar.png';
+import pallaviimg from '../../public/image/pallavi_kumari.png';
+import monikaimg from '../../public/image/monika_agrawal.png';
+import Aryaimg from '../../public/image/arya.png';
+
 const AboutUs = () => {
     return (
         <Layout>
@@ -12,123 +18,133 @@ const AboutUs = () => {
                 <meta name="keywords" content="about securechat, open source encrypted chat, free secure messaging, privacy-focused chat, secure chat developer, encrypted messaging project" />
                 <link rel="canonical" href="https://securechat.vercel.app/about" />
             </Helmet>
-            <div className="text-white py-16 px-4">
+            <div className="min-h-screen text-white py-20 px-4 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-[#0a0a0a] to-black">
                 {/* Header */}
-                <div className="max-w-7xl mx-auto text-center mb-16 animate-fade-in">
-                    <div className="inline-block mb-6">
-                        <Heart className="w-20 h-20 text-red-400 mx-auto animate-pulse" />
+                <div className="max-w-7xl mx-auto text-center mb-24 animate-fade-in relative z-10">
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -z-10 animate-pulse"></div>
+                    <div className="inline-block mb-8 relative">
+                         <div className="absolute inset-0 bg-red-500/20 blur-xl rounded-full animate-pulse"></div>
+                        <Heart className="w-24 h-24 text-red-500 mx-auto relative z-10 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]" />
                     </div>
-                    <h1 className="text-5xl md:text-6xl font-bold mb-6">
-                        <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient" style={{ backgroundSize: '200% 200%' }}>
+                    <h1 className="text-6xl md:text-7xl font-bold mb-8 tracking-tight">
+                        <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
                             About SecureChat
                         </span>
                     </h1>
-                    <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-                        An open-source project making encrypted messaging simple and accessible
+                    <p className="text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed font-light">
+                        Redefining privacy with open-source encrypted messaging that's simple, secure, and free.
                     </p>
                 </div>
 
                 {/* Mission Section */}
-                <div className="max-w-6xl mx-auto mb-16">
-                    <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-12 border border-white/20 hover:border-white/30 transition-all duration-300 shadow-xl hover:shadow-2xl">
-                        <h2 className="text-4xl font-bold mb-6 text-center bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                <div className="max-w-7xl mx-auto mb-24">
+                    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 md:p-12 shadow-2xl">
+                         <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                        <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center text-white">
                             Why We Built This
                         </h2>
-                        <p className="text-xl text-gray-300 text-center mb-8 leading-relaxed">
-                            Most encrypted messaging apps require phone numbers, email addresses, or extensive permissions.
-                            We built SecureChat to prove that you can have strong encryption without giving up your privacy
-                            or personal data.
-                        </p>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-                            <div className="group text-center transform hover:scale-105 transition-all duration-300">
-                                <div className="inline-block p-4 bg-blue-500/20 rounded-2xl mb-4 group-hover:bg-blue-500/30 transition-colors">
-                                    <Shield className="w-16 h-16 text-blue-400" />
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 relative z-10">
+                            <div className="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
+                                <div className="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                    <Shield className="w-8 h-8 text-blue-400" />
                                 </div>
-                                <h3 className="text-xl font-bold mb-2">Zero Data Collection</h3>
-                                <p className="text-gray-400">We don't ask for your phone, email, or any personal information</p>
+                                <h3 className="text-2xl font-bold mb-4 text-white">Zero Data Collection</h3>
+                                <p className="text-gray-400 leading-relaxed">
+                                    We believe privacy is a fundamental right. We don't ask for your phone number, email, or any personal details. Just chat.
+                                </p>
                             </div>
-                            <div className="group text-center transform hover:scale-105 transition-all duration-300">
-                                <div className="inline-block p-4 bg-green-500/20 rounded-2xl mb-4 group-hover:bg-green-500/30 transition-colors">
-                                    <Code className="w-16 h-16 text-green-400" />
+
+                            <div className="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
+                                <div className="w-16 h-16 bg-green-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                    <Code className="w-8 h-8 text-green-400" />
                                 </div>
-                                <h3 className="text-xl font-bold mb-2">Fully Transparent</h3>
-                                <p className="text-gray-400">Every line of code is open source and auditable on GitHub</p>
+                                <h3 className="text-2xl font-bold mb-4 text-white">Fully Transparent</h3>
+                                <p className="text-gray-400 leading-relaxed">
+                                    Trust through transparency. Our entire codebase is open-source and available on GitHub for anyone to audit and verify.
+                                </p>
                             </div>
-                            <div className="group text-center transform hover:scale-105 transition-all duration-300">
-                                <div className="inline-block p-4 bg-purple-500/20 rounded-2xl mb-4 group-hover:bg-purple-500/30 transition-colors">
-                                    <Users className="w-16 h-16 text-purple-400" />
+
+                            <div className="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
+                                <div className="w-16 h-16 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                    <Users className="w-8 h-8 text-purple-400" />
                                 </div>
-                                <h3 className="text-xl font-bold mb-2">Actually Free</h3>
-                                <p className="text-gray-400">No premium tiers, no ads, no hidden costs</p>
+                                <h3 className="text-2xl font-bold mb-4 text-white">Actually Free</h3>
+                                <p className="text-gray-400 leading-relaxed">
+                                    Software should empower people, not exploit them. No premium tiers, no ads, no hidden costs. Just free, secure communication.
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Story Section */}
-                <div className="max-w-6xl mx-auto mb-16">
-                    <h2 className="text-4xl font-bold mb-8 text-center">How It Started</h2>
-                    <div className="bg-white/10 backdrop-blur-lg rounded-xl p-8 border border-white/20">
-                        <div className="prose prose-invert max-w-none">
-                            <p className="text-lg text-gray-300 mb-4">
-                                SecureChat began as a college project to learn how end-to-end encryption really works.
-                                After weeks of reading cryptography papers and studying Signal's protocol, I wanted to
-                                build something practical that others could use and learn from.
-                            </p>
-                            <p className="text-lg text-gray-300 mb-4">
-                                The goal was simple: create a messaging app where:
-                            </p>
-                            <ul className="space-y-2 text-gray-300 mb-4">
-                                <li className="flex items-start">
-                                    <span className="text-blue-400 mr-2">•</span>
-                                    <span><strong>Messages are encrypted on your device</strong> before being sent</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-blue-400 mr-2">•</span>
-                                    <span><strong>The server can't read your messages</strong> even if it wanted to</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-blue-400 mr-2">•</span>
-                                    <span><strong>You can start chatting instantly</strong> without creating an account</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-blue-400 mr-2">•</span>
-                                    <span><strong>Everything is temporary</strong> and disappears when you close the tab</span>
-                                </li>
-                                <li className="flex items-start">
-                                    <span className="text-blue-400 mr-2">•</span>
-                                    <span><strong>The code is educational</strong> so others can learn from it</span>
-                                </li>
-                            </ul>
-                            <p className="text-lg text-gray-300">
-                                What started as a learning project turned into something people actually use. It's not perfect,
-                                but it demonstrates that privacy-focused tools don't need to be complicated.
-                            </p>
+                <div className="max-w-5xl mx-auto mb-24">
+                    <div className="relative">
+                        <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 via-purple-500 to-transparent opacity-50 hidden md:block"></div>
+                        <div className="md:pl-12">
+                            <h2 className="text-4xl font-bold mb-8 flex items-center gap-4">
+                                <span className="text-blue-400">#</span> How It Started
+                            </h2>
+                            <div className="prose prose-lg prose-invert max-w-none text-gray-300">
+                                <p className="text-xl leading-relaxed mb-6">
+                                    SecureChat wasn't built by a corporation. It began as a passionate effective to demystify end-to-end encryption.
+                                    After diving deep into cryptography papers and the Signal protocol, the mission became clear: <span className="text-white font-semibold">build a practical, accessible, and secure messaging tool.</span>
+                                </p>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+                                    <div className="bg-white/5 p-6 rounded-xl border border-white/10">
+                                        <h4 className="font-bold text-white mb-2 flex items-center gap-2">
+                                            <div className="w-2 h-2 rounded-full bg-green-400"></div>
+                                            Client-Side Encryption
+                                        </h4>
+                                        <p className="text-sm">Messages are locked on your device before they ever touch the network.</p>
+                                    </div>
+                                    <div className="bg-white/5 p-6 rounded-xl border border-white/10">
+                                        <h4 className="font-bold text-white mb-2 flex items-center gap-2">
+                                            <div className="w-2 h-2 rounded-full bg-red-400"></div>
+                                            Zero Server Knowledge
+                                        </h4>
+                                        <p className="text-sm">The server is just a courier. It cannot read or understand your messages.</p>
+                                    </div>
+                                    <div className="bg-white/5 p-6 rounded-xl border border-white/10">
+                                        <h4 className="font-bold text-white mb-2 flex items-center gap-2">
+                                            <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
+                                            Ephemeral by Design
+                                        </h4>
+                                        <p className="text-sm">No databases. No history. Everything vanishes when the session ends.</p>
+                                    </div>
+                                    <div className="bg-white/5 p-6 rounded-xl border border-white/10">
+                                        <h4 className="font-bold text-white mb-2 flex items-center gap-2">
+                                            <div className="w-2 h-2 rounded-full bg-blue-400"></div>
+                                            Educational Core
+                                        </h4>
+                                        <p className="text-sm">Code written to be understood, learnt from, and improved by the community.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Technology Stack */}
-                <div className="max-w-6xl mx-auto mb-16">
-                    <h2 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                        Technology Stack
-                    </h2>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div className="max-w-7xl mx-auto mb-24">
+                    <h2 className="text-4xl font-bold mb-12 text-center">Built With Modern Tech</h2>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                         {[
-                            { name: "React 18", color: "from-blue-400 to-cyan-400" },
-                            { name: "TypeScript", color: "from-blue-600 to-blue-400" },
-                            { name: "Node.js", color: "from-green-500 to-green-400" },
-                            { name: "Socket.IO", color: "from-gray-600 to-gray-400" },
-                            { name: "Tailwind CSS", color: "from-teal-400 to-blue-400" },
-                            { name: "Web Crypto API", color: "from-purple-500 to-pink-500" },
-                            { name: "Vite", color: "from-yellow-400 to-orange-400" },
-                            { name: "Express.js", color: "from-gray-500 to-gray-700" }
+                            { name: "React 18", color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
+                            { name: "TypeScript", color: "text-blue-500", bg: "bg-blue-600/10", border: "border-blue-600/20" },
+                            { name: "Node.js", color: "text-green-500", bg: "bg-green-500/10", border: "border-green-500/20" },
+                            { name: "Socket.IO", color: "text-gray-200", bg: "bg-gray-500/10", border: "border-gray-500/20" },
+                            { name: "Tailwind", color: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20" },
+                            { name: "Web Crypto", color: "text-pink-500", bg: "bg-pink-500/10", border: "border-pink-500/20" },
+                            { name: "Vite", color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20" },
+                            { name: "Express", color: "text-white", bg: "bg-white/5", border: "border-white/10" }
                         ].map((tech, idx) => (
                             <div
                                 key={idx}
-                                className="group bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20 text-center hover:scale-105 hover:border-white/40 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-2xl"
+                                className={`group ${tech.bg} backdrop-blur-sm rounded-xl p-6 border ${tech.border} text-center hover:scale-105 transition-all duration-300 cursor-default`}
                             >
-                                <div className={`text-xl font-bold bg-gradient-to-r ${tech.color} bg-clip-text text-transparent`}>
+                                <div className={`text-xl font-bold ${tech.color} group-hover:scale-110 transition-transform duration-300`}>
                                     {tech.name}
                                 </div>
                             </div>
@@ -145,8 +161,8 @@ const AboutUs = () => {
                                 {/* Replaced AR text with image */}
                                 <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-white/20">
                                     <img
-                                        src="https://www.ayushgangwar.tech/assets/logo-Cq2aPbrI.png"
-                                        alt="Arya Logo"
+                                        src= {Aryaimg}
+                                        alt="Arya"
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
@@ -185,6 +201,100 @@ const AboutUs = () => {
                     </div>
                 </div>
 
+                {/* Team Section */}
+                <div className="max-w-6xl mx-auto mb-16">
+                    <h2 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                        Meet Our Team
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {/* Pratham Kumar */}
+                        <div className="group bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:border-white/30 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl text-center">
+                            <div className="mb-6">
+                                <div className="w-32 h-32 rounded-full overflow-hidden border-3 border-blue-400/30 mx-auto mb-4 group-hover:border-blue-400/50 transition-colors">
+                                    <img
+                                        src={prathamimg}
+                                        alt="Pratham Kumar"
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => {
+                                            const target = e.target as HTMLImageElement;
+                                            target.style.display = 'none';
+                                            target.nextElementSibling?.classList.remove('hidden');
+                                        }}
+                                    />
+                                    <div className="hidden w-full h-full bg-gradient-to-br from-blue-500 to-purple-500 items-center justify-center text-2xl font-bold text-white">
+                                        PK
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 className="text-2xl font-bold mb-2 text-white">Pratham Kumar</h3>
+                            <p className="text-blue-400 font-medium mb-4">Team Member</p>
+                            <p className="text-gray-300 text-sm">
+                                Passionate developer contributing to secure communication solutions
+                            </p>
+                        </div>
+
+                        {/* Pallavi Kumari */}
+                        <div className="group bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:border-white/30 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl text-center">
+                            <div className="mb-6">
+                                <div className="w-32 h-32 rounded-full overflow-hidden border-3 border-pink-400/30 mx-auto mb-4 group-hover:border-pink-400/50 transition-colors">
+                                    <img
+                                        src={pallaviimg}
+                                        alt="Pallavi Kumari"
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => {
+                                            const target = e.target as HTMLImageElement;
+                                            target.style.display = 'none';
+                                            target.nextElementSibling?.classList.remove('hidden');
+                                        }}
+                                    />
+                                    <div className="hidden w-full h-full bg-gradient-to-br from-pink-500 to-purple-500 items-center justify-center text-2xl font-bold text-white">
+                                        PK
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 className="text-2xl font-bold mb-2 text-white">Pallavi Kumari</h3>
+                            <p className="text-pink-400 font-medium mb-4">Team Member</p>
+                            <p className="text-gray-300 text-sm">
+                                Dedicated team member focused on user experience and design
+                            </p>
+                        </div>
+
+                        {/* Monika Agrawal */}
+                        <div className="group bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:border-white/30 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl text-center">
+                            <div className="mb-6">
+                                <div className="w-32 h-32 rounded-full overflow-hidden border-3 border-green-400/30 mx-auto mb-4 group-hover:border-green-400/50 transition-colors">
+                                    <img
+                                        src={monikaimg}
+                                        alt="Monika Agrawal"
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => {
+                                            const target = e.target as HTMLImageElement;
+                                            target.style.display = 'none';
+                                            target.nextElementSibling?.classList.remove('hidden');
+                                        }}
+                                    />
+                                    <div className="hidden w-full h-full bg-gradient-to-br from-green-500 to-teal-500 items-center justify-center text-2xl font-bold text-white">
+                                        MA
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 className="text-2xl font-bold mb-2 text-white">Monika Agrawal</h3>
+                            <p className="text-green-400 font-medium mb-4">Team Member</p>
+                            <p className="text-gray-300 text-sm">
+                                Innovative developer working on security and encryption features
+                            </p>
+                        </div>
+                    </div>
+                    
+                    {/* Team Description */}
+                    <div className="mt-12 text-center">
+                        <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+                            Our diverse team brings together different perspectives and skills to create 
+                            a secure, user-friendly messaging platform. Together, we're committed to 
+                            building privacy-focused communication tools for everyone.
+                        </p>
+                    </div>
+                </div>
 
                 {/* Open Source & Support Section - Combined */}
                 <div className="max-w-6xl mx-auto mb-16">

@@ -14,7 +14,7 @@ export const Layout = ({ children, showFooter = true }: LayoutProps) => {
       <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none"></div>
       <div className="relative z-10 flex flex-col min-h-screen">
         <Header />
-        <main className="flex-1">
+        <main className="flex-1 pt-20">
           {children}
         </main>
         {showFooter && <Footer />}

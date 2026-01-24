@@ -52,6 +52,26 @@
 - 📱 **Fully Responsive:** Perfect on desktop, tablet, and mobile
 - 🎨 **Modern UI:** Clean design with glassmorphism effects and Google Fonts
 - 🔗 **Encrypted Session Links:** Secure invite system with time-limited tokens
+- 📱 **Progressive Web App (PWA):** Installable on standard devices, offline support, and app-like experience
+
+### 📱 **Progressive Web App (PWA) Support**
+
+<details>
+<summary><b>🚀 Installable & Offline Ready</b></summary>
+
+**One-Click Installation:**
+- **Desktop/Mobile:** Install the app directly to your home screen or desktop
+- **Native Experience:** Runs in its own window without browser UI elements
+- **Offline Capable:** Core features load instantly even without internet
+- **Auto-Updates:** Seamlessly updates in the background when new features arrive
+
+**Why PWA?**
+- ⚡ **Performance:** Faster load times with efficient caching
+- 🔒 **Security:** Served over HTTPS, leveraging same security model
+- 📱 **Accessibility:** Works across all modern devices and platforms (iOS, Android, Windows, Mac)
+- 📶 **Resilience:** Better handling of poor network conditions
+
+</details>
 
 ### 🚀 **Why This Project Matters**
 

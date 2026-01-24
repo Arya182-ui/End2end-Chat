@@ -1,4 +1,4 @@
-import { Shield, Github, Menu, X, ArrowRight } from 'lucide-react';
+import { Shield, Github } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { DonationButtonCompact } from './DonationButton';
@@ -23,20 +23,20 @@ export const Header = () => {
     }, [location]);
 
     const navLinks = [
-        { path: '/encrypted-chat-features', label: 'Features' },
-        { path: '/security-encryption', label: 'Security' },
-        { path: '/about-securechat', label: 'About' },
+        { path: '/encrypted-chat-features', label: 'Features', external: false },
+        { path: '/security-encryption', label: 'Security', external: false },
+        { path: 'https://privy-chat.onrender.com/', label: 'Video Call', external: true },
+        { path: '/about-securechat', label: 'About', external: false },
     ];
 
     const isActive = (path: string) => location.pathname === path;
 
     return (
         <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
-                scrolled
-                    ? 'bg-black/80 backdrop-blur-xl border-white/10 shadow-lg shadow-black/50'
-                    : 'bg-transparent border-transparent'
-            }`}
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${scrolled
+                ? 'bg-black/80 backdrop-blur-xl border-white/10 shadow-lg shadow-black/50'
+                : 'bg-transparent border-transparent'
+                }`}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
@@ -58,24 +58,35 @@ export const Header = () => {
 
                     {/* Desktop Navigation */}
                     <nav className="hidden md:flex items-center gap-1">
-                         <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-full px-2 py-1.5 flex items-center gap-1 mr-4">
+                        <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-full px-2 py-1.5 flex items-center gap-1 mr-4">
                             {navLinks.map((link) => (
-                                <Link
-                                    key={link.path}
-                                    to={link.path}
-                                    className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                                        isActive(link.path)
+                                link.external ? (
+                                    <a
+                                        key={link.path}
+                                        href={link.path}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-gray-400 hover:text-white hover:bg-white/5"
+                                    >
+                                        {link.label}
+                                    </a>
+                                ) : (
+                                    <Link
+                                        key={link.path}
+                                        to={link.path}
+                                        className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${isActive(link.path)
                                             ? 'text-white bg-white/10 shadow-inner'
                                             : 'text-gray-400 hover:text-white hover:bg-white/5'
-                                    }`}
-                                >
-                                    {link.label}
-                                </Link>
+                                            }`}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                )
                             ))}
                         </div>
-                        
+
                         <div className="flex items-center gap-3 pl-4 border-l border-white/10">
-                             <a
+                            <a
                                 href="https://github.com/Arya182-ui/End2end-Chat"
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -105,33 +116,46 @@ export const Header = () => {
 
             {/* Mobile Navigation Overlay */}
             <div
-                className={`fixed inset-0 bg-black/95 backdrop-blur-2xl transition-all duration-500 md:hidden ${
-                    isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-                }`}
+                className={`fixed inset-0 bg-black/95 backdrop-blur-2xl transition-all duration-500 md:hidden ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+                    }`}
             >
                 <div className="flex flex-col items-center justify-center h-full space-y-8 p-6">
                     {navLinks.map((link, idx) => (
-                        <Link
-                            key={link.path}
-                            to={link.path}
-                            className={`text-2xl font-bold tracking-tight transition-all duration-300 transform ${
-                                isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-                            }`}
-                            style={{ transitionDelay: `${idx * 100}ms` }}
-                        >
-                             <span className={isActive(link.path) ? 'bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent' : 'text-gray-400'}>
-                                {link.label}
-                            </span>
-                        </Link>
+                        link.external ? (
+                            <a
+                                key={link.path}
+                                href={link.path}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`text-2xl font-bold tracking-tight transition-all duration-300 transform ${isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+                                    }`}
+                                style={{ transitionDelay: `${idx * 100}ms` }}
+                            >
+                                <span className="text-gray-400 hover:text-white">
+                                    {link.label}
+                                </span>
+                            </a>
+                        ) : (
+                            <Link
+                                key={link.path}
+                                to={link.path}
+                                className={`text-2xl font-bold tracking-tight transition-all duration-300 transform ${isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+                                    }`}
+                                style={{ transitionDelay: `${idx * 100}ms` }}
+                            >
+                                <span className={isActive(link.path) ? 'bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent' : 'text-gray-400'}>
+                                    {link.label}
+                                </span>
+                            </Link>
+                        )
                     ))}
-                    
-                    <div 
-                         className={`flex flex-col items-center gap-6 mt-8 transition-all duration-300 transform ${
-                            isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-                        }`}
+
+                    <div
+                        className={`flex flex-col items-center gap-6 mt-8 transition-all duration-300 transform ${isMobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+                            }`}
                         style={{ transitionDelay: '300ms' }}
                     >
-                         <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-6">
                             <a
                                 href="https://github.com/Arya182-ui/End2end-Chat"
                                 target="_blank"

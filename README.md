@@ -1,5 +1,5 @@
 # End-to-End Encrypted Chat Application
-
+-----------------------
 <div align="center">
 
 ![E2E Chat](https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=28&pause=1000&color=00D4FF&center=true&vCenter=true&width=700&lines=🔐+End-to-End+Encrypted+Chat;🛡️+Military-Grade+Security;⚡+Real-Time+Anonymous+Messaging;🌐+Zero-Knowledge+Architecture)

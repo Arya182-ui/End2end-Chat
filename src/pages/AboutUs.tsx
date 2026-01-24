@@ -23,7 +23,7 @@ const AboutUs = () => {
                 <div className="max-w-7xl mx-auto text-center mb-24 animate-fade-in relative z-10">
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -z-10 animate-pulse"></div>
                     <div className="inline-block mb-8 relative">
-                         <div className="absolute inset-0 bg-red-500/20 blur-xl rounded-full animate-pulse"></div>
+                        <div className="absolute inset-0 bg-red-500/20 blur-xl rounded-full animate-pulse"></div>
                         <Heart className="w-24 h-24 text-red-500 mx-auto relative z-10 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]" />
                     </div>
                     <h1 className="text-6xl md:text-7xl font-bold mb-8 tracking-tight">
@@ -39,11 +39,11 @@ const AboutUs = () => {
                 {/* Mission Section */}
                 <div className="max-w-7xl mx-auto mb-24">
                     <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 md:p-12 shadow-2xl">
-                         <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
                         <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center text-white">
                             Why We Built This
                         </h2>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 relative z-10">
                             <div className="group p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:-translate-y-2">
                                 <div className="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -161,7 +161,7 @@ const AboutUs = () => {
                                 {/* Replaced AR text with image */}
                                 <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-white/20">
                                     <img
-                                        src= {Aryaimg}
+                                        src={Aryaimg}
                                         alt="Arya"
                                         className="w-full h-full object-cover"
                                     />
@@ -227,10 +227,19 @@ const AboutUs = () => {
                                 </div>
                             </div>
                             <h3 className="text-2xl font-bold mb-2 text-white">Pratham Kumar</h3>
-                            <p className="text-blue-400 font-medium mb-4">Team Member</p>
-                            <p className="text-gray-300 text-sm">
-                                Passionate developer contributing to secure communication solutions
+                            <p className="text-blue-400 font-medium mb-4">Core Developer & Creator of PrivyChat</p>
+                            <p className="text-gray-300 text-sm mb-4">
+                                Passionate developer contributing to secure communication solutions.
                             </p>
+                            <a
+                                href="https://github.com/rajpratham1"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                            >
+                                <Github className="w-5 h-5" />
+                                <span>@rajpratham1</span>
+                            </a>
                         </div>
 
                         {/* Pallavi Kumari */}
@@ -285,14 +294,146 @@ const AboutUs = () => {
                             </p>
                         </div>
                     </div>
-                    
+
                     {/* Team Description */}
                     <div className="mt-12 text-center">
                         <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-                            Our diverse team brings together different perspectives and skills to create 
-                            a secure, user-friendly messaging platform. Together, we're committed to 
+                            Our diverse team brings together different perspectives and skills to create
+                            a secure, user-friendly messaging platform. Together, we're committed to
                             building privacy-focused communication tools for everyone.
                         </p>
+                    </div>
+                </div>
+
+
+
+                {/* Integrated Ecosystem: PrivyChat */}
+                <div className="max-w-6xl mx-auto mb-24">
+                    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 md:p-12 shadow-2xl">
+                        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+
+                        <div className="relative z-10">
+                            <h2 className="text-4xl font-bold mb-8 text-center">
+                                Integrated Ecosystem: <span className="text-purple-400">PrivyChat</span>
+                            </h2>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                                <div>
+                                    <div className="inline-block px-3 py-1 mb-4 rounded-full bg-purple-500/20 text-purple-300 text-sm font-medium border border-purple-500/30">
+                                        Zero-Trace Spy Messenger
+                                    </div>
+                                    <p className="text-lg text-gray-300 mb-6 leading-relaxed">
+                                        We have seamlessly integrated <strong>PrivyChat</strong> to provide secure <strong>Video and Voice Calling</strong> capabilities.
+                                        PrivyChat is an open-source, ultra-secure messaging platform built with a "Zero-Trust" philosophy by <a href="https://github.com/rajpratham1" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 font-semibold transition-colors">Pratham Kumar</a>.
+                                    </p>
+
+                                    <ul className="space-y-4 mb-8">
+                                        {[
+                                            "🎥 RAM-Only Architecture (Zero Data Retention)",
+                                            "📞 HD Video & Voice Calls (WebRTC)",
+                                            "🎭 Stealth Mode & Decoy Calculator",
+                                            "🔒 Military-Grade Encryption (AES-GCM + RSA)"
+                                        ].map((feature, idx) => (
+                                            <li key={idx} className="flex items-center gap-3 text-gray-300">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-purple-400"></div>
+                                                {feature}
+                                            </li>
+                                        ))}
+                                    </ul>
+
+                                    <div className="space-y-4">
+                                        <h4 className="text-white font-semibold flex items-center gap-2">
+                                            <Code className="w-4 h-4 text-gray-400" />
+                                            How to Use
+                                        </h4>
+                                        <p className="text-gray-400 text-sm mb-6">
+                                            Click the <strong>"Video Call"</strong> button in the top navigation bar to access PrivyChat directly.
+                                        </p>
+
+                                        <div className="flex flex-col sm:flex-row gap-4">
+                                            <a
+                                                href="https://privy-chat.onrender.com/"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-lg hover:shadow-purple-500/25"
+                                            >
+                                                <ExternalLink className="w-5 h-5" />
+                                                Launch PrivyChat
+                                            </a>
+                                            <a
+                                                href="https://github.com/rajpratham1"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-white px-6 py-3 rounded-xl font-semibold border border-white/10 transition-all"
+                                            >
+                                                <Github className="w-5 h-5" />
+                                                Developer Profile
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-6">
+                                    {/* Creator Profile Card */}
+                                    <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 text-center transform transition-all hover:scale-105 duration-300">
+                                        <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-purple-400 mx-auto mb-4">
+                                            <img
+                                                src={prathamimg}
+                                                alt="Pratham Kumar"
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => {
+                                                    const target = e.target as HTMLImageElement;
+                                                    target.style.display = 'none';
+                                                    target.nextElementSibling?.classList.remove('hidden');
+                                                }}
+                                            />
+                                            <div className="hidden w-full h-full bg-gradient-to-br from-purple-500 to-indigo-500 items-center justify-center text-xl font-bold text-white">
+                                                PK
+                                            </div>
+                                        </div>
+                                        <h3 className="text-xl font-bold text-white mb-1">Pratham Kumar</h3>
+                                        <p className="text-blue-400 text-sm font-medium mb-3">Core Developer & Creator of PrivyChat</p>
+                                        <p className="text-gray-300 text-xs mb-4">
+                                            Passionate developer contributing to secure communication solutions.
+                                        </p>
+                                        <a
+                                            href="https://github.com/rajpratham1"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
+                                        >
+                                            <Github className="w-4 h-4" />
+                                            <span>@rajpratham1</span>
+                                        </a>
+                                    </div>
+
+
+                                    <div className="bg-black/40 rounded-xl p-6 border border-white/10 backdrop-blur-md">
+                                        <h4 className="text-purple-400 font-bold mb-2">Philosophy</h4>
+                                        <p className="text-gray-400 italic">
+                                            "Privacy is not a crime. It is a fundamental human right."
+                                        </p>
+                                    </div>
+                                    <div className="bg-black/40 rounded-xl p-6 border border-white/10 backdrop-blur-md">
+                                        <h4 className="text-red-400 font-bold mb-2">Zero-Trust</h4>
+                                        <p className="text-gray-400 text-sm">
+                                            We assume the server is compromised, the network is tapped, and the device might be seized.
+                                            That's why PrivyChat operates entirely in RAM.
+                                        </p>
+                                    </div>
+                                    <div className="bg-black/40 rounded-xl p-6 border border-white/10 backdrop-blur-md">
+                                        <h4 className="text-blue-400 font-bold mb-2">Features</h4>
+                                        <div className="flex flex-wrap gap-2">
+                                            {['Video Call', 'Audio Call', 'File Sharing', 'Message Limit', 'Mask Features'].map((tag) => (
+                                                <span key={tag} className="px-2 py-1 rounded-md bg-white/5 text-xs text-gray-300 border border-white/10">
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -301,7 +442,7 @@ const AboutUs = () => {
                     <h2 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                         Open Source & Support
                     </h2>
-                    
+
                     {/* Single Combined Box */}
                     <div className="relative group bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-yellow-600/20 backdrop-blur-lg rounded-2xl p-12 border border-white/20 overflow-hidden shadow-2xl">
                         {/* Animated background */}
@@ -376,8 +517,8 @@ const AboutUs = () => {
                         <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
                     </button>
                 </div>
-            </div>
-        </Layout>
+            </div >
+        </Layout >
     );
 };
 

@@ -3,6 +3,7 @@ import { Plus, Users, Copy, Check, Link, Shield, ChevronRight } from 'lucide-rea
 import { v4 as uuidv4 } from 'uuid';
 import { encryptToken } from '../utils/tokenEncryption';
 import { logger } from '../utils/logger';
+import { getServerUrl } from '../config/api';
 
 interface SessionSetupProps {
   onCreateSession: (sessionId: string, displayName: string, isCreator: boolean) => void;
@@ -85,7 +86,12 @@ export const SessionSetup: React.FC<SessionSetupProps> = ({ onCreateSession, onJ
 
   // Reserve session on server before creator joins
   const reserveSessionOnServer = async (sessionId: string, authKey: string, mode: 'private' | 'group' | 'password'): Promise<void> => {
-    const serverUrl = import.meta.env.VITE_WS_URL || 'http://localhost:3001';
+    const serverUrl = getServerUrl();
+    
+    // Temporary debug for production issue
+    if (import.meta.env.PROD) {
+      alert(`Debug: Making request to ${serverUrl}/api/reserve-session`);
+    }
     
     try {
       const response = await fetch(`${serverUrl}/api/reserve-session`, {
@@ -107,10 +113,24 @@ export const SessionSetup: React.FC<SessionSetupProps> = ({ onCreateSession, onJ
       logger.debug(`✅ Session ${sessionId} reserved on server (mode: ${mode})`);
     } catch (error) {
       logger.error('Failed to reserve session:', error);
-      // If error is a network error (server unreachable)
-      if (error instanceof TypeError && error.message && error.message.includes('fetch')) {
-        alert('🚨 Server is currently down (maintenance or offline). Please try again later.');
+      
+      // Handle different types of network errors
+      if (error instanceof TypeError || error instanceof Error) {
+        const errorMessage = error.message.toLowerCase();
+        
+        // DNS resolution failed or server unreachable
+        if (errorMessage.includes('failed to fetch') || 
+            errorMessage.includes('network error') ||
+            errorMessage.includes('name not resolved') ||
+            errorMessage.includes('net::err_name_not_resolved')) {
+          alert('🚨 Server is currently unreachable. Please check:\n• Your internet connection\n• Server URL configuration\n• Server may be down\n\nTry again later or use localhost for local development.');
+        } else {
+          alert('🚨 Server connection failed. Please try again later.');
+        }
+      } else {
+        alert('Failed to reserve session. Please try again.');
       }
+      
       throw error;
     }
   };

@@ -2,9 +2,10 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
+import http from 'http';
+import https from 'https';
 import { translateText, detectLanguage, getSupportedLanguages } from './services/translation.js';
 import { moderateContent, analyzeSentiment, generateSmartReplies } from './services/moderation.js';
-import { saveSessionMetadata, updateUserPresence, removeUserPresence } from './services/firebaseAdmin.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -15,19 +16,17 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 const logger = {
   log: (...args) => {
-    if (!IS_PRODUCTION || DEBUG) {
-      console.log(...args);
-    }
+    // Always log in Railway for debugging
+    console.log(...args);
   },
   debug: (...args) => {
-    if (DEBUG) {
+    if (DEBUG || process.env.RAILWAY_ENVIRONMENT_ID) {
       console.log('[DEBUG]', ...args);
     }
   },
   warn: (...args) => {
-    if (!IS_PRODUCTION || DEBUG) {
-      console.warn(...args);
-    }
+    // Always log warnings
+    console.warn(...args);
   },
   error: (...args) => {
     // Always log errors
@@ -42,6 +41,8 @@ const logger = {
 // Allowed origins
 const allowedOrigins = [
   'https://end2end-chat.vercel.app',
+  'https://chatend2end.vercel.app',
+  'https://chatend2end-mkq1th9de-chatbots-projects-5ba239b7.vercel.app',
   process.env.CLIENT_URL
 ].filter(Boolean);
 
@@ -51,7 +52,25 @@ app.use(cors({
     // Allow requests with no origin (mobile apps, Postman, etc.)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.some(allowed => origin.startsWith(allowed))) {
+    // Check exact matches first
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    }
+    
+    // Check pattern matches for Vercel deployments
+    const vercelPatterns = [
+      /^https:\/\/chatend2end.*\.vercel\.app$/,
+      /^https:\/\/end2end-chat.*\.vercel\.app$/,
+      /^https:\/\/.*chatbots-projects.*\.vercel\.app$/
+    ];
+    
+    const isVercelDomain = vercelPatterns.some(pattern => pattern.test(origin));
+    if (isVercelDomain) {
+      return callback(null, true);
+    }
+    
+    // Check startsWith matches
+    if (allowedOrigins.some(allowed => origin.startsWith(allowed))) {
       callback(null, true);
     } else {
       // In production, still allow but log it
@@ -810,18 +829,6 @@ app.post('/api/smart-replies', async (req, res) => {
   }
 });
 
-httpServer.listen(PORT, '0.0.0.0', () => {
-  logger.log(`🚀 WebSocket server running on port ${PORT}`);
-  logger.log(`📡 Accepting connections from: ${allowedOrigins.join(', ')}`);
-  logger.log(`🌐 Google Technologies integration enabled`);
-  logger.log(`   - Translation API endpoints available`);
-  logger.log(`   - Gemini AI moderation endpoints available`);
-  logger.log(`   - Firebase Admin SDK initialized`);
-}).on('error', (err) => {
-  logger.error('Failed to start server:', err);
-  process.exit(1);
-});
-
 // Graceful shutdown handling
 process.on('SIGTERM', () => {
   logger.log('SIGTERM received, closing server gracefully...');
@@ -841,13 +848,23 @@ process.on('SIGINT', () => {
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (err) => {
-  logger.error('Uncaught exception:', err);
+  logger.error('❌ UNCAUGHT EXCEPTION:', err);
+  logger.error('Stack:', err.stack);
   process.exit(1);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  logger.error('Unhandled rejection at:', promise, 'reason:', reason);
+  logger.error('❌ UNHANDLED REJECTION at:', promise, 'reason:', reason);
+  logger.error('Stack:', reason?.stack);
 });
+
+// Environment validation for Railway
+logger.info('🔍 Environment Check:');
+logger.info(`- NODE_ENV: ${process.env.NODE_ENV}`);
+logger.info(`- PORT: ${PORT}`);
+logger.info(`- IS_PRODUCTION: ${IS_PRODUCTION}`);
+logger.info(`- Railway Environment: ${process.env.RAILWAY_ENVIRONMENT_ID ? 'YES' : 'NO'}`);
+logger.info(`- Firebase Project: ${process.env.FIREBASE_PROJECT_ID || 'NOT SET'}`);
 
 // Start the server
 httpServer.listen(PORT, '0.0.0.0', () => {
@@ -856,6 +873,61 @@ httpServer.listen(PORT, '0.0.0.0', () => {
   logger.log(`📡 WebSocket server ready for connections`);
   logger.log(`🏥 Health check available at /health`);
   logger.log(`⚡ Keep-alive endpoint at /ping`);
+  
+  // Auto health check every 2 minutes to prevent server sleep
+  if (IS_PRODUCTION) {
+    setInterval(async () => {
+      try {
+        const serverUrl = process.env.RAILWAY_STATIC_URL || 
+                         process.env.RENDER_EXTERNAL_URL || 
+                         'https://end2end-chat.onrender.com';
+        
+        // Simple HTTP request to keep server alive
+        const url = new URL(`${serverUrl}/health`);
+        const client = url.protocol === 'https:' ? https : http;
+        
+        const options = {
+          hostname: url.hostname,
+          port: url.port,
+          path: url.pathname,
+          method: 'GET',
+          timeout: 10000
+        };
+        
+        const req = client.request(options, (res) => {
+          let data = '';
+          res.on('data', (chunk) => data += chunk);
+          res.on('end', () => {
+            try {
+              const response = JSON.parse(data);
+              if (response.status === 'ok') {
+                logger.debug('✅ Auto health check successful');
+              } else {
+                logger.warn('⚠️ Auto health check failed:', response);
+              }
+            } catch (e) {
+              logger.debug('✅ Auto health check completed');
+            }
+          });
+        });
+        
+        req.on('error', (error) => {
+          logger.error('❌ Auto health check error:', error.message);
+        });
+        
+        req.on('timeout', () => {
+          logger.warn('⚠️ Auto health check timeout');
+          req.destroy();
+        });
+        
+        req.end();
+      } catch (error) {
+        logger.error('❌ Auto health check setup error:', error.message);
+      }
+    }, 2 * 60 * 1000); // Every 2 minutes
+    
+    logger.log('⏰ Auto health check started (every 2 minutes)');
+  }
 }).on('error', (err) => {
   logger.error('❌ Server failed to start:', err);
   process.exit(1);

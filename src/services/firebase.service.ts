@@ -34,7 +34,6 @@ export class FirebaseService {
    */
   async saveSessionMetadata(sessionId: string, metadata: Partial<SessionMetadata>): Promise<boolean> {
     if (isDemoMode || !this.database) {
-      console.log('🎭 DEMO: Would save session metadata:', sessionId);
       return true;
     }
 
@@ -45,10 +44,10 @@ export class FirebaseService {
         sessionId,
         lastActivity: Date.now()
       });
-      console.log('✅ Session metadata saved to Firebase');
+      // Session metadata saved
       return true;
     } catch (error) {
-      console.error('❌ Error saving session metadata:', error);
+      logger.error('Error saving session metadata:', error);
       return false;
     }
   }

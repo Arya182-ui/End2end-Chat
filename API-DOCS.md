@@ -30,7 +30,7 @@ End2End Chat uses a hybrid architecture combining **WebSocket** for real-time me
 ```typescript
 // WebSocket Connection
 const wsUrl = process.env.NODE_ENV === 'production' 
-  ? 'wss://end2end-chat-server.railway.app'
+  ? 'wss://end2end-chat.onrender.com'
   : 'ws://localhost:3001';
 
 const socket = new WebSocket(wsUrl);

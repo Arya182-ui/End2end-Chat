@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { initAdSense } from './AdSense';
 import { Cookie, X, Settings } from 'lucide-react';
 
 export const CookieConsent = () => {
@@ -37,14 +38,6 @@ export const CookieConsent = () => {
       }
       gtag('js', new Date());
       gtag('config', gaId);
-    }
-  };
-
-  const initAdSense = () => {
-    try {
-      ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
-    } catch (e) {
-      console.error('AdSense error:', e);
     }
   };
 

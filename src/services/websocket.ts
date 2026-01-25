@@ -78,8 +78,11 @@ export class WebSocketService {
   }
 
   private initializeSocket() {
-    // Connect to WebSocket server
-    const serverUrl = import.meta.env.VITE_WS_URL || 'http://localhost:3001';
+    // Connect to WebSocket server with fallback
+    const envUrl = import.meta.env.VITE_WS_URL;
+    const serverUrl = envUrl && envUrl !== 'undefined' && envUrl.startsWith('http') 
+      ? envUrl 
+      : 'https://end2end-chat.onrender.com';
     
     this.socket = io(serverUrl, {
       transports: ['websocket', 'polling'],

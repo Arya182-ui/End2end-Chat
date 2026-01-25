@@ -26,7 +26,6 @@ let database: Database | null = null;
  */
 export const initializeFirebase = (): { app: FirebaseApp | null; auth: Auth | null; database: Database | null } => {
   if (isDemoMode) {
-    console.log('🎭 Firebase running in DEMO MODE - no real Firebase connection');
     return { app: null, auth: null, database: null };
   }
 
@@ -35,12 +34,10 @@ export const initializeFirebase = (): { app: FirebaseApp | null; auth: Auth | nu
       app = initializeApp(firebaseConfig);
       auth = getAuth(app);
       database = getDatabase(app);
-      console.log('✅ Firebase initialized successfully');
     }
     return { app, auth, database };
   } catch (error) {
-    console.error('❌ Firebase initialization error:', error);
-    console.log('🎭 Falling back to DEMO MODE');
+    // Fallback to demo mode on error
     return { app: null, auth: null, database: null };
   }
 };
@@ -67,7 +64,7 @@ export const signInAnonymouslyToFirebase = async (): Promise<{ uid: string; isAn
       isAnonymous: userCredential.user.isAnonymous
     };
   } catch (error) {
-    console.error('❌ Anonymous sign-in error:', error);
+    // Silent fail in production
     return null;
   }
 };

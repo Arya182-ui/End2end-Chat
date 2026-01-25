@@ -6,7 +6,6 @@ import http from 'http';
 import https from 'https';
 import { translateText, detectLanguage, getSupportedLanguages } from './services/translation.js';
 import { moderateContent, analyzeSentiment, generateSmartReplies } from './services/moderation.js';
-import { saveSessionMetadata, updateUserPresence, removeUserPresence } from './services/firebaseAdmin.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -42,6 +41,8 @@ const logger = {
 // Allowed origins
 const allowedOrigins = [
   'https://end2end-chat.vercel.app',
+  'https://chatend2end.vercel.app',
+  'https://chatend2end-mkq1th9de-chatbots-projects-5ba239b7.vercel.app',
   process.env.CLIENT_URL
 ].filter(Boolean);
 
@@ -51,7 +52,25 @@ app.use(cors({
     // Allow requests with no origin (mobile apps, Postman, etc.)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.some(allowed => origin.startsWith(allowed))) {
+    // Check exact matches first
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    }
+    
+    // Check pattern matches for Vercel deployments
+    const vercelPatterns = [
+      /^https:\/\/chatend2end.*\.vercel\.app$/,
+      /^https:\/\/end2end-chat.*\.vercel\.app$/,
+      /^https:\/\/.*chatbots-projects.*\.vercel\.app$/
+    ];
+    
+    const isVercelDomain = vercelPatterns.some(pattern => pattern.test(origin));
+    if (isVercelDomain) {
+      return callback(null, true);
+    }
+    
+    // Check startsWith matches
+    if (allowedOrigins.some(allowed => origin.startsWith(allowed))) {
       callback(null, true);
     } else {
       // In production, still allow but log it

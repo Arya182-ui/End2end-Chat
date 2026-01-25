@@ -22,7 +22,7 @@
 
 ### **Live URLs**
 - **🚀 Frontend:** [https://chatend2end.vercel.app](https://chatend2end.vercel.app)
-- **⚡ Backend:** [https://end2end-chat-server.railway.app](https://end2end-chat-server.railway.app)
+- **⚡ Backend:** [https://end2end-chat.onrender.com](https://end2end-chat.onrender.com)
 - **📊 Status:** [https://status.end2endchat.com](https://status.end2endchat.com) *(Coming Soon)*
 
 ---
@@ -51,7 +51,7 @@ VITE_FIREBASE_STORAGE_BUCKET=end2end-chat-prod.appspot.com
 VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
 VITE_FIREBASE_APP_ID=1:123456789:web:abcdefghijk
 VITE_GEMINI_API_KEY=AIzaSyXXXXXXXXXXXXXXXXXXXXXXXX
-VITE_WEBSOCKET_URL=wss://end2end-chat-server.railway.app
+VITE_WEBSOCKET_URL=wss://end2end-chat.onrender.com
 VITE_APP_ENV=production
 ```
 
@@ -72,7 +72,7 @@ VITE_APP_ENV=production
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "https://end2end-chat-server.railway.app/api/$1"
+      "dest": "https://end2end-chat.onrender.com/api/$1"
     },
     {
       "src": "/(.*)",
@@ -118,7 +118,7 @@ VITE_APP_ENV=production
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' wss://end2end-chat-server.railway.app https://firestore.googleapis.com https://generativelanguage.googleapis.com"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' wss://end2end-chat.onrender.com https://firestore.googleapis.com https://generativelanguage.googleapis.com"
         }
       ]
     }
@@ -353,7 +353,7 @@ const csp = {
   ],
   "connect-src": [
     "'self'",
-    "wss://end2end-chat-server.railway.app",
+    "wss://end2end-chat.onrender.com",
     "https://firestore.googleapis.com",
     "https://generativelanguage.googleapis.com",
     "https://translation.googleapis.com"
@@ -624,8 +624,8 @@ const environments: Record<string, Environment> = {
   
   production: {
     name: 'production',
-    apiUrl: 'https://end2end-chat-server.railway.app',
-    wsUrl: 'wss://end2end-chat-server.railway.app',
+    apiUrl: 'https://end2end-chat.onrender.com',
+    wsUrl: 'wss://end2end-chat.onrender.com',
     firebase: {
       projectId: 'end2end-chat-prod',
       apiKey: process.env.VITE_FIREBASE_API_KEY!
@@ -707,10 +707,10 @@ targetMemoryPercent = 80
 npm install -g artillery
 
 # Test WebSocket connections
-artillery quick --count 100 --num 10 wss://end2end-chat-server.railway.app
+artillery quick --count 100 --num 10 wss://end2end-chat.onrender.com
 
 # Test HTTP endpoints
-artillery quick --count 1000 --num 50 https://end2end-chat-server.railway.app/health
+artillery quick --count 1000 --num 50 https://end2end-chat.onrender.com/health
 ```
 
 ---

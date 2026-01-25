@@ -107,10 +107,24 @@ export const SessionSetup: React.FC<SessionSetupProps> = ({ onCreateSession, onJ
       logger.debug(`✅ Session ${sessionId} reserved on server (mode: ${mode})`);
     } catch (error) {
       logger.error('Failed to reserve session:', error);
-      // If error is a network error (server unreachable)
-      if (error instanceof TypeError && error.message && error.message.includes('fetch')) {
-        alert('🚨 Server is currently down (maintenance or offline). Please try again later.');
+      
+      // Handle different types of network errors
+      if (error instanceof TypeError || error instanceof Error) {
+        const errorMessage = error.message.toLowerCase();
+        
+        // DNS resolution failed or server unreachable
+        if (errorMessage.includes('failed to fetch') || 
+            errorMessage.includes('network error') ||
+            errorMessage.includes('name not resolved') ||
+            errorMessage.includes('net::err_name_not_resolved')) {
+          alert('🚨 Server is currently unreachable. Please check:\n• Your internet connection\n• Server URL configuration\n• Server may be down\n\nTry again later or use localhost for local development.');
+        } else {
+          alert('🚨 Server connection failed. Please try again later.');
+        }
+      } else {
+        alert('Failed to reserve session. Please try again.');
       }
+      
       throw error;
     }
   };

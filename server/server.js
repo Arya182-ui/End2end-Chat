@@ -810,18 +810,6 @@ app.post('/api/smart-replies', async (req, res) => {
   }
 });
 
-httpServer.listen(PORT, '0.0.0.0', () => {
-  logger.log(`🚀 WebSocket server running on port ${PORT}`);
-  logger.log(`📡 Accepting connections from: ${allowedOrigins.join(', ')}`);
-  logger.log(`🌐 Google Technologies integration enabled`);
-  logger.log(`   - Translation API endpoints available`);
-  logger.log(`   - Gemini AI moderation endpoints available`);
-  logger.log(`   - Firebase Admin SDK initialized`);
-}).on('error', (err) => {
-  logger.error('Failed to start server:', err);
-  process.exit(1);
-});
-
 // Graceful shutdown handling
 process.on('SIGTERM', () => {
   logger.log('SIGTERM received, closing server gracefully...');

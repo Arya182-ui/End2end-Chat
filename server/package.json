@@ -1,6 +1,6 @@
 {
   "name": "end2end-chat-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "WebSocket server for End2End encrypted chat",
   "main": "server.js",
   "type": "module",

@@ -634,7 +634,18 @@ app.get('/', (req, res) => {
     service: 'End2End Chat Server',
     uptime: process.uptime(),
     activeSessions: sessions.size,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    port: PORT,
+    environment: IS_PRODUCTION ? 'production' : 'development'
+  });
+});
+
+// Keep Railway alive - prevent sleeping
+app.get('/ping', (req, res) => {
+  res.json({ 
+    ping: 'pong',
+    timestamp: Date.now(),
+    uptime: process.uptime()
   });
 });
 
@@ -836,5 +847,17 @@ process.on('uncaughtException', (err) => {
 
 process.on('unhandledRejection', (reason, promise) => {
   logger.error('Unhandled rejection at:', promise, 'reason:', reason);
+});
+
+// Start the server
+httpServer.listen(PORT, '0.0.0.0', () => {
+  logger.log(`🚀 End2End Chat Server running on port ${PORT}`);
+  logger.log(`🌐 Environment: ${IS_PRODUCTION ? 'production' : 'development'}`);
+  logger.log(`📡 WebSocket server ready for connections`);
+  logger.log(`🏥 Health check available at /health`);
+  logger.log(`⚡ Keep-alive endpoint at /ping`);
+}).on('error', (err) => {
+  logger.error('❌ Server failed to start:', err);
+  process.exit(1);
 });
 

@@ -208,8 +208,8 @@ const AboutUs = () => {
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {/* Pratham Kumar */}
-                        <div className="group bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:border-white/30 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl text-center">
-                            <div className="mb-6">
+                        <div className="group bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:border-white/30 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl text-center flex flex-col h-full min-h-[400px]">
+                            <div className="mb-6 flex-shrink-0">
                                 <div className="w-32 h-32 rounded-full overflow-hidden border-3 border-blue-400/30 mx-auto mb-4 group-hover:border-blue-400/50 transition-colors">
                                     <img
                                         src={prathamimg}
@@ -226,25 +226,29 @@ const AboutUs = () => {
                                     </div>
                                 </div>
                             </div>
-                            <h3 className="text-2xl font-bold mb-2 text-white">Pratham Kumar</h3>
-                            <p className="text-blue-400 font-medium mb-4">Core Developer & Creator of PrivyChat</p>
-                            <p className="text-gray-300 text-sm mb-4">
-                                Passionate developer contributing to secure communication solutions.
-                            </p>
-                            <a
-                                href="https://github.com/rajpratham1"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
-                            >
-                                <Github className="w-5 h-5" />
-                                <span>@rajpratham1</span>
-                            </a>
+                            <div className="flex flex-col flex-grow">
+                                <h3 className="text-2xl font-bold mb-2 text-white">Pratham Kumar</h3>
+                                <p className="text-blue-400 font-medium mb-4">Core Developer & Creator of PrivyChat</p>
+                                <p className="text-gray-300 text-sm mb-6 flex-grow">
+                                    Passionate developer contributing to secure communication solutions and open-source projects.
+                                </p>
+                                <div className="flex justify-center mt-auto">
+                                    <a
+                                        href="https://github.com/rajpratham1"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                                    >
+                                        <Github className="w-5 h-5" />
+                                        <span>@rajpratham1</span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
 
                         {/* Pallavi Kumari */}
-                        <div className="group bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:border-white/30 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl text-center">
-                            <div className="mb-6">
+                        <div className="group bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:border-white/30 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl text-center flex flex-col h-full min-h-[400px]">
+                            <div className="mb-6 flex-shrink-0">
                                 <div className="w-32 h-32 rounded-full overflow-hidden border-3 border-pink-400/30 mx-auto mb-4 group-hover:border-pink-400/50 transition-colors">
                                     <img
                                         src={pallaviimg}
@@ -261,16 +265,29 @@ const AboutUs = () => {
                                     </div>
                                 </div>
                             </div>
-                            <h3 className="text-2xl font-bold mb-2 text-white">Pallavi Kumari</h3>
-                            <p className="text-pink-400 font-medium mb-4">Team Member</p>
-                            <p className="text-gray-300 text-sm">
-                                Dedicated team member focused on user experience and design
-                            </p>
+                            <div className="flex flex-col flex-grow">
+                                <h3 className="text-2xl font-bold mb-2 text-white">Pallavi Kumari</h3>
+                                <p className="text-pink-400 font-medium mb-4">Team Member</p>
+                                <p className="text-gray-300 text-sm mb-6 flex-grow">
+                                    Dedicated team member focused on user experience and design with attention to detail.
+                                </p>
+                                <div className="flex justify-center mt-auto">
+                                    <a
+                                        href="https://github.com/pallavi0812"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                                    >
+                                        <Github className="w-5 h-5" />
+                                        <span>@pallavi0812</span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
 
                         {/* Monika Agrawal */}
-                        <div className="group bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:border-white/30 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl text-center">
-                            <div className="mb-6">
+                        <div className="group bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:border-white/30 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl text-center flex flex-col h-full min-h-[400px]">
+                            <div className="mb-6 flex-shrink-0">
                                 <div className="w-32 h-32 rounded-full overflow-hidden border-3 border-green-400/30 mx-auto mb-4 group-hover:border-green-400/50 transition-colors">
                                     <img
                                         src={monikaimg}
@@ -287,11 +304,24 @@ const AboutUs = () => {
                                     </div>
                                 </div>
                             </div>
-                            <h3 className="text-2xl font-bold mb-2 text-white">Monika Agrawal</h3>
-                            <p className="text-green-400 font-medium mb-4">Team Member</p>
-                            <p className="text-gray-300 text-sm">
-                                Innovative developer working on security and encryption features
-                            </p>
+                            <div className="flex flex-col flex-grow">
+                                <h3 className="text-2xl font-bold mb-2 text-white">Monika Agrawal</h3>
+                                <p className="text-green-400 font-medium mb-4">Team Member</p>
+                                <p className="text-gray-300 text-sm mb-6 flex-grow">
+                                    Innovative developer working on security and encryption features with creative solutions.
+                                </p>
+                                <div className="flex justify-center mt-auto">
+                                    <a
+                                        href="https://github.com/iamcodermonika26"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                                    >
+                                        <Github className="w-5 h-5" />
+                                        <span>@iamcodermonika26</span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -360,15 +390,6 @@ const AboutUs = () => {
                                                 <ExternalLink className="w-5 h-5" />
                                                 Launch PrivyChat
                                             </a>
-                                            <a
-                                                href="https://github.com/rajpratham1"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-white px-6 py-3 rounded-xl font-semibold border border-white/10 transition-all"
-                                            >
-                                                <Github className="w-5 h-5" />
-                                                Developer Profile
-                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -412,13 +433,6 @@ const AboutUs = () => {
                                         <h4 className="text-purple-400 font-bold mb-2">Philosophy</h4>
                                         <p className="text-gray-400 italic">
                                             "Privacy is not a crime. It is a fundamental human right."
-                                        </p>
-                                    </div>
-                                    <div className="bg-black/40 rounded-xl p-6 border border-white/10 backdrop-blur-md">
-                                        <h4 className="text-red-400 font-bold mb-2">Zero-Trust</h4>
-                                        <p className="text-gray-400 text-sm">
-                                            We assume the server is compromised, the network is tapped, and the device might be seized.
-                                            That's why PrivyChat operates entirely in RAM.
                                         </p>
                                     </div>
                                     <div className="bg-black/40 rounded-xl p-6 border border-white/10 backdrop-blur-md">

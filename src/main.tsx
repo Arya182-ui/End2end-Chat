@@ -1,4 +1,6 @@
 import { StrictMode, useEffect } from 'react';
+import RedirectToPrivy from './pages/RedirectToPrivy.tsx';
+
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
@@ -22,6 +24,20 @@ function ScrollToTop() {
   return null;
 }
 
+// import { registerSW } from 'virtual:pwa-register';
+
+// // Register PWA service worker
+// const updateSW = registerSW({
+//   onNeedRefresh() {
+//     if (confirm('New content available. Reload?')) {
+//       updateSW(true);
+//     }
+//   },
+//   onOfflineReady() {
+//     console.log('App is ready to work offline');
+//   },
+// });
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <HelmetProvider>
@@ -35,7 +51,8 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/project-overview" element={<Abstract />} />
           <Route path="/privacy-policy" element={<Privacy />} />
           <Route path="/terms-of-service" element={<Terms />} />
-          
+          <Route path="/privychat" element={<RedirectToPrivy />} />
+
           {/* Legacy redirects for SEO */}
           <Route path="/features" element={<Features />} />
           <Route path="/security" element={<Security />} />

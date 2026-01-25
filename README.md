@@ -52,6 +52,26 @@
 - 📱 **Fully Responsive:** Perfect on desktop, tablet, and mobile
 - 🎨 **Modern UI:** Clean design with glassmorphism effects and Google Fonts
 - 🔗 **Encrypted Session Links:** Secure invite system with time-limited tokens
+- 📱 **Progressive Web App (PWA):** Installable on standard devices, offline support, and app-like experience
+
+### 📱 **Progressive Web App (PWA) Support**
+
+<details>
+<summary><b>🚀 Installable & Offline Ready</b></summary>
+
+**One-Click Installation:**
+- **Desktop/Mobile:** Install the app directly to your home screen or desktop
+- **Native Experience:** Runs in its own window without browser UI elements
+- **Offline Capable:** Core features load instantly even without internet
+- **Auto-Updates:** Seamlessly updates in the background when new features arrive
+
+**Why PWA?**
+- ⚡ **Performance:** Faster load times with efficient caching
+- 🔒 **Security:** Served over HTTPS, leveraging same security model
+- 📱 **Accessibility:** Works across all modern devices and platforms (iOS, Android, Windows, Mac)
+- 📶 **Resilience:** Better handling of poor network conditions
+
+</details>
 
 ### 🚀 **Why This Project Matters**
 
@@ -1382,6 +1402,48 @@ git checkout -b security/feature-name
 - Security researchers who provide valuable feedback
 
 </details>
+
+
+---
+
+## 🤝 **Integrated Ecosystem: PrivyChat**
+
+<div align="center">
+
+[![PrivyChat Integration](https://img.shields.io/badge/Integrated_With-PrivyChat-purple?style=for-the-badge&logo=spy&logoColor=white)](https://privy-chat.onrender.com/)
+[![Video Calls](https://img.shields.io/badge/Feature-Video_%26_Voice_Calls-blue?style=for-the-badge&logo=zoom&logoColor=white)](https://privy-chat.onrender.com/)
+[![RAM Only](https://img.shields.io/badge/Security-RAM_Only_Architecture-red?style=for-the-badge&logo=ram&logoColor=white)](https://privy-chat.onrender.com/)
+
+</div>
+
+We have seamlessly integrated **PrivyChat** to provide secure **Video and Voice Calling** capabilities directly within our platform.
+
+### 🎥 **What is PrivyChat?**
+PrivyChat is an open-source, ultra-secure, and ephemeral messaging platform designed for maximum privacy. It operates entirely in **RAM (Random Access Memory)** with a "Zero-Trust" philosophy.
+
+> *"Privacy is not a crime. It is a fundamental human right."*
+
+### 🚀 **Key Integration Features**
+
+| Feature | Description |
+|---------|-------------|
+| 🎥 **Video & Voice Calls** | High-definition Peer-to-Peer (WebRTC) video and audio calls. No server recording. |
+| 🕵️‍♂️ **RAM-Only Architecture** | Data exists only in volatile memory. If the server restarts, 100% of data is lost instantly. |
+| 🎭 **Stealth Features** | **Decoy Calculator Mode**, **Ghost Mode** (blurred messages), and **Browser Panic Button**. |
+| ⚡ **Ephemeral Messaging** | Messages are never stored on a hard drive. Zero-trace forensics. |
+| 🔒 **Spy-Grade Security** | PBKDF2 Key Generation + AES-GCM Message Encryption + HTTPS/WSS Transport. |
+
+### 🛠️ **How to Use Video Calls**
+1. Click the **"Video Call"** link in the navigation header of `SecureChat`.
+2. You will be securely redirected to the **PrivyChat** secure environment.
+3. Your connection is hand-offed to a dedicated, ephemeral video room.
+
+### 🏗️ **Under the Hood**
+- **Zero-Knowledge Server**: The PrivyChat server routes encrypted blobs but cannot read them.
+- **Plausible Deniability**: Features like a "Decoy Vault" redirect to a weather app to hide your activity.
+- **Advanced UI**: Glassmorphism design, Matrix Hacker themes, and Voice Masks (Robot, Monster).
+
+*Powered by [PrivyChat](https://github.com/rajpratham1/PrivyChat) - The Zero-Trace Spy Messenger.*
 
 ---
 

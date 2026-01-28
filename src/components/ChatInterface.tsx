@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Send, Shield, ShieldCheck, Users, X, Key, Image, AlertTriangle, Languages, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect, useRef} from 'react';
+import { Send, Shield, ShieldCheck, Users, X, Key, Image, AlertTriangle, Sparkles, ChevronRight } from 'lucide-react';
 import { WebSocketService, Message, PublicKey } from '../services/websocket';
 import { CryptoService, KeyPair, HybridCryptoService } from '../crypto/encryption';
 import { GroupCryptoService } from '../crypto/groupEncryption';
 import { MessageBubble } from './MessageBubble';
-import { TranslationPanel } from './TranslationPanel';
-import { AIAssistant } from './AIAssistant';
 
 
 interface ChatInterfaceProps {
@@ -48,36 +46,15 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
   
   // Google Technologies Integration
   const [showSidebar, setShowSidebar] = useState(false);
-  const [messageHistory, setMessageHistory] = useState<string[]>([]);
 
   // Advanced Screenshot Protection System
   useEffect(() => {
     let isBlurred = false;
-    let protectionActive = true;
     let suspiciousActivity = 0;
     const maxSuspiciousEvents = 3;
     
     // Comprehensive keyboard blocking
     const handleKeyDown = (e: KeyboardEvent) => {
-      const blockedKeys = [
-        // Common screenshot keys
-        'PrintScreen', 'F12', 
-        // Windows: Win+Shift+S, Win+G, Alt+PrtScn
-        ...(e.key === 's' && e.metaKey && e.shiftKey ? ['s'] : []),
-        ...(e.key === 'g' && e.metaKey ? ['g'] : []),
-        ...(e.key === 'PrintScreen' && e.altKey ? ['PrintScreen'] : []),
-        // Mac: Cmd+Shift+3/4/5/6, Cmd+Ctrl+Shift+3/4
-        ...(e.metaKey && e.shiftKey && ['3', '4', '5', '6'].includes(e.key) ? [e.key] : []),
-        ...(e.metaKey && e.ctrlKey && e.shiftKey && ['3', '4'].includes(e.key) ? [e.key] : []),
-        // Developer tools
-        ...(e.key === 'F12' ? ['F12'] : []),
-        ...(e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase()) ? [e.key] : []),
-        ...(e.ctrlKey && e.key === 'u' ? ['u'] : []),
-        // Print
-        ...(e.ctrlKey && e.key === 'p' ? ['p'] : []),
-        ...(e.metaKey && e.key === 'p' ? ['p'] : [])
-      ];
-
       const shouldBlock = 
         e.key === 'PrintScreen' ||
         (e.ctrlKey && e.key === 'p') ||
@@ -527,17 +504,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
     scrollToBottom();
   }, [messages]);
   
-  // Memoize message history for AI context
-  const recentMessageHistory = useMemo(() => {
-    return messages
-      .slice(-10)
-      .map(msg => msg.originalContent || '')
-      .filter(content => content.length > 0);
-  }, [messages]);
-  
-  useEffect(() => {
-    setMessageHistory(recentMessageHistory);
-  }, [recentMessageHistory]);
+
 
   const initializeChat = async () => {
     try {
@@ -932,16 +899,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
           </div>
         </div>
         <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
-          {/* Google Technologies Toggle */}
-          <button
-            onClick={() => setShowSidebar(!showSidebar)}
-            className="p-1.5 sm:p-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg transition-colors shadow-md flex items-center gap-1.5"
-            title="Google AI Features"
-          >
-            <Sparkles className="w-4 h-4 text-white" />
-            <span className="hidden sm:inline text-white text-xs font-medium">AI</span>
-          </button>
-          
           <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
             {/* Chat Mode Indicator */}
             {chatMode === 'group' ? (
@@ -1002,14 +959,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
-
-
-          {/* AI Assistant */}
-          <AIAssistant
-            messageHistory={messageHistory}
-            onSelectReply={(reply) => setNewMessage(reply)}
-            lastMessage={messages.length > 0 ? messages[messages.length - 1].originalContent : undefined}
-          />
         </div>
       )}
 

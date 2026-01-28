@@ -4,7 +4,7 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import http from 'http';
 import https from 'https';
-import { translateText, detectLanguage, getSupportedLanguages } from './services/translation.js';
+
 import { moderateContent, analyzeSentiment, generateSmartReplies } from './services/moderation.js';
 
 const app = express();
@@ -147,10 +147,7 @@ setInterval(() => {
   
   for (const [sessionId, session] of sessions.entries()) {
     const inactiveTime = now - session.lastActivity;
-    
-    // Delete session if:
-    // 1. No members AND inactive for more than expiry time
-    // 2. OR has members but inactive for more than 2 hours (likely orphaned)
+
     if (
       (session.members.size === 0 && inactiveTime > SESSION_EXPIRY_TIME) ||
       (inactiveTime > SESSION_EXPIRY_TIME * 4) // 2 hours
@@ -236,12 +233,8 @@ io.on('connection', (socket) => {
       session.reserved = false;
       logger.log(`🔑 Session ${actualSessionId} activated by creator`);
       
-      // ✅ Allow creator to join immediately - skip auth validation for creator
-      // Creator can join their own reserved session without waiting for others
     }
-    
-    // If not creator, validate auth key or password
-    // Also skip validation if session is still reserved (waiting for creator to join)
+
     if (!isCreator && session.authKey && !session.reserved) {
       // Check if it's a password-protected room
       if (session.chatMode === 'password' && providedPassword) {
@@ -579,7 +572,6 @@ io.on('connection', (socket) => {
     if (sessionId.includes(':')) {
       actualSessionId = sessionId.split(':')[0];
     }
-    
     const session = getSession(actualSessionId);
     
     if (session) {
@@ -634,12 +626,30 @@ io.on('connection', (socket) => {
   });
 });
 
-// Health check endpoint
+// Health check endpoint with detailed server info
 app.get('/health', (req, res) => {
+  const memoryUsage = process.memoryUsage();
+  const uptime = process.uptime();
+  
   res.json({ 
     status: 'ok', 
     sessions: sessions.size,
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    server: {
+      uptime: Math.floor(uptime),
+      memory: {
+        used: Math.round(memoryUsage.heapUsed / 1024 / 1024), // MB
+        total: Math.round(memoryUsage.heapTotal / 1024 / 1024) // MB
+      },
+      node_version: process.version,
+      platform: process.platform,
+      environment: process.env.NODE_ENV || 'development'
+    },
+    keepAlive: {
+      lastCheck: new Date().toISOString(),
+      interval: '14 minutes',
+      purpose: 'Prevent Render sleep mode'
+    }
   });
 });
 
@@ -659,12 +669,21 @@ app.get('/', (req, res) => {
   });
 });
 
-// Keep Railway alive - prevent sleeping
+// Keep Render alive - prevent sleeping with detailed response
 app.get('/ping', (req, res) => {
+  const now = Date.now();
+  const uptime = process.uptime();
+  
   res.json({ 
     ping: 'pong',
-    timestamp: Date.now(),
-    uptime: process.uptime()
+    timestamp: now,
+    uptime: Math.floor(uptime),
+    formatted_uptime: `${Math.floor(uptime / 3600)}h ${Math.floor((uptime % 3600) / 60)}m`,
+    sessions: sessions.size,
+    memory_mb: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
+    environment: process.env.NODE_ENV || 'development',
+    render_service: process.env.RENDER_SERVICE_ID ? 'active' : 'local',
+    message: '🚀 Server is alive and ready!'
   });
 });
 
@@ -729,54 +748,6 @@ app.get('/health', (req, res) => {
   });
 });
 
-// ============================================
-// Google Technologies API Endpoints
-// ============================================
-
-// Translation API endpoint
-app.post('/api/translate', async (req, res) => {
-  try {
-    const { text, targetLanguage, sourceLanguage } = req.body;
-    
-    if (!text || !targetLanguage) {
-      return res.status(400).json({ error: 'Missing required parameters' });
-    }
-    
-    const translatedText = await translateText(text, targetLanguage, sourceLanguage);
-    res.json({ translatedText });
-  } catch (error) {
-    logger.error('Translation error:', error);
-    res.status(500).json({ error: 'Translation failed' });
-  }
-});
-
-// Language detection endpoint
-app.post('/api/detect-language', async (req, res) => {
-  try {
-    const { text } = req.body;
-    
-    if (!text) {
-      return res.status(400).json({ error: 'Missing text parameter' });
-    }
-    
-    const language = await detectLanguage(text);
-    res.json({ language });
-  } catch (error) {
-    logger.error('Language detection error:', error);
-    res.status(500).json({ error: 'Language detection failed' });
-  }
-});
-
-// Get supported languages
-app.get('/api/languages', async (req, res) => {
-  try {
-    const languages = await getSupportedLanguages();
-    res.json({ languages });
-  } catch (error) {
-    logger.error('Error fetching languages:', error);
-    res.status(500).json({ error: 'Failed to fetch languages' });
-  }
-});
 
 // Content moderation endpoint
 app.post('/api/moderate', async (req, res) => {
@@ -809,23 +780,6 @@ app.post('/api/sentiment', async (req, res) => {
   } catch (error) {
     logger.error('Sentiment analysis error:', error);
     res.status(500).json({ error: 'Sentiment analysis failed' });
-  }
-});
-
-// Smart replies endpoint
-app.post('/api/smart-replies', async (req, res) => {
-  try {
-    const { messageHistory, count } = req.body;
-    
-    if (!messageHistory || !Array.isArray(messageHistory)) {
-      return res.status(400).json({ error: 'Missing or invalid messageHistory parameter' });
-    }
-    
-    const replies = await generateSmartReplies(messageHistory, count || 3);
-    res.json({ replies });
-  } catch (error) {
-    logger.error('Smart replies error:', error);
-    res.status(500).json({ error: 'Smart replies generation failed' });
   }
 });
 
@@ -874,8 +828,10 @@ httpServer.listen(PORT, '0.0.0.0', () => {
   logger.log(`🏥 Health check available at /health`);
   logger.log(`⚡ Keep-alive endpoint at /ping`);
   
-  // Auto health check every 2 minutes to prevent server sleep
+  // Auto health check every 14 minutes to prevent server sleep on Render
   if (IS_PRODUCTION) {
+    const keepAliveInterval = 14 * 60 * 1000; 
+    
     setInterval(async () => {
       try {
         const serverUrl = process.env.RAILWAY_STATIC_URL || 
@@ -924,9 +880,9 @@ httpServer.listen(PORT, '0.0.0.0', () => {
       } catch (error) {
         logger.error('❌ Auto health check setup error:', error.message);
       }
-    }, 2 * 60 * 1000); // Every 2 minutes
+    }, keepAliveInterval);
     
-    logger.log('⏰ Auto health check started (every 2 minutes)');
+    logger.log(`⏰ Auto health check started (every ${keepAliveInterval / 60000} minutes for Render)`);
   }
 }).on('error', (err) => {
   logger.error('❌ Server failed to start:', err);

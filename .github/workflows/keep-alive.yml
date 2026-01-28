@@ -1,0 +1,54 @@
+name: Keep Server Alive
+
+on:
+  schedule:
+    # Run every 14 minutes (0,14,28,42,56 minutes of each hour)
+    # This prevents Render free tier from going to sleep (15 min timeout)
+    - cron: '*/14 * * * *'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Ping Server
+      run: |
+        echo "🏥 Pinging server to keep it alive..."
+        
+        # Try ping endpoint
+        response=$(curl -s -w "%{http_code}" -o response.json "https://end2end-chat.onrender.com/ping" || echo "000")
+        
+        if [ "$response" = "200" ]; then
+          echo "✅ Server is alive! Response:"
+          cat response.json
+          echo ""
+        else
+          echo "⚠️  Ping endpoint failed with status: $response"
+          echo "🔄 Trying health endpoint..."
+          
+          # Try health endpoint as fallback
+          health_response=$(curl -s -w "%{http_code}" -o health.json "https://end2end-chat.onrender.com/health" || echo "000")
+          
+          if [ "$health_response" = "200" ]; then
+            echo "✅ Health endpoint successful! Response:"
+            cat health.json
+            echo ""
+          else
+            echo "❌ Both endpoints failed!"
+            echo "Ping status: $response"
+            echo "Health status: $health_response"
+            exit 1
+          fi
+        fi
+        
+        echo "🎯 Keep-alive completed successfully at $(date)"
+        
+    - name: Log Keep-Alive Stats
+      if: always()
+      run: |
+        echo "📊 Keep-Alive Statistics:"
+        echo "- Timestamp: $(date -u)"
+        echo "- GitHub Action Run: ${{ github.run_number }}"
+        echo "- Workflow: ${{ github.workflow }}"
+        echo "- Repository: ${{ github.repository }}"

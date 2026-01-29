@@ -198,6 +198,15 @@ export const SessionSetup: React.FC<SessionSetupProps> = ({ onCreateSession, onJ
     }
   };
 
+  // After session creation, store encryptedToken in localStorage
+  useEffect(() => {
+    if (step === 'session-created' && encryptedToken) {
+      try {
+        localStorage.setItem('securechat.encryptedToken', encryptedToken);
+      } catch (e) {}
+    }
+  }, [step, encryptedToken]);
+
   return (
     <div className="flex items-center justify-center p-2 sm:p-4 py-8 sm:py-12 relative">
       {/* Animated Background Elements */}
@@ -439,7 +448,6 @@ export const SessionSetup: React.FC<SessionSetupProps> = ({ onCreateSession, onJ
                   <span>🚀 Create My {chatMode === 'group' ? 'Group Chat' : chatMode === 'private' ? 'Private Chat' : 'Secret Room'}</span>
                 </>
               )}
-
             </button>
 
             {/* Show join option ONLY for Password Mode */}
@@ -608,7 +616,7 @@ export const SessionSetup: React.FC<SessionSetupProps> = ({ onCreateSession, onJ
                 <div className="flex items-center gap-2 relative z-10">
                   <div className="flex-1 bg-gray-900/80 rounded-xl p-3 border border-gray-700/50 flex items-center overflow-hidden">
                     <code className="text-blue-300 font-mono text-xs truncate select-all">
-                      {window.location.origin}?token={encryptedToken?.substring(0, 20)}...
+                      {window.location.origin}?token={encryptedToken}
                     </code>
                   </div>
                   <button

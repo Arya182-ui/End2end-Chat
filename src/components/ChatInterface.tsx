@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef} from 'react';
-import { Send, Shield, ShieldCheck, Users, X, Key, Image, AlertTriangle, Sparkles, ChevronRight, Copy } from 'lucide-react';
+import { Send, Shield, ShieldCheck, Users, X, Key, Image, AlertTriangle, Sparkles, ChevronRight, Copy, MoreVertical, Crown, Share2 } from 'lucide-react';
+import { QrCode } from './QrCode';
 import { WebSocketService, Message, PublicKey } from '../services/websocket';
 import { CryptoService, KeyPair, HybridCryptoService } from '../crypto/encryption';
 import { GroupCryptoService } from '../crypto/groupEncryption';
@@ -901,67 +902,70 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
 
   return (
     <div className="h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex flex-col relative">
-    <div className="sticky top-0 z-10 bg-gray-800/90 backdrop-blur-xl border-b border-gray-700 p-3 sm:p-4">
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
-            <div className="bg-gradient-to-r from-blue-500 to-purple-600 w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
-              <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+    <div className="sticky top-0 z-40 bg-gradient-to-r from-gray-950/95 via-purple-950/90 to-violet-950/95 border-b border-purple-700/70 p-0 shadow-2xl backdrop-blur-xl animate-fade-in">
+      <div className="flex flex-col gap-0 w-full">
+        {/* Header Row */}
+        <div className="flex items-center justify-between gap-2 w-full px-4 pt-3 pb-2">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            {/* Avatar with initial and creator badge */}
+            <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 via-blue-500 to-violet-700 flex items-center justify-center shadow-lg border-2 border-purple-400/40">
+              <span className="text-xl sm:text-2xl font-bold text-white select-none">
+                {(userName?.[0] || 'A').toUpperCase()}
+              </span>
+              {isCreator && (
+                <span className="absolute -bottom-1 -right-1 bg-yellow-400 rounded-full p-1 shadow border-2 border-white"><Crown className="w-3 h-3 text-yellow-700" /></span>
+              )}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-sm sm:text-xl font-bold text-white truncate">
-                <span className="hidden sm:inline">Session ID: </span>
-                <span className="font-mono text-xs sm:text-base">{sessionId}</span>
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
-            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
-              {/* Chat Mode Indicator */}
-              {chatMode === 'group' ? (
-                <div className="flex items-center gap-1 bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full border border-blue-500/30">
-                  <Users className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span className="hidden sm:inline font-medium">Group</span>
-                </div>
-              ) : chatMode === 'private' ? (
-                <div className="flex items-center gap-1 bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full border border-purple-500/30">
-                  <Shield className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span className="hidden sm:inline font-medium">Private</span>
-                </div>
-              ) : chatMode === 'password' ? (
-                <div className="flex items-center gap-1 bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full border border-green-500/30">
-                  <Key className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span className="hidden sm:inline font-medium">Password</span>
-                </div>
-              ) : null}
-              {isKeyGenerated ? (
-                <div className="flex items-center gap-1 text-green-400">
-                  <ShieldCheck className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span className="hidden sm:inline">Encrypted</span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-1 text-yellow-400 animate-pulse">
-                  <Key className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span className="hidden sm:inline">Generating...</span>
-                </div>
-              )}
-              <div className="flex items-center gap-1 text-gray-400">
-                <Users className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span>{peers.length + 1}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-lg sm:text-xl font-bold text-white truncate drop-shadow-md">{userName || 'Anonymous'}</span>
+              </div>
+              <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                {/* Session pill */}
+                <span className="font-mono text-xs sm:text-sm text-purple-200 bg-purple-900/70 px-2 py-0.5 rounded select-all truncate border border-purple-700/30 shadow-sm" style={{maxWidth: '32vw'}} title="Session ID">{sessionId}</span>
+                {chatMode && (
+                  <span className={`text-xs px-2 py-0.5 rounded-full border font-semibold ml-1 shadow ${chatMode === 'group' ? 'bg-blue-500/20 text-blue-300 border-blue-500/30' : chatMode === 'private' ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' : 'bg-green-500/20 text-green-300 border-green-500/30'}`} title="Chat Mode">
+                    {chatMode.charAt(0).toUpperCase() + chatMode.slice(1)}
+                  </span>
+                )}
+                {isKeyGenerated ? (
+                  <span className="flex items-center gap-1 text-green-400 ml-1" title="End-to-end encrypted"><ShieldCheck className="w-4 h-4" />Encrypted</span>
+                ) : (
+                  <span className="flex items-center gap-1 text-yellow-400 animate-pulse ml-1" title="Generating encryption keys..."><Key className="w-4 h-4" />Generating...</span>
+                )}
+                <span className="flex items-center gap-1 text-gray-400 ml-1" title="Participants"><Users className="w-4 h-4" />{peers.length + 1}</span>
               </div>
             </div>
+          </div>
+          <div className="flex items-center gap-1">
             <button
               onClick={handleLeave}
-              className="p-1.5 sm:p-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors shadow-md"
+              className="p-2 sm:p-3 bg-red-600 hover:bg-red-700 rounded-full transition-colors shadow-lg border-2 border-red-400/30 ml-2"
               title="Leave chat"
             >
-              <X className="w-4 h-4 text-white" />
+              <X className="w-5 h-5 text-white" />
+            </button>
+            <button
+              className="p-2 rounded-full hover:bg-gray-800/60 transition-colors border border-gray-700 ml-1"
+              title="More options (coming soon)"
+              disabled
+            >
+              <MoreVertical className="w-5 h-5 text-gray-400" />
             </button>
           </div>
         </div>
-        {/* Always-visible Invite Link */}
-        <div className="flex items-center gap-2 mt-1">
-          <span className="text-xs sm:text-sm text-gray-300 truncate font-mono bg-gray-700/60 px-2 py-1 rounded select-all" style={{maxWidth: '70vw'}}>
+        {/* Invite Card Row (no QR code) */}
+        <div className="flex items-center gap-2 w-full px-4 pb-3">
+          <span
+            className="text-xs sm:text-xs text-white font-mono bg-gray-800/80 px-2 py-1 rounded select-all w-full break-all border border-purple-700/40 shadow-inner tracking-tight hover:border-purple-400/80 transition-all duration-200 cursor-pointer"
+            style={{maxWidth: '100vw', letterSpacing: '0.01em', fontSize: '13px'}}
+            title="Click to copy invite link"
+            onClick={() => {
+              navigator.clipboard.writeText(joinUrl);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 1500);
+            }}
+          >
             {joinUrl}
           </span>
           <button
@@ -970,12 +974,22 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
               setCopied(true);
               setTimeout(() => setCopied(false), 1500);
             }}
-            className={`p-1.5 rounded-lg border border-gray-600 bg-gray-800 hover:bg-gray-700 transition-colors flex items-center ${copied ? 'text-green-400 border-green-400' : 'text-gray-300'}`}
+            className={`ml-2 p-1.5 rounded-lg border border-purple-700/40 bg-purple-800/80 hover:bg-purple-700 transition-colors flex items-center shadow ${copied ? 'text-green-400 border-green-400' : 'text-white'}`}
             title="Copy invite link"
           >
             <Copy className="w-4 h-4" />
             {copied && <span className="ml-1 text-xs">Copied!</span>}
           </button>
+          {/* Share button for supported browsers */}
+          {navigator.share && (
+            <button
+              onClick={() => navigator.share({ url: joinUrl, title: 'Join my SecureChat room!' })}
+              className="ml-2 p-1.5 rounded-lg border border-blue-700/40 bg-blue-800/80 hover:bg-blue-700 transition-colors flex items-center shadow text-white"
+              title="Share invite link"
+            >
+              <Share2 className="w-4 h-4" />
+            </button>
+          )}
         </div>
       </div>
     </div>

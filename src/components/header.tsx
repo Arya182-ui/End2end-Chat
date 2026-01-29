@@ -25,7 +25,6 @@ export const Header = () => {
     const navLinks = [
         { path: '/encrypted-chat-features', label: 'Features', external: false },
         { path: '/security-encryption', label: 'Security', external: false },
-        { path: 'https://privy-chat.onrender.com/', label: 'Video Call', external: true },
         { path: '/about-securechat', label: 'About', external: false },
     ];
 

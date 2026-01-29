@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef} from 'react';
-import { Send, Shield, ShieldCheck, Users, X, Key, Image, AlertTriangle, Sparkles, ChevronRight } from 'lucide-react';
+import { Send, Shield, ShieldCheck, Users, X, Key, Image, AlertTriangle, Sparkles, ChevronRight, Copy, Link } from 'lucide-react';
 import { WebSocketService, Message, PublicKey } from '../services/websocket';
 import { CryptoService, KeyPair, HybridCryptoService } from '../crypto/encryption';
 import { GroupCryptoService } from '../crypto/groupEncryption';
 import { MessageBubble } from './MessageBubble';
-
+import { isMobile } from 'react-device-detect';
 
 interface ChatInterfaceProps {
   sessionId: string;
@@ -883,6 +883,22 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
     onLeave();
   };
 
+  const [copied, setCopied] = useState(false);
+  const [showLink, setShowLink] = useState(false);
+  const joinUrl = `${window.location.origin}?token=${encodeURIComponent(sessionId)}`;
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(sessionId);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
+
+  const handleCopyLink = async () => {
+    await navigator.clipboard.writeText(joinUrl);
+    setShowLink(true);
+    setTimeout(() => setShowLink(false), 1500);
+  };
+
   return (
     <div className="h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex flex-col relative">
     <div className="sticky top-0 z-10 bg-gray-800/90 backdrop-blur-xl border-b border-gray-700 p-3 sm:p-4">
@@ -894,7 +910,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
           <div className="min-w-0 flex-1">
             <p className="text-sm sm:text-xl font-bold text-white truncate">
               <span className="hidden sm:inline">Session ID: </span>
-              <span className="font-mono text-xs sm:text-base">{sessionId.substring(0, 8)}</span>
+              <span className="font-mono text-xs sm:text-base">{sessionId}</span>
             </p>
           </div>
         </div>

@@ -42,6 +42,10 @@ function App() {
             // Combine session ID and key for internal use
             const fullSessionId = `${decrypted.session}:${decrypted.key}`;
             setPrefillJoinCode(fullSessionId);
+            // Store the encrypted token for consistent invite link
+            try {
+              localStorage.setItem('securechat.encryptedToken', tokenParam);
+            } catch (e) {}
             logger.debug('✅ Token decrypted successfully');
           } else {
             logger.error('❌ Token expired or invalid');

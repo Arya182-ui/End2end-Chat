@@ -28,19 +28,14 @@
 **End2End Chat** is a privacy-first, real-time chat application designed for maximum privacy and anonymity. It features three encryption modes—**Group Chat** (unlimited members, shared AES-256 key), **Private Chat** (1-to-1, RSA-2048), and **Password-Protected Rooms** (secure 2-person sessions). Built with modern web technologies and a true zero-knowledge architecture, your conversations are always secure and never stored.
 
 
-**🌟 Google Technologies Integration (Planned & Partial):**
-> This application integrates **Firebase** and **Google Gemini AI**. **Google Cloud Translation API** is planned for future releases. Currently, translation features use demo/mock data and do not call the real Google Cloud Translation API.
+
 
 **🎯 Core Philosophy:**
 > No signup, no tracking, just secure conversations. Your messages, your keys, your privacy.
 
-### 🚀 **Key Features**
 - 🔐 **Three Chat Modes:** Group (unlimited), Private (max 2), Password (secure 2-person)
 - 🛡️ **True End-to-End Encryption:** RSA-2048 + AES-256 GCM (hybrid)
 - ⚡ **Real-Time Messaging:** WebSocket-based instant delivery
-- 🌐 **Multi-Language Translation:** (Demo only) Translation UI is present, but Google Cloud Translation API integration is planned for a future release. Currently, translations use mock/demo data.
-- ✨ **AI Smart Replies:** Context-aware suggestions powered by Google Gemini AI
-- 🛡️ **Content Moderation:** Automatic toxicity detection with Gemini AI
 - 🔥 **Firebase Integration:** Real-time session metadata and presence tracking
 - 📁 **Encrypted File Sharing:** Images, videos, audio, documents up to 5MB
 - 🖼️ **Screenshot Protection:** Blocks Print Screen & clipboard access
@@ -113,18 +108,8 @@ This project serves as a learning resource for:
 </details>
 
 
-## 🌐 **Google Technologies Integration**
 
-<div align="center">
-
-[![Firebase](https://img.shields.io/badge/Firebase-Realtime_Database-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
-[![Translation](https://img.shields.io/badge/Google_Cloud-Translation_API_(Planned)-gray?style=for-the-badge&logo=google-cloud&logoColor=white)](https://cloud.google.com/translate)
-[![Gemini AI](https://img.shields.io/badge/Google-Gemini_AI-8E75B2?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
-
-</div>
-
-
-### 🔥 **Firebase Realtime Database**
+## 🔥 **Firebase Integration**
 
 <details>
 <summary><b>Session Metadata & Presence Tracking</b></summary>
@@ -141,114 +126,13 @@ This project serves as a learning resource for:
 - Complements E2E encryption (doesn't compromise it)
 
 **Implementation:**
-
----
-
-### 🌐 **Translation (Planned)**
-
-The translation feature UI is available, but Google Cloud Translation API is not yet enabled in this deployment. All translations are currently mock/demo responses. Real translation will be available in a future update.
-```typescript
 // Client: src/config/firebase.config.ts
 // Service: src/services/firebase.service.ts
 // Server: server/services/firebaseAdmin.js
-```
 
 </details>
 
-### 🌐 **Google Cloud Translation API**
-
-<details>
-<summary><b>Multi-Language Real-Time Translation</b></summary>
-
-**What it does:**
-- Translates messages to user's preferred language
-- Supports 12+ languages: English, Hindi, Spanish, French, German, Japanese, Chinese, Arabic, Portuguese, Russian, Korean, Italian
-- Auto-language detection
-- Smart caching to reduce API calls
-
-**How it maintains security:**
-- Translation happens AFTER message decryption (client-side)
-- Original encrypted message remains untouched
-- Translation is optional and user-controlled
-
-**Supported Languages:**
-```
-🇬🇧 English   🇮🇳 Hindi      🇪🇸 Spanish   🇫🇷 French
-🇩🇪 German    🇯🇵 Japanese   🇨🇳 Chinese   🇸🇦 Arabic
-🇵🇹 Portuguese 🇷🇺 Russian   🇰🇷 Korean    🇮🇹 Italian
-```
-
-**Implementation:**
-```typescript
-// Client: src/services/translation.ts
-// Hook: src/hooks/useTranslation.ts
-// Component: src/components/TranslationPanel.tsx
-// Server: server/services/translation.js
-// API: /api/translate, /api/detect-language
-```
-
-</details>
-
-### ✨ **Google Gemini AI**
-
-<details>
-<summary><b>Intelligent Content Moderation & Smart Assistance</b></summary>
-
-**Features:**
-
-1. **Content Moderation**
-   - Automatically scans for toxic/inappropriate content
-   - Provides toxicity scores and categories
-   - Shows warning badges (doesn't censor)
-   - User can disable in settings
-
-2. **Smart Reply Suggestions**
-   - AI-generated contextual responses
-   - Adapts to conversation flow
-   - Quick-select suggestions
-   - Saves typing time
-
-3. **Sentiment Analysis**
-   - Detects message sentiment (positive/neutral/negative)
-   - Provides sentiment scores
-   - Helps understand conversation tone
-
-**Privacy Protection:**
-- Moderation happens on decrypted text (optional feature)
-- No conversation data stored by AI
-- Rate-limited API calls
-- User can disable AI features entirely
-
-**Implementation:**
-```typescript
-// Client: src/services/gemini.ts
-// Component: src/components/AIAssistant.tsx
-// Server: server/services/moderation.js
-// API: /api/moderate, /api/sentiment, /api/smart-replies
-```
-
-</details>
-
-### 🎨 **UI/UX Enhancements**
-
-<details>
-<summary><b>Google Technologies Branding & User Experience</b></summary>
-
-- **Google Fonts**: Inter & Poppins for modern typography
-- **Tech Badge**: "Powered by Google Technologies" badge
-- **Translation Panel**: Intuitive language selector with toggle
-- **AI Assistant Panel**: Smart replies with confidence scores
-- **Loading States**: Smooth animations for AI/translation operations
-- **Mobile Responsive**: All new features work perfectly on mobile
-
-**Visual Components:**
-```typescript
-// src/components/TechBadge.tsx - Google branding
-// src/components/TranslationPanel.tsx - Language selector
-// src/components/AIAssistant.tsx - Smart replies & moderation
-```
-
-</details>
+---
 
 ## 🔐 **Advanced Security Features**
 

@@ -32,13 +32,18 @@ export const SessionSetup: React.FC<SessionSetupProps> = ({ onCreateSession, onJ
     setTimeout(() => setErrorMessage(null), 5000); // Auto dismiss after 5 seconds
   };
 
-  const handleNameSubmit = () => {
+  const handleNameSubmit = async () => {
     if (displayName.trim()) {
-      // If joining via link, skip to direct join
-      if (initialJoinCode) {
-        handleJoinSession();
-      } else {
-        setStep('action');
+      setIsJoining(true);
+      try {
+        // If joining via link, skip to direct join
+        if (initialJoinCode) {
+          await handleJoinSession();
+        } else {
+          setStep('action');
+        }
+      } finally {
+        setIsJoining(false);
       }
     }
   };
@@ -46,6 +51,7 @@ export const SessionSetup: React.FC<SessionSetupProps> = ({ onCreateSession, onJ
   const [sessionKey, setSessionKey] = useState<string | null>(null);
   const [encryptedToken, setEncryptedToken] = useState<string | null>(null);
   const [isGeneratingToken, setIsGeneratingToken] = useState(false);
+  const [isJoining, setIsJoining] = useState(false);
 
   const handleCreateSession = async () => {
     // Validate password for password-protected rooms
@@ -147,22 +153,31 @@ export const SessionSetup: React.FC<SessionSetupProps> = ({ onCreateSession, onJ
     }
   };
 
-  const handleJoinSession = () => {
+  const handleJoinSession = async () => {
     if (joinCode.trim() && displayName.trim()) {
-      onJoinSession(joinCode.trim(), displayName.trim(), false); // isCreator = false
+      setIsJoining(true);
+      try {
+        await onJoinSession(joinCode.trim(), displayName.trim(), false); // isCreator = false
+      } finally {
+        setIsJoining(false);
+      }
     }
   };
   
-  const handleJoinPasswordRoom = () => {
+  const handleJoinPasswordRoom = async () => {
     if (joinRoomId.trim() && joinPassword.trim() && displayName.trim()) {
-      // For password room, we need to match the authKey format created by the creator
-      // The creator's authKey format is: "randomKey:base64(password)"
-      // We need to get the actual authKey from server, but we can construct sessionId:password format
-      
-      // Send as plain format - server will validate password
-      const passwordHash = btoa(joinPassword.trim());
-      const fullSessionId = `${joinRoomId.trim().toUpperCase()}:password:${passwordHash}`;
-      onJoinSession(fullSessionId, displayName.trim(), false);
+      setIsJoining(true);
+      try {
+        // For password room, we need to match the authKey format created by the creator
+        // The creator's authKey format is: "randomKey:base64(password)"
+        // We need to get the actual authKey from server, but we can construct sessionId:password format
+        // Send as plain format - server will validate password
+        const passwordHash = btoa(joinPassword.trim());
+        const fullSessionId = `${joinRoomId.trim().toUpperCase()}:password:${passwordHash}`;
+        await onJoinSession(fullSessionId, displayName.trim(), false);
+      } finally {
+        setIsJoining(false);
+      }
     }
   };
 
@@ -182,6 +197,15 @@ export const SessionSetup: React.FC<SessionSetupProps> = ({ onCreateSession, onJ
       setTimeout(() => setCopied(false), 2000);
     }
   };
+
+  // After session creation, store encryptedToken in localStorage
+  useEffect(() => {
+    if (step === 'session-created' && encryptedToken) {
+      try {
+        localStorage.setItem('securechat.encryptedToken', encryptedToken);
+      } catch (e) {}
+    }
+  }, [step, encryptedToken]);
 
   return (
     <div className="flex items-center justify-center p-2 sm:p-4 py-8 sm:py-12 relative">
@@ -260,10 +284,17 @@ export const SessionSetup: React.FC<SessionSetupProps> = ({ onCreateSession, onJ
 
               <button
                 onClick={handleNameSubmit}
-                disabled={!displayName.trim()}
+                disabled={!displayName.trim() || isJoining}
                 className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 disabled:from-gray-700 disabled:to-gray-800 disabled:text-gray-500 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-blue-500/30 disabled:shadow-none"
               >
-                {initialJoinCode ? '🎉 Join Chat →' : '🚀 Let\'s Go →'}
+                {isJoining ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span>Joining...</span>
+                  </>
+                ) : (
+                  <>{initialJoinCode ? '🎉 Join Chat →' : '🚀 Let\'s Go →'}</>
+                )}
               </button>
             </div>
           </div>
@@ -417,7 +448,6 @@ export const SessionSetup: React.FC<SessionSetupProps> = ({ onCreateSession, onJ
                   <span>🚀 Create My {chatMode === 'group' ? 'Group Chat' : chatMode === 'private' ? 'Private Chat' : 'Secret Room'}</span>
                 </>
               )}
-
             </button>
 
             {/* Show join option ONLY for Password Mode */}
@@ -470,11 +500,20 @@ export const SessionSetup: React.FC<SessionSetupProps> = ({ onCreateSession, onJ
                   
                   <button
                     type="submit"
-                    disabled={!joinRoomId.trim() || !joinPassword.trim()}
+                    disabled={!joinRoomId.trim() || !joinPassword.trim() || isJoining}
                     className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 disabled:from-gray-600 disabled:to-gray-700 text-white font-semibold py-3 px-4 rounded-lg transition-all disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
-                    <Users className="w-5 h-5" />
-                    🎉 Join the Secret Chat
+                    {isJoining ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <span>Joining...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Users className="w-5 h-5" />
+                        🎉 Join the Secret Chat
+                      </>
+                    )}
                   </button>
                   
                   <p className="text-xs text-gray-400 text-center">
@@ -577,7 +616,7 @@ export const SessionSetup: React.FC<SessionSetupProps> = ({ onCreateSession, onJ
                 <div className="flex items-center gap-2 relative z-10">
                   <div className="flex-1 bg-gray-900/80 rounded-xl p-3 border border-gray-700/50 flex items-center overflow-hidden">
                     <code className="text-blue-300 font-mono text-xs truncate select-all">
-                      {window.location.origin}?token={encryptedToken?.substring(0, 20)}...
+                      {window.location.origin}?token={encryptedToken}
                     </code>
                   </div>
                   <button

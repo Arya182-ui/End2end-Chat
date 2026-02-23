@@ -556,7 +556,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
         }, 5000);
       });
 
-      // Listen for user join/leave activity
+      // Listen for user join/leave activity (now includes displayName for both)
       wsService.current.onUserActivity((activity) => {
         // Create unique key for this activity to prevent duplicates
         const activityKey = `${activity.type}-${activity.userId}`;
@@ -584,8 +584,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ sessionId, userId,
         }
         
         const activityMessage = activity.type === 'joined' 
-          ? `👤 ${activity.displayName} joined the chat`
-          : `👋 ${activity.displayName} left the chat`;
+          ? `👤 ${activity.displayName || activity.userId} joined the chat`
+          : `👋 ${activity.displayName || activity.userId} left the chat`;
         
         const notifId = `activity-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
         setNotifications(prev => [...prev, { id: notifId, message: activityMessage, timestamp: Date.now() }]);

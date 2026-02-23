@@ -545,12 +545,15 @@ io.on('connection', (socket) => {
       const session = getSession(currentSession);
       
       // Remove user from session
+      const member = session.members.get(currentUserId);
+      const displayName = member?.displayName;
       session.members.delete(currentUserId);
       session.publicKeys.delete(currentUserId);
       
       // Notify others
       socket.to(currentSession).emit('user-left', {
         userId: currentUserId,
+        displayName,
         timestamp: Date.now()
       });
       
@@ -798,6 +801,11 @@ process.on('SIGINT', () => {
     logger.log('Server closed');
     process.exit(0);
   });
+  // Force exit if not closed in 5 seconds
+  setTimeout(() => {
+    logger.error('Force exiting after timeout');
+    process.exit(1);
+  }, 5000);
 });
 
 // Handle uncaught exceptions

@@ -159,13 +159,29 @@ export class WebSocketService {
     this.eventHandlers.set('user-joined', handleUserJoined);
 
     // User left
-    const handleUserLeft = ({ userId }: { userId: string }) => {
+    const handleUserLeft = ({ userId, displayName }: { userId: string; displayName?: string }) => {
       if (userId !== this.userId) {
-        logger.debug(`👋 ${userId} left the chat`);
+        logger.debug(`👋 ${displayName || userId} left the chat`);
+      }
+      // Forward to UI if onUserActivity is set
+      if (this.onUserActivityCallback) {
+        this.onUserActivityCallback({ type: 'left', userId, displayName });
       }
     };
     this.socket.on('user-left', handleUserLeft);
     this.eventHandlers.set('user-left', handleUserLeft);
+
+    // User joined (already handled above, but add UI callback for symmetry)
+    // (No change needed, but ensure onUserActivityCallback is called for join as well)
+  }
+  // User activity callback (join/leave)
+  private onUserActivityCallback: ((activity: { type: 'joined' | 'left'; userId: string; displayName?: string }) => void) | null = null;
+
+  onUserActivity(callback: (activity: { type: 'joined' | 'left'; userId: string; displayName?: string }) => void): () => void {
+    this.onUserActivityCallback = callback;
+    return () => {
+      this.onUserActivityCallback = null;
+    };
   }
 
   private removeEventHandlers() {

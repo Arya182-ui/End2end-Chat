@@ -7,11 +7,5 @@
   ],
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "framework": "vite",
-  "crons": [
-    {
-      "path": "/api/keep-alive",
-      "schedule": "*/14 * * * *"
-    }
-  ]
+  "framework": "vite"
 }

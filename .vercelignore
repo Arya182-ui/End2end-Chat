@@ -1,0 +1,2 @@
+# Ignore the server folder for Vercel deployments
+server/
